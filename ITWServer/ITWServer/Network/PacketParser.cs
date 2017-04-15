@@ -12,7 +12,7 @@ namespace ITWServer.Network
 {
     public static class PacketParser
     {
-        public static void ParseAndDeliver(ITW.Network.PacketHandler handler, Vdb.Session session, byte[] data)
+        public static void ParseAndDeliver(Network.PacketHandler handler, Vdb.Session session, byte[] data)
         {
             IFormatter f = new BinaryFormatter();
             ITW.Protocol.Packet p = (ITW.Protocol.Packet)f.Deserialize(new System.IO.MemoryStream(data));
@@ -20,7 +20,7 @@ namespace ITWServer.Network
             switch (p.PacketName)
             {
                 case Connect.TypeName:
-                    handler.Call(p as Connect);
+                    handler.Call(session, p as Connect);
                     break;
                 default:
                     // 이상한 패킷

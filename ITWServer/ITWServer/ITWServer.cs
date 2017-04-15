@@ -11,7 +11,7 @@ namespace ITWServer
         private List<Systems.System> systems = new List<Systems.System>();
         private TcpListener listener;
         private List<Vdb.Session> sessions = new List<Vdb.Session>();
-        private ITW.Network.PacketHandler packetHandler = new ITW.Network.PacketHandler();
+        private Network.PacketHandler packetHandler = new Network.PacketHandler();
         public void Start(string[] args)
         {
             LoadSdb();
@@ -19,7 +19,8 @@ namespace ITWServer
 
             int listenPort = ITW.Config.ConfigManager.GetInt("session", "listenport");
             listener = new TcpListener(IPAddress.Any, listenPort);
-            listener.BeginAcceptTcpClient(new AsyncCallback(Accept), null);
+            listener.Start();
+            listener.BeginAcceptTcpClient(new AsyncCallback(Accept), listener);
             while (true)
             {
                 System.Threading.Thread.Sleep(10);
@@ -33,13 +34,14 @@ namespace ITWServer
 
         private void CreateSystems()
         {
-            systems.Add(new Systems.SessionSystem());
+            systems.Add(new Systems.SessionSystem(packetHandler));
             Console.WriteLine("Systems created!");
         }
 
         private void Accept(IAsyncResult ar)
         {
-            Socket client = (Socket)ar.AsyncState;
+            TcpListener tcpListener = (TcpListener)ar.AsyncState;
+            Socket client = tcpListener.AcceptSocket();
             Vdb.Session newSession = new Vdb.Session();
             newSession.socket = client;
             newSession.readBuffer = new byte[4096];

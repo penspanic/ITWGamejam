@@ -3,8 +3,8 @@ namespace ITWServer.Systems
 {
     public abstract class System
     {
-        protected ITW.Network.PacketHandler packetHandler;
-        public System(ITW.Network.PacketHandler packetHandler)
+        protected Network.PacketHandler packetHandler;
+        public System(Network.PacketHandler packetHandler)
         {
             this.packetHandler = packetHandler;
         }
