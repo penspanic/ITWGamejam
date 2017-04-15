@@ -19,8 +19,11 @@ namespace ITWServer.Network
 
             switch (p.PacketName)
             {
-                case Connect.TypeName:
-                    handler.Call(session, p as Connect);
+                case ITW.Protocol.ToServer.Session.Connect.TypeName:
+                    handler.Call(session, p as ITW.Protocol.ToServer.Session.Connect);
+                    break;
+                case ITW.Protocol.ToServer.Session.Disconnect.TypeName:
+                    handler.Call(session, p as ITW.Protocol.ToServer.Session.Disconnect);
                     break;
                 default:
                     // 이상한 패킷

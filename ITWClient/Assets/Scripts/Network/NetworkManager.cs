@@ -50,22 +50,30 @@ public class NetworkManager : MonoBehaviour
 
     private void WriteEnd(IAsyncResult ar)
     {
-
+        client.GetStream().EndWrite(ar);
     }
 
     private void Connected(IAsyncResult ar)
     {
+        Debug.Log("Connect completed : " + ar.IsCompleted);
         TcpClient client = (TcpClient)ar.AsyncState;
-        client.EndConnect(ar);
+
         initialized = true;
 
         Debug.Log("Connected to server!");
 
         Debug.Log("Send Connect...");
-        ITW.Protocol.ToServer.Connect packet = new ITW.Protocol.ToServer.Connect();
+        ITW.Protocol.ToServer.Session.Connect packet = new ITW.Protocol.ToServer.Session.Connect();
         packet.Id = "1";
         Send(packet);
 
         OnConnect();
+    }
+
+    public void OnApplicationQuit()
+    {
+        ITW.Protocol.ToServer.Session.Disconnect packet = new ITW.Protocol.ToServer.Session.Disconnect();
+        Send(packet);
+        client.Close();
     }
 }

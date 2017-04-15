@@ -26,6 +26,11 @@ namespace ITWServer.Network
 
         public void Call<T>(Vdb.Session session, T packet) where T : ITW.Protocol.Packet
         {
+            if(bindedMethods.ContainsKey(packet.GetType()) == false)
+            {
+                return;
+            }
+
             foreach (object obj in bindedMethods[packet.GetType()])
             {
                 (obj as HandlerMethod<T>)(session, packet);

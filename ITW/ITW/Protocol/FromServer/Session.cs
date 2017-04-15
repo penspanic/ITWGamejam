@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ITW.Protocol.FromServer
 {
+    [Serializable]
     public class Connect : Packet
     {
         public const string TypeName = "FromServer::Session::Connect";

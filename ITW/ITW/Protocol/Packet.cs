@@ -1,6 +1,8 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+
 namespace ITW.Protocol
 {
+    [Serializable]
     public abstract class Packet
     {
         /// <summary>

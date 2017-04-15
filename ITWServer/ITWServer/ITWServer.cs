@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace ITWServer
 {
-    class ITWServer
+    public class ITWServer
     {
         private List<Systems.System> systems = new List<Systems.System>();
         private TcpListener listener;
@@ -18,6 +18,7 @@ namespace ITWServer
             CreateSystems();
 
             int listenPort = ITW.Config.ConfigManager.GetInt("session", "listenport");
+            Console.WriteLine("ListenPort : " + listenPort);
             listener = new TcpListener(IPAddress.Any, listenPort);
             listener.Start();
             listener.BeginAcceptTcpClient(new AsyncCallback(Accept), listener);
@@ -34,31 +35,33 @@ namespace ITWServer
 
         private void CreateSystems()
         {
-            systems.Add(new Systems.SessionSystem(packetHandler));
+            systems.Add(new Systems.SessionSystem(this, packetHandler));
             Console.WriteLine("Systems created!");
         }
 
+        public delegate void AcceptClient(Vdb.Session session);
+        public event AcceptClient OnAcceptClient;
         private void Accept(IAsyncResult ar)
         {
             TcpListener tcpListener = (TcpListener)ar.AsyncState;
-            Socket client = tcpListener.AcceptSocket();
+            TcpClient client = tcpListener.EndAcceptTcpClient(ar);
             Vdb.Session newSession = new Vdb.Session();
-            newSession.socket = client;
-            newSession.readBuffer = new byte[4096];
+            newSession.client = client;
             sessions.Add(newSession);
-            client.BeginReceive(newSession.readBuffer, 0, 4096, 0, new AsyncCallback(Read), newSession);
+            OnAcceptClient(newSession);
+            client.GetStream().BeginRead(newSession.readBuffer, 0, 4096, new AsyncCallback(Read), newSession);
         }
 
-        private void Read(IAsyncResult ar)
+        private void Read(IAsyncResult  ar)
         {
             Vdb.Session session = (Vdb.Session)ar.AsyncState;
-            int read = session.socket.EndReceive(ar);
+            int read = session.client.GetStream().EndRead(ar);
 
             if(read > 0)
             {
                 Array.Copy(session.readBuffer, session.packetBuffer, read);
                 session.readed = read;
-                session.socket.BeginReceive(session.readBuffer, 0, 4096, 0, new AsyncCallback(Read), session);
+                session.client.GetStream().BeginRead(session.readBuffer, read, 4096 - read, new AsyncCallback(Read), session);
             }
             else
             {
@@ -69,6 +72,12 @@ namespace ITWServer
                     session.readed = 0;
                 }
             }
+        }
+        
+        public void CloseSession(Vdb.Session session)
+        {
+            session.client.Close();
+            sessions.Remove(session);
         }
     }
 }
