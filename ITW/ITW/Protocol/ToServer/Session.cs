@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ITW.Protocol.ToServer
 {
-    public class Session : Packet
+    public class Connect : Packet
     {
-        public string Name { get; set; }
+        public const string TypeName = "ToServer::Session::Connect";
+        public Connect()
+        {
+            base.PacketName = TypeName;
+        }
+
+        public string Id { get; set; }
     }
 }

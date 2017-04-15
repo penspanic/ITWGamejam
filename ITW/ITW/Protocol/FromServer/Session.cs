@@ -2,16 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ITW.Protocol.FromServer
 {
     public class Connect : Packet
     {
-        enum ErrorResult
+        public const string TypeName = "FromServer::Session::Connect";
+        
+        public Connect()
+        {
+            base.PacketName = TypeName;
+        }
+
+        public enum ErrorResult
         {
             SUCCESS,
             FAIL,
         }
         public ErrorResult Result { get; set; }
+    }
 }
