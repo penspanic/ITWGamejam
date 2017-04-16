@@ -10,11 +10,8 @@ namespace ITWServer.Vdb
         public Session()
         {
             readBuffer = new byte[BufferSize];
-            packetBuffer = new byte[BufferSize];
         }
         public TcpClient client;
         public byte[] readBuffer;
-        public byte[] packetBuffer;
-        public int readed = 0;
     }
 }

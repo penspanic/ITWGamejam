@@ -55,23 +55,26 @@ namespace ITWServer
         private void Read(IAsyncResult  ar)
         {
             Vdb.Session session = (Vdb.Session)ar.AsyncState;
-            int read = session.client.GetStream().EndRead(ar);
+            int readed = session.client.GetStream().EndRead(ar);
+            
+            // Packet Header
+            if(readed < 0)
+            {
+                return;
+            }
 
-            if(read > 0)
+            Byte[] sizeBuffer = new Byte[4];
+            Array.Copy(session.readBuffer, sizeBuffer, 4);
+            int packetSize = BitConverter.ToInt32(sizeBuffer, 0);
+
+            if(readed < packetSize + 4)
             {
-                Array.Copy(session.readBuffer, session.packetBuffer, read);
-                session.readed = read;
-                session.client.GetStream().BeginRead(session.readBuffer, read, 4096 - read, new AsyncCallback(Read), session);
+                return;
             }
-            else
-            {
-                if(session.readed > 0 )
-                {
-                    Network.PacketParser.ParseAndDeliver(packetHandler, session, session.packetBuffer);
-                    Array.Clear(session.packetBuffer, 0, 4096);
-                    session.readed = 0;
-                }
-            }
+
+            byte[] packetBuffer = new byte[packetSize];
+            Array.Copy(session.readBuffer, 4, packetBuffer, 0, packetSize);
+            Network.PacketParser.ParseAndDeliver(packetHandler, session, packetBuffer);
         }
         
         public void CloseSession(Vdb.Session session)

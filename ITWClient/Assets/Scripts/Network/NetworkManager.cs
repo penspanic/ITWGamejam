@@ -44,8 +44,12 @@ public class NetworkManager : MonoBehaviour
 
         formatter.Serialize(stream, packet);
 
-        int size = stream.GetBuffer().Length;
-        client.GetStream().BeginWrite(stream.GetBuffer(), 0, size, new AsyncCallback(WriteEnd), null);
+        int packetSize = stream.GetBuffer().Length;
+        byte[] header = System.BitConverter.GetBytes(packetSize);
+        byte[] buffer = new byte[header.Length + packetSize];
+        Array.Copy(header, buffer, header.Length);
+        Array.Copy(stream.GetBuffer(), 0, buffer, header.Length, packetSize);
+        client.GetStream().BeginWrite(buffer, 0, header.Length + packetSize, new AsyncCallback(WriteEnd), null);
     }
 
     private void WriteEnd(IAsyncResult ar)
