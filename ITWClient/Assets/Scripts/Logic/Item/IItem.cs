@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Logic.Item
+public abstract class IItem : MonoBehaviour
 {
-    class IItem
+    protected virtual void Awake()
     {
+
     }
 }
