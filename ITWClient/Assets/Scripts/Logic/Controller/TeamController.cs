@@ -70,6 +70,75 @@ public static class TeamController
         }
     }
 
+    public TeamData GetTeam(int playerNum){
+        foreach (var eachTeam in Teams)
+        {
+            foreach (PlayerInTeam player in eachTeam.Players)
+            {
+                if (playerNum == player.PlayerNumber)
+                {
+                    return eachTeam;
+                }
+            }
+        }
+        throw new UnityException("TeamData not found, playerNum : " + playerNum.ToString());
+    }
+
+    public static void AddTeam(int teamNum, List<PlayerInTeam> plTeam) {
+        for (int i = 0; i < Teams.Count; ++i)
+        {
+            if (Teams[i].TeamNumber == teamNum)
+            {
+                Debug.Log("TeamNum Overlap..");
+                return;
+            }
+        }
+
+        TeamData newTeam = new TeamData();
+        newTeam.TeamNumber = teamNum;
+        newTeam.Players = plTeam;
+        Teams.Add(newTeam);
+    }
+
+    public static void AddPlayerInTeam(int teamNum, bool isCPU, int plNum, CharacterType charType) {
+        bool correctTeamNum = false;
+        int teamIdx = 0;
+        for (int i = 0; i < Teams.Count; ++i)
+        {
+            if (Teams[i].TeamNumber == teamNum)
+            {
+                teamIdx = i;
+                correctTeamNum = true;
+                break;
+            }
+        }
+        if (correctTeamNum == false)
+        {
+            Debug.Log("Team Number is not correct");
+            return;
+        }
+
+        var currTeamPlayers = Teams[teamIdx].Players;
+
+        foreach (var eachTeam in Teams)
+        {
+            foreach (PlayerInTeam player in eachTeam.Players)
+            {
+                if (plNum == player.PlayerNumber)
+                {
+                    Debug.Log("PlayerNum is overlap..");
+                    return;
+                }
+            }
+        }
+
+        var newChar = new PlayerInTeam();
+        newChar.IsCpu = isCPU;
+        newChar.PlayerNumber = plNum;
+        newChar.SelectedCharacter = charType;
+        currTeamPlayers.Add(newChar);
+    }
+
     public static CharacterType GetCharacterType(int playerNum)
     {
         foreach(TeamData eachTeam in Teams)

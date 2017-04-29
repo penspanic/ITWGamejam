@@ -15,7 +15,7 @@ public class UiGameReadyController : Singleton<UiGameReadyController> {
 
     private ScrollCell[,] scrollCellArr;
     private int currX, currY;
-
+    // private TeamData
 
     void Awake()
     {
