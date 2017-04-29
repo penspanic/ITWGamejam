@@ -361,10 +361,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   launchNeedMp: 100
-  skillNeedMp: 100
-  launchDamage: 0
-  MaxHp: 0
-  MaxMp: 0
+  skillNeedMp: 200
+  launchDamage: 1
+  MaxHp: 3
+  MaxMp: 1000
 --- !u!114 &114144001710471966
 MonoBehaviour:
   m_ObjectHideFlags: 1

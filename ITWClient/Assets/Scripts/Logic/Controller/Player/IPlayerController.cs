@@ -17,9 +17,19 @@ public abstract class IPlayerController : MonoBehaviour
 
     }
 
-    public void ProcessKey(PlayerInputType inputType)
+    public void ProcessKeyDown(PlayerInputType inputType)
     {
         TargetPlayer.KeyDown(inputType);
+    }
+
+    public void ProcessKeyUp(PlayerInputType inputType)
+    {
+        TargetPlayer.KeyUp(inputType);
+    }
+
+    public void ProcessKeyState(PlayerInputType inputType, bool pressed)
+    {
+        TargetPlayer.KeyState(inputType, pressed);
     }
 
     public void ProcessMove(Vector2 normalizedDirection)

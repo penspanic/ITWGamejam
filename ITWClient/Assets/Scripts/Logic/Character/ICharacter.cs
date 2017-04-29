@@ -19,6 +19,7 @@ public enum CharacterState
     SkillActivated,
     Hitted, // 피격 후 경직상태(무적이긴 함)
     Dodge,
+    Charging,
     Poisoned,
 }
 
@@ -42,12 +43,16 @@ public abstract class ICharacter : MonoBehaviour
     public int Hp { get; set; }
     public int Mp { get; set; }
     public bool IsInvincible { get; protected set; }
+    public bool IsDodgeCoolTime { get; protected set; }
+    public bool IsCharging { get; protected set; }
     public CharacterState State { get; protected set; }
     public CharacterType CharacterType { get; protected set; }
 
     private Animator animator;
     private Vector2 prevDirection;
+    private Vector2 prevMovedDirection;
 
+    private Coroutine chargeCoroutine = null;
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
@@ -78,6 +83,8 @@ public abstract class ICharacter : MonoBehaviour
                 return false;
             case CharacterState.Dodge:
                 return false;
+            case CharacterState.Charging:
+                return false;
         }
         return true;
     }
@@ -92,10 +99,13 @@ public abstract class ICharacter : MonoBehaviour
         else
         {
             bool facingRight = normalizedDirection.x > 0f;
-            transform.rotation = Quaternion.Euler(0, facingRight == true ? 180 : 0, 0);
+            Vector3 rotation = transform.rotation.eulerAngles;
+            rotation.y = facingRight == true ? 180 : 0;
+            transform.rotation = Quaternion.Euler(rotation);
             transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime, Space.World);
             animator.Play("walk", 0);
             State = CharacterState.Moving;
+            prevMovedDirection = normalizedDirection;
         }
 
         prevDirection = normalizedDirection;
@@ -162,8 +172,9 @@ public abstract class ICharacter : MonoBehaviour
         Mp -= launchNeedMp;
         animator.Play("flying", 0);
         State = CharacterState.Flying;
-        Vector2 endPos = Vector2.zero;
-        transform.DOMove(endPos, 1);
+        Vector2 endPos = transform.position;
+        endPos += prevMovedDirection * 2.5f;
+        transform.DOMove(endPos, 1f).OnComplete(() => { State = CharacterState.Idle; });
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D other)
@@ -179,6 +190,12 @@ public abstract class ICharacter : MonoBehaviour
                         otherCharacter.OnDamaged(launchDamage);
                     }
                     break;
+                case CharacterState.Dodge:
+                    transform.DOKill();
+                    break;
+                case CharacterState.Charging:
+                    CancelCharge();
+                    break;
                 default:
                     break;
             }
@@ -188,6 +205,10 @@ public abstract class ICharacter : MonoBehaviour
             switch(State)
             {
                 case CharacterState.Flying:
+                    transform.DOKill(false);
+                    State = CharacterState.Idle;
+                    break;
+                case CharacterState.Dodge:
                     transform.DOKill();
                     break;
                 default:
@@ -234,12 +255,50 @@ public abstract class ICharacter : MonoBehaviour
             default:
                 break;
         }
-        return true;
+        return IsCharging == false;
     }
 
     protected virtual void Charge()
     {
         animator.Play("charge", 0);
+        State = CharacterState.Charging;
+        chargeCoroutine = StartCoroutine(ChargeProcess());
+    }
+
+    private IEnumerator ChargeProcess()
+    {
+        IsCharging = true;
+        float elapsedTime = 0f;
+        while(true)
+        {
+            yield return null;
+            elapsedTime += Time.deltaTime;
+            if(elapsedTime > 0.1f)
+            {
+                elapsedTime -= 0.1f;
+                Mp += 20;
+            }
+            if(Mp > MaxMp)
+            {
+                Mp = MaxMp;
+            }
+        }
+    }
+
+    private void StopCharging()
+    {
+        if(IsCharging == true)
+        {
+            StopCoroutine(chargeCoroutine);
+            IsCharging = false;
+        }
+    }
+
+    public void CancelCharge()
+    {
+        State = CharacterState.Idle;
+        animator.Play("idle", 0);
+        StopCharging();
     }
 
     public void DoDodge()
@@ -271,6 +330,7 @@ public abstract class ICharacter : MonoBehaviour
 
     protected virtual void Dodge()
     {
+        CancelCharge();
         IsInvincible = true;
         State = CharacterState.Dodge;
         animator.Play("evade", 0);
@@ -279,10 +339,17 @@ public abstract class ICharacter : MonoBehaviour
 
     protected virtual IEnumerator DodgeProcess()
     {
-        const float dodgeTime = 1f;
+        IsDodgeCoolTime = true;
+        const float dodgeTime = 0.5f;
+        Vector2 endPos = transform.position;
+        endPos += prevMovedDirection * 1f;
+        transform.DOMove(endPos, dodgeTime).SetEase(Ease.Linear);
         yield return new WaitForSeconds(dodgeTime);
         
         IsInvincible = false;
         State = CharacterState.Idle;
+
+        yield return new WaitForSeconds(1f);
+        IsDodgeCoolTime = false;
     }
 }

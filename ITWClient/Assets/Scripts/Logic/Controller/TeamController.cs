@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public struct TeamData
 {
-    public int TeamIndex;
+    public int TeamNumber;
     public List<PlayerInTeam> Players;
-    Color TeamColor;
 }
 
 public struct PlayerInTeam
@@ -23,29 +22,121 @@ public static class TeamController
     {
         // dummy data
         TeamData redTeam = new TeamData();
-        redTeam.TeamIndex = 0;
+        redTeam.TeamNumber = 1;
         redTeam.Players = new List<PlayerInTeam>();
         PlayerInTeam red1P = new PlayerInTeam();
         red1P.IsCpu = false;
         red1P.PlayerNumber = 1;
         red1P.SelectedCharacter = CharacterType.Rocketeer;
         redTeam.Players.Add(red1P);
+        PlayerInTeam redAi = new PlayerInTeam();
+        redAi.IsCpu = true;
+        redAi.PlayerNumber = 3;
+        redAi.SelectedCharacter = CharacterType.Rocketeer;
+        redTeam.Players.Add(redAi);
+
         Teams.Add(redTeam);
 
         TeamData blueTeam = new TeamData();
-        blueTeam.TeamIndex = 1;
+        blueTeam.TeamNumber = 2;
         blueTeam.Players = new List<PlayerInTeam>();
         PlayerInTeam blue2P = new PlayerInTeam();
         blue2P.IsCpu = false;
         blue2P.PlayerNumber = 2;
         blue2P.SelectedCharacter = CharacterType.Rocketeer;
         blueTeam.Players.Add(blue2P);
+
         Teams.Add(blueTeam);
     }
 
     public static void SetTeam()
     {
 
+    }
+
+    public static Color GetTeamColor(int teamNum) {
+        switch (teamNum)
+        {
+            case 1:
+                return Color.red;
+            case 2:
+                return Color.blue;
+            case 3:
+                return Color.green;
+            case 4:
+                return Color.yellow;
+            default:
+                return Color.black;
+        }
+    }
+
+    public TeamData GetTeam(int playerNum){
+        foreach (var eachTeam in Teams)
+        {
+            foreach (PlayerInTeam player in eachTeam.Players)
+            {
+                if (playerNum == player.PlayerNumber)
+                {
+                    return eachTeam;
+                }
+            }
+        }
+        throw new UnityException("TeamData not found, playerNum : " + playerNum.ToString());
+    }
+
+    public static void AddTeam(int teamNum, List<PlayerInTeam> plTeam) {
+        for (int i = 0; i < Teams.Count; ++i)
+        {
+            if (Teams[i].TeamNumber == teamNum)
+            {
+                Debug.Log("TeamNum Overlap..");
+                return;
+            }
+        }
+
+        TeamData newTeam = new TeamData();
+        newTeam.TeamNumber = teamNum;
+        newTeam.Players = plTeam;
+        Teams.Add(newTeam);
+    }
+
+    public static void AddPlayerInTeam(int teamNum, bool isCPU, int plNum, CharacterType charType) {
+        bool correctTeamNum = false;
+        int teamIdx = 0;
+        for (int i = 0; i < Teams.Count; ++i)
+        {
+            if (Teams[i].TeamNumber == teamNum)
+            {
+                teamIdx = i;
+                correctTeamNum = true;
+                break;
+            }
+        }
+        if (correctTeamNum == false)
+        {
+            Debug.Log("Team Number is not correct");
+            return;
+        }
+
+        var currTeamPlayers = Teams[teamIdx].Players;
+
+        foreach (var eachTeam in Teams)
+        {
+            foreach (PlayerInTeam player in eachTeam.Players)
+            {
+                if (plNum == player.PlayerNumber)
+                {
+                    Debug.Log("PlayerNum is overlap..");
+                    return;
+                }
+            }
+        }
+
+        var newChar = new PlayerInTeam();
+        newChar.IsCpu = isCPU;
+        newChar.PlayerNumber = plNum;
+        newChar.SelectedCharacter = charType;
+        currTeamPlayers.Add(newChar);
     }
 
     public static CharacterType GetCharacterType(int playerNum)

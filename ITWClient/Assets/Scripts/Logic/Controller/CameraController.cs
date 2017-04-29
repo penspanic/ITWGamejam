@@ -42,7 +42,10 @@ public class CameraController : MonoBehaviour
                 if(pos.y > targetRect.yMax)
                     targetRect.yMax = pos.y;
             }
-            Camera.main.transform.position = targetRect.center;
+            Vector3 newPos = Camera.main.transform.position;
+            newPos.x = targetRect.center.x;
+            newPos.y = targetRect.center.y;
+            Camera.main.transform.position = newPos;
             float orthoSize = targetRect.height / 2 + 0.5f;
             if(orthoSize < minOrthoSize)
                 orthoSize = minOrthoSize;
