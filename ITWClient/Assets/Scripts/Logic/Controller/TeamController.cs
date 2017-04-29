@@ -54,6 +54,22 @@ public static class TeamController
 
     }
 
+    public static Color GetTeamColor(int teamNum) {
+        switch (teamNum)
+        {
+            case 1:
+                return Color.red;
+            case 2:
+                return Color.blue;
+            case 3:
+                return Color.green;
+            case 4:
+                return Color.yellow;
+            default:
+                return Color.black;
+        }
+    }
+
     public static CharacterType GetCharacterType(int playerNum)
     {
         foreach(TeamData eachTeam in Teams)
