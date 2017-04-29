@@ -20,6 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4215257652812876}
   - component: {fileID: 95397957338980564}
+  - component: {fileID: 114028053512016780}
+  - component: {fileID: 114144001710471966}
+  - component: {fileID: 114822013274774222}
+  - component: {fileID: 210960637207640368}
   m_Layer: 0
   m_Name: Rocketeer
   m_TagString: Untagged
@@ -297,6 +301,52 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114028053512016780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214193649992988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc55845ac8ddc0498451b11ff206bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  launchNeedMp: 100
+  skillNeedMp: 100
+--- !u!114 &114144001710471966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214193649992988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f990794240a7654ab4435dc9f116b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114822013274774222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214193649992988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07c34eab26443541949bc730db4822d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!210 &210960637207640368
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214193649992988}
+  m_Enabled: 1
+  m_SortingLayerID: 146398115
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!212 &212068498575096692
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -12,7 +12,7 @@ public enum PlayerInputType
 
 public class PlayerInputController : MonoBehaviour
 {
-    public int PlayerNumber { get; protected set; }
+    public int PlayerNumber { get { return playerController.TargetPlayer.PlayerNumber; } }
     public bool Initialized { get; set; }
 
     private Dictionary<PlayerInputType, string> bindedKeys = new Dictionary<PlayerInputType, string>();
@@ -22,14 +22,14 @@ public class PlayerInputController : MonoBehaviour
     private void Awake()
     {
         Initialized = false;
+        playerController = GetComponent<IPlayerController>();
+        
+        foreach(string name in Input.GetJoystickNames())
+        {
+            Debug.Log(name);
+        }
     }
     
-    public void SetPlayer(IPlayerController playerController, int num)
-    {
-        this.PlayerNumber = num;
-        this.playerController = playerController;
-    }
-
     public void BindKey(PlayerInputType type, string keyName)
     {
         bindedKeys.Add(type, keyName);
@@ -48,19 +48,23 @@ public class PlayerInputController : MonoBehaviour
         playerController.TargetPlayer.ClearKeys();
         foreach(var keyPair in bindedKeys)
         {
-            if(Input.GetKeyDown(keyPair.Value) == true)
+            if(Input.GetButtonDown(keyPair.Value) == true)
             {
+                Debug.Log("Button down : " + keyPair.Value);
                 playerController.ProcessKey(keyPair.Key);
             }
         }
-        foreach(var axisPair in bindedAxes)
-        {
-            float horizontal = Input.GetAxis(bindedAxes[PlayerInputType.MoveHorizontal]);
-            float vertical = Input.GetAxis(bindedAxes[PlayerInputType.MoveVertical]);
 
-            Vector2 direction = new Vector2(horizontal, vertical);
-            playerController.ProcessMove(direction.normalized);
+        float horizontal = Input.GetAxis(bindedAxes[PlayerInputType.MoveHorizontal]);
+        float vertical = Input.GetAxis(bindedAxes[PlayerInputType.MoveVertical]);
+        Vector2 direction = new Vector2(horizontal, -vertical);
+        if(direction.magnitude < 0.5f)
+        {
+            return;
         }
+        Debug.Log("Horizontal : " + horizontal + " Vertical : " + vertical);
+        Debug.Log("Direction Length : " + direction.magnitude);
+        playerController.ProcessMove(direction.normalized);
     }
 
     // 네트워크 상에서 상대 플레이어의 Input을 처리할 때?

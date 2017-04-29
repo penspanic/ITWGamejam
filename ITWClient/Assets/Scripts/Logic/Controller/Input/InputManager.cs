@@ -6,15 +6,12 @@ using System.Collections;
 /// </summary>
 public class InputManager : MonoBehaviour
 {
-    private PlayerInputController[] inputControllers;
 
     private void Awake()
     {
-        inputControllers = GameObject.FindObjectsOfType<PlayerInputController>();
-        SetPlayers();
     }
 
-    private void SetPlayers()
+    public void SetPlayers(PlayerInputController[] inputControllers)
     {
         foreach(var inputController in inputControllers)
         {
@@ -24,8 +21,6 @@ public class InputManager : MonoBehaviour
             inputController.BindKey(PlayerInputType.Launch, "Launch" + playerNum.ToString());
             inputController.BindKey(PlayerInputType.Charge, "Charge" + playerNum.ToString());
             inputController.BindKey(PlayerInputType.Dodge, "Dodge" + playerNum.ToString());
-
-            inputController.Initialized = true;
         }
     }
 }

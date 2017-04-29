@@ -9,7 +9,7 @@ public abstract class IPlayerController : MonoBehaviour
     public Player TargetPlayer { get; protected set; }
     protected virtual void Awake()
     {
-
+        TargetPlayer = GetComponent<Player>();
     }
 
     protected virtual void Update()

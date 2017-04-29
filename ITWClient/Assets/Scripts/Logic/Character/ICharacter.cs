@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum CharacterType
+{
+    Unknown,
+    Rocketeer,
+    Heavy,
+    Engineer,
+    Doctor,
+}
+
 public enum CharacterState
 {
     Idle,
@@ -27,7 +36,7 @@ public abstract class ICharacter : MonoBehaviour
     public int Mp { get; protected set; }
     public bool IsInvincible { get; protected set; }
     public CharacterState State { get; protected set; }
-
+    public CharacterType CharacterType { get; protected set; }
     protected virtual void Awake()
     {
 
@@ -135,19 +144,26 @@ public abstract class ICharacter : MonoBehaviour
 
     public void DoDodge()
     {
-
+        if(CanDodge() == true)
+        {
+            Dodge();
+        }
     }
 
-    protected bool CanDodge ()
+    protected bool CanDodge()
     {
         switch(State)
         {
             case CharacterState.Hitted:
-                break;
+                return false;
+            case CharacterState.Flying:
+                return false;
+            case CharacterState.SkillActivated:
+                return false;
             default:
                 break;
         }
-        return false;
+        return true;
     }
 
     protected virtual void Dodge()

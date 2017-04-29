@@ -7,6 +7,7 @@ using System.Collections.Generic;
 /// </summary>
 public class Player : MonoBehaviour
 {
+    public int PlayerNumber { get; protected set; }
     private List<PlayerInputType> inputtedKeys = new List<PlayerInputType>();
     private List<PlayerInputType> prevInputtedKeys = new List<PlayerInputType>();
     private ICharacter character;
@@ -17,6 +18,12 @@ public class Player : MonoBehaviour
     }
 
     // 플레이 중에 동적으로 캐릭터를 바꿀 수 있도록? 도 할 수 있으면 좋을 것 같다.
+
+    public void SetNumber(int num)
+    {
+        PlayerNumber = num;
+    }
+
     public void SetCharacter(ICharacter character)
     {
         this.character = character;
