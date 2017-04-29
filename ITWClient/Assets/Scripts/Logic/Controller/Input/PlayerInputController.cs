@@ -58,7 +58,7 @@ public class PlayerInputController : MonoBehaviour
         float horizontal = Input.GetAxis(bindedAxes[PlayerInputType.MoveHorizontal]);
         float vertical = Input.GetAxis(bindedAxes[PlayerInputType.MoveVertical]);
         Vector2 direction = new Vector2(horizontal, -vertical);
-        if(direction.magnitude < 0.5f)
+        if(direction.magnitude < 0.3f)
         {
             return;
         }
