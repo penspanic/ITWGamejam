@@ -22,9 +22,15 @@ public class PlayerManager : MonoBehaviour
             foreach(PlayerInTeam playerData in team.Players)
             {
                 GameObject newPlayerObject = Instantiate(playerPrefab);
+                int layer = LayerMask.NameToLayer("Team" + team.TeamNumber.ToString());
+                newPlayerObject.layer = layer;
                 newPlayerObject.name = "Player" + playerData.PlayerNumber.ToString();
                 newPlayerObject.transform.SetParent(playersParent.transform);
-                inputControllers.Add(newPlayerObject.GetComponent<PlayerInputController>());
+                if(playerData.IsCpu == false)
+                {
+                    PlayerInputController inputController = newPlayerObject.AddComponent<PlayerInputController>();
+                    inputControllers.Add(newPlayerObject.GetComponent<PlayerInputController>());
+                }
                 Player newPlayer = newPlayerObject.GetComponent<Player>();
                 newPlayer.SetNumber(playerData.PlayerNumber);
                 Players.Add(newPlayer);

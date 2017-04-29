@@ -25,6 +25,7 @@ public class ItemController : MonoBehaviour
 
     private IEnumerator ItemCreateProcess()
     {
+        // 스테이지 플레이한 시간 지날 수록 아이템이 나올 확률이 올라가도록.
         while(stageController.IsStageStarted == true)
         {
             float nextCreateInterval = Random.Range(5, 15);

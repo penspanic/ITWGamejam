@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public struct TeamData
 {
-    public int TeamIndex;
+    public int TeamNumber;
     public List<PlayerInTeam> Players;
-    Color TeamColor;
 }
 
 public struct PlayerInTeam
@@ -23,23 +22,30 @@ public static class TeamController
     {
         // dummy data
         TeamData redTeam = new TeamData();
-        redTeam.TeamIndex = 0;
+        redTeam.TeamNumber = 1;
         redTeam.Players = new List<PlayerInTeam>();
         PlayerInTeam red1P = new PlayerInTeam();
         red1P.IsCpu = false;
         red1P.PlayerNumber = 1;
         red1P.SelectedCharacter = CharacterType.Rocketeer;
         redTeam.Players.Add(red1P);
+        PlayerInTeam redAi = new PlayerInTeam();
+        redAi.IsCpu = true;
+        redAi.PlayerNumber = 3;
+        redAi.SelectedCharacter = CharacterType.Rocketeer;
+        redTeam.Players.Add(redAi);
+
         Teams.Add(redTeam);
 
         TeamData blueTeam = new TeamData();
-        blueTeam.TeamIndex = 1;
+        blueTeam.TeamNumber = 2;
         blueTeam.Players = new List<PlayerInTeam>();
         PlayerInTeam blue2P = new PlayerInTeam();
         blue2P.IsCpu = false;
         blue2P.PlayerNumber = 2;
         blue2P.SelectedCharacter = CharacterType.Rocketeer;
         blueTeam.Players.Add(blue2P);
+
         Teams.Add(blueTeam);
     }
 

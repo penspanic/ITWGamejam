@@ -12,6 +12,7 @@ public class StageController : MonoBehaviour
     private PlayerManager playerManager;
     private CharacterManager characterManager;
     private UiPlayerController uiPlayerController;
+    private CameraController cameraController;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class StageController : MonoBehaviour
         playerManager = GameObject.FindObjectOfType<PlayerManager>();
         characterManager = GameObject.FindObjectOfType<CharacterManager>();
         uiPlayerController = GameObject.FindObjectOfType<UiPlayerController>();
+        cameraController = GameObject.FindObjectOfType<CameraController>();
 
         IsStageStarted = false;
         int obstacleCount = Random.Range(5, 10);
@@ -32,12 +34,14 @@ public class StageController : MonoBehaviour
     private IEnumerator StageStartProcess()
     {
         playerManager.CreatePlayers();
+        List<GameObject> characterObjects = new List<GameObject>();
         foreach(Player eachPlayer in playerManager.Players)
         {
             characterManager.Create(eachPlayer, TeamController.GetCharacterType(eachPlayer.PlayerNumber));
+            characterObjects.Add(eachPlayer.TargetCharacter.gameObject);
         }
         uiPlayerController.SetPlayers(playerManager.Players.ToArray());
-
+        cameraController.SetTargets(characterObjects.ToArray());
         yield return new WaitForSeconds(5f);
 
         StartStage();

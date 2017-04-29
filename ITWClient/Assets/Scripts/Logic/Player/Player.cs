@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public int PlayerNumber { get; protected set; }
     private List<PlayerInputType> inputtedKeys = new List<PlayerInputType>();
     private List<PlayerInputType> prevInputtedKeys = new List<PlayerInputType>();
-    private ICharacter character;
+    public ICharacter TargetCharacter { get; protected set; }
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     public void SetCharacter(ICharacter character)
     {
-        this.character = character;
+        this.TargetCharacter = character;
     }
 
     private void Update()
@@ -50,26 +50,54 @@ public class Player : MonoBehaviour
             && inputtedKeys.Contains(PlayerInputType.Charge) == true
             && inputtedKeys.Contains(PlayerInputType.Launch) == true)
         {
-            character.DoUseSkill();
+            TargetCharacter.DoUseSkill();
             return;
         }
 
         switch(inputType)
         {
             case PlayerInputType.Launch:
-                character.DoLaunch();
+                TargetCharacter.DoLaunch();
                 break;
             case PlayerInputType.Charge:
-                character.DoCharge();
+                TargetCharacter.DoCharge();
                 break;
             case PlayerInputType.Dodge:
-                character.DoDodge();
+                TargetCharacter.DoDodge();
                 break;
         }
     }
 
+    public void KeyUp(PlayerInputType inputType)
+    {
+        switch(inputType)
+        {
+            case PlayerInputType.Charge:
+                TargetCharacter.CancelCharge();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void KeyState(PlayerInputType inputType, bool pressed)
+    {
+        switch(inputType)
+        {
+            case PlayerInputType.Charge:
+                if(pressed == false && TargetCharacter.IsCharging == true)
+                {
+                    TargetCharacter.CancelCharge();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+
     public void Move(Vector2 direction)
     {
-        character.CanMove(direction);
+        TargetCharacter.CanMove(direction);
     }
 }

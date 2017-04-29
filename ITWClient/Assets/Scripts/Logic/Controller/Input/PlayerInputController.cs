@@ -50,9 +50,13 @@ public class PlayerInputController : MonoBehaviour
         {
             if(Input.GetButtonDown(keyPair.Value) == true)
             {
-                Debug.Log("Button down : " + keyPair.Value);
-                playerController.ProcessKey(keyPair.Key);
+                playerController.ProcessKeyDown(keyPair.Key);
             }
+            if(Input.GetButtonUp(keyPair.Value) == true)
+            {
+                playerController.ProcessKeyUp(keyPair.Key);
+            }
+            playerController.ProcessKeyState(keyPair.Key, Input.GetButton(keyPair.Value));
         }
 
         float horizontal = Input.GetAxis(bindedAxes[PlayerInputType.MoveHorizontal]);
