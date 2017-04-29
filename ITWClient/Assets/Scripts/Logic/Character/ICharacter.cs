@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public enum CharacterType
 {
@@ -32,14 +33,26 @@ public abstract class ICharacter : MonoBehaviour
     private int launchNeedMp;
     [SerializeField]
     private int skillNeedMp;
-    public int Hp { get; protected set; }
-    public int Mp { get; protected set; }
+    [SerializeField]
+    private int launchDamage;
+
+    public int MaxHp;
+    public int MaxMp;
+
+    public int Hp { get; set; }
+    public int Mp { get; set; }
     public bool IsInvincible { get; protected set; }
     public CharacterState State { get; protected set; }
     public CharacterType CharacterType { get; protected set; }
+
+    private Animator animator;
+    private Vector2 prevDirection;
+
     protected virtual void Awake()
     {
-
+        animator = GetComponent<Animator>();
+        Hp = MaxHp;
+        Mp = MaxMp;
     }
 
     protected virtual void Update()
@@ -47,9 +60,45 @@ public abstract class ICharacter : MonoBehaviour
 
     }
 
-    public void Move(Vector2 normalizedDirection)
+    public void CanMove(Vector2 normalizedDirection)
     {
-        transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
+        if(CanMove() == true)
+        {
+            Move(normalizedDirection);
+        }
+    }
+
+    protected bool CanMove()
+    {
+        switch(State)
+        {
+            case CharacterState.Hitted:
+                return false;
+            case CharacterState.Flying:
+                return false;
+            case CharacterState.Dodge:
+                return false;
+        }
+        return true;
+    }
+
+    protected virtual void Move(Vector2 normalizedDirection)
+    {
+        if(normalizedDirection == Vector2.zero)
+        {
+            animator.Play("idle", 0);
+            State = CharacterState.Idle;
+        }
+        else
+        {
+            bool facingRight = normalizedDirection.x > 0f;
+            transform.rotation = Quaternion.Euler(0, facingRight == true ? 180 : 0, 0);
+            transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime, Space.World);
+            animator.Play("walk", 0);
+            State = CharacterState.Moving;
+        }
+
+        prevDirection = normalizedDirection;
     }
 
     /*
@@ -111,6 +160,57 @@ public abstract class ICharacter : MonoBehaviour
     protected void Launch()
     {
         Mp -= launchNeedMp;
+        animator.Play("flying", 0);
+        State = CharacterState.Flying;
+        Vector2 endPos = Vector2.zero;
+        transform.DOMove(endPos, 1);
+    }
+
+    protected virtual void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Player") == true)
+        {
+            ICharacter otherCharacter = other.gameObject.GetComponent<ICharacter>();
+            switch(State)
+            {
+                case CharacterState.Flying:
+                    if(otherCharacter.IsInvincible == false)
+                    {
+                        otherCharacter.OnDamaged(launchDamage);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            switch(State)
+            {
+                case CharacterState.Flying:
+                    transform.DOKill();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    public void OnDamaged(int damage)
+    {
+        if(IsInvincible == true)
+        {
+            return;
+        }
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Item") == true)
+        {
+            IItem item = other.GetComponent<IItem>();
+            item.UseItem(this);
+        }
     }
 
     public void DoCharge()
@@ -139,7 +239,7 @@ public abstract class ICharacter : MonoBehaviour
 
     protected virtual void Charge()
     {
-
+        animator.Play("charge", 0);
     }
 
     public void DoDodge()
@@ -160,14 +260,29 @@ public abstract class ICharacter : MonoBehaviour
                 return false;
             case CharacterState.SkillActivated:
                 return false;
+            case CharacterState.Dodge:
+                return false;
             default:
                 break;
         }
+        // 쿨타임 체크 필요
         return true;
     }
 
     protected virtual void Dodge()
     {
         IsInvincible = true;
+        State = CharacterState.Dodge;
+        animator.Play("evade", 0);
+        StartCoroutine(DodgeProcess());
+    }
+
+    protected virtual IEnumerator DodgeProcess()
+    {
+        const float dodgeTime = 1f;
+        yield return new WaitForSeconds(dodgeTime);
+        
+        IsInvincible = false;
+        State = CharacterState.Idle;
     }
 }

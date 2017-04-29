@@ -70,6 +70,6 @@ public class Player : MonoBehaviour
 
     public void Move(Vector2 direction)
     {
-        character.Move(direction);
+        character.CanMove(direction);
     }
 }

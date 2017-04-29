@@ -26,6 +26,11 @@ public class MapController : MonoBehaviour
         return tiles[x, y];
     }
     
+    public void RemoveTile(int x, int y)
+    {
+        tiles[x, y] = null;
+    }
+
     public IntVector2 GetEmptyTileIndex()
     {
         // 무한루프 돌 상황까진 없을 것 같다.

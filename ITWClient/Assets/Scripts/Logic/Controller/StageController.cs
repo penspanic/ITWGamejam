@@ -11,6 +11,7 @@ public class StageController : MonoBehaviour
     private CharacterFactory characterFactory;
     private PlayerManager playerManager;
     private CharacterManager characterManager;
+    private UiPlayerController uiPlayerController;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class StageController : MonoBehaviour
         characterFactory = GameObject.FindObjectOfType<CharacterFactory>();
         playerManager = GameObject.FindObjectOfType<PlayerManager>();
         characterManager = GameObject.FindObjectOfType<CharacterManager>();
+        uiPlayerController = GameObject.FindObjectOfType<UiPlayerController>();
 
         IsStageStarted = false;
         int obstacleCount = Random.Range(5, 10);
@@ -34,6 +36,7 @@ public class StageController : MonoBehaviour
         {
             characterManager.Create(eachPlayer, TeamController.GetCharacterType(eachPlayer.PlayerNumber));
         }
+        uiPlayerController.SetPlayers(playerManager.Players.ToArray());
 
         yield return new WaitForSeconds(5f);
 
@@ -43,10 +46,5 @@ public class StageController : MonoBehaviour
     private void StartStage()
     {
         IsStageStarted = true;
-    }
-
-    private void Update()
-    {
-
     }
 }

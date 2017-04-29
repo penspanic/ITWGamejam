@@ -60,6 +60,7 @@ public class PlayerInputController : MonoBehaviour
         Vector2 direction = new Vector2(horizontal, -vertical);
         if(direction.magnitude < 0.3f)
         {
+            playerController.ProcessMove(Vector2.zero);
             return;
         }
         Debug.Log("Horizontal : " + horizontal + " Vertical : " + vertical);
