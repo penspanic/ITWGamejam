@@ -6,6 +6,7 @@ using System.Collections;
 /// </summary>
 public abstract class IPlayerController : MonoBehaviour
 {
+    public Player TargetPlayer { get; protected set; }
     protected virtual void Awake()
     {
 
@@ -14,5 +15,15 @@ public abstract class IPlayerController : MonoBehaviour
     protected virtual void Update()
     {
 
+    }
+
+    public void ProcessKey(PlayerInputType inputType)
+    {
+        TargetPlayer.KeyDown(inputType);
+    }
+
+    public void ProcessMove(Vector2 normalizedDirection)
+    {
+        TargetPlayer.Move(normalizedDirection);
     }
 }

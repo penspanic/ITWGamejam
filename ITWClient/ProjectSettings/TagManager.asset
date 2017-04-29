@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Character
+    uniqueID: 146398115
+    locked: 0
+  - name: Obstacle
+    uniqueID: 3078784311
+    locked: 0
+  - name: Effect
+    uniqueID: 12629095
+    locked: 0
+  - name: UI
+    uniqueID: 3294683453
+    locked: 0

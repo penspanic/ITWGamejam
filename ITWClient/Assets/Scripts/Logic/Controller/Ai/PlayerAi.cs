@@ -18,7 +18,7 @@ public class PlayerAi : MonoBehaviour
 {
     public AiState State { get; set; }
     Player player;
-    ICharacter targetEnemy; 
+    ICharacter targetEnemy;
     private void Awake()
     {
         State = AiState.Sleep;
