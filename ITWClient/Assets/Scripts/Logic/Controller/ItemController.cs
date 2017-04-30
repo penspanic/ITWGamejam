@@ -18,18 +18,41 @@ public class ItemController : MonoBehaviour
         itemFactory = gameObject.AddComponent<ItemFactory>();
     }
 
-    public void StartStage()
+    public void OnStageStart()
     {
-
+        StartCoroutine(ItemCreateProcess());
     }
 
     private IEnumerator ItemCreateProcess()
     {
         // 스테이지 플레이한 시간 지날 수록 아이템이 나올 확률이 올라가도록.
+        float elapsedTime = 0f;
         while(stageController.IsStageStarted == true)
         {
-            float nextCreateInterval = Random.Range(5, 15);
+            float nextCreateInterval = 20f;
+            if(elapsedTime > 60f)
+                nextCreateInterval = 15f;
             yield return new WaitForSeconds(nextCreateInterval);
+            itemFactory.CreateItem(GetNewItemType());
+            elapsedTime += Time.deltaTime;
+
+        }
+    }
+
+    private ItemType GetNewItemType()
+    {
+        int randomValue = Random.Range(0, 10);
+        if(randomValue >= 0 && randomValue < 4)
+        {
+            return ItemType.HpPotion;
+        }
+        else if(randomValue >= 4 && randomValue < 8)
+        {
+            return ItemType.MpPotion;
+        }
+        else
+        {
+            return ItemType.ExtremePotion;
         }
     }
 }

@@ -50,5 +50,6 @@ public class StageController : MonoBehaviour
     private void StartStage()
     {
         IsStageStarted = true;
+        itemController.OnStageStart();
     }
 }

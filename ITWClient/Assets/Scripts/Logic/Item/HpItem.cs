@@ -19,5 +19,6 @@ public class HpItem : IItem
         {
             owner.Hp = owner.MaxHp;
         }
+        Destroy();
     }
 }

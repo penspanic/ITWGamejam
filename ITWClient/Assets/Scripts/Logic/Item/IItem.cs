@@ -10,8 +10,7 @@ public enum ItemType
 public abstract class IItem : MonoBehaviour, ITile
 {
     public ItemType Type { get; set; }
-    public int TileX { get; set; }
-    public int TileY { get; set; }
+    public IntVector2 TilePos { get; set; }
 
     private MapController mapController;
     protected virtual void Awake()
@@ -24,6 +23,6 @@ public abstract class IItem : MonoBehaviour, ITile
     protected void Destroy()
     {
         Destroy(this.gameObject);
-        mapController.RemoveTile(TileX, TileY);
+        //mapController.RemoveTile(TilePos);
     }
 }

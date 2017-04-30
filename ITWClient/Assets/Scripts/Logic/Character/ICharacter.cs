@@ -54,6 +54,7 @@ public abstract class ICharacter : MonoBehaviour
     public CharacterState State { get; protected set; }
     public CharacterType CharacterType { get; protected set; }
 
+    protected CharacterManager characterManager;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
     protected Rigidbody2D rigidBody;
@@ -65,6 +66,7 @@ public abstract class ICharacter : MonoBehaviour
     private List<GameObject> triggeredPoisons = new List<GameObject>();
     protected virtual void Awake()
     {
+        characterManager = GameObject.FindObjectOfType<CharacterManager>();
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         rigidBody = GetComponent<Rigidbody2D>();
@@ -163,12 +165,12 @@ public abstract class ICharacter : MonoBehaviour
             default:
                 break;
         }
-        return Mp > skillNeedMp;
+        return Mp >= skillNeedMp;
     }
 
     protected virtual void UseSkill()
     {
-        Mp -= -skillNeedMp;
+        Mp -= skillNeedMp;
     }
 
     protected virtual void OnSkillEnd()
@@ -201,7 +203,7 @@ public abstract class ICharacter : MonoBehaviour
             default:
                 break;
         }
-        return Mp > launchNeedMp;
+        return Mp >= launchNeedMp;
     }
 
     protected void Launch()
@@ -237,6 +239,8 @@ public abstract class ICharacter : MonoBehaviour
             {
                 case CharacterState.Flying:
                     otherCharacter.OnDamaged(launchDamage);
+                    OnLaunchEnd();
+                    transform.DOKill();
                     break;
                 case CharacterState.Dodge:
                     transform.DOKill();
@@ -299,6 +303,8 @@ public abstract class ICharacter : MonoBehaviour
         IsDead = true;
         GetComponent<Collider2D>().enabled = false;
         animator.Play("death", 0);
+
+        characterManager.OnDead(this);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)

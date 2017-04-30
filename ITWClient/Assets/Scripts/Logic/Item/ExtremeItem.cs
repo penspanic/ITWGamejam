@@ -15,6 +15,11 @@ public class ExtremeItem : IItem
     public override void UseItem(ICharacter user)
     {
         this.user = user;
+        foreach(SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+        {
+            renderer.enabled = false;
+        }
+        GetComponent<Collider2D>().enabled = false;
         StartCoroutine(ItemEffectProcess());
     }
 

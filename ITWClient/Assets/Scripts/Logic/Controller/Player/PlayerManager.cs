@@ -22,8 +22,6 @@ public class PlayerManager : MonoBehaviour
             foreach(PlayerInTeam playerData in team.Players)
             {
                 GameObject newPlayerObject = Instantiate(playerPrefab);
-                int layer = LayerMask.NameToLayer("Team" + team.TeamNumber.ToString());
-                newPlayerObject.layer = layer;
                 newPlayerObject.name = "Player" + playerData.PlayerNumber.ToString();
                 newPlayerObject.transform.SetParent(playersParent.transform);
                 if(playerData.IsCpu == false)
