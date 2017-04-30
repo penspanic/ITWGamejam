@@ -44,11 +44,11 @@ public class Player : MonoBehaviour
             case PlayerInputType.Launch:
                 TargetCharacter.DoLaunch();
                 break;
-            case PlayerInputType.Charge:
-                TargetCharacter.DoCharge();
-                break;
             case PlayerInputType.Dodge:
                 TargetCharacter.DoDodge();
+                break;
+            case PlayerInputType.Skill:
+                TargetCharacter.DoUseSkill();
                 break;
         }
     }
@@ -67,15 +67,7 @@ public class Player : MonoBehaviour
 
     public void KeyState(List<PlayerInputType> keys)
     {
-        if(keys.Contains(PlayerInputType.Charge) == false && TargetCharacter.IsCharging == true)
-        {
-            TargetCharacter.CancelCharge();
-        }
-
-        if(keys.Contains(PlayerInputType.Charge) == true && keys.Contains(PlayerInputType.Launch) == true)
-        {
-            TargetCharacter.DoUseSkill();
-        }
+        TargetCharacter.ProcessKeystate(keys);
     }
 
     public void Move(Vector2 direction)

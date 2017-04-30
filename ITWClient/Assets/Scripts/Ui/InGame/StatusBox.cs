@@ -40,7 +40,8 @@ public class StatusBox : MonoBehaviour
     {
         portraitImage.sprite = Resources.Load<Sprite>("Sprites/UI/Portrait/" + targetPlayer.TargetCharacter.CharacterType.ToString());
         int playerNumber = targetPlayer.PlayerNumber;
-        portraitImage.transform.FindChild("Team Color").GetComponent<Image>().color = TeamController.GetTeamColor(playerNumber);
+        int teamNumber = TeamController.GetTeam(playerNumber).TeamNumber;
+        portraitImage.transform.FindChild("Team Color").GetComponent<Image>().color = TeamController.GetTeamColor(teamNumber);
     }
 
     private void Update()

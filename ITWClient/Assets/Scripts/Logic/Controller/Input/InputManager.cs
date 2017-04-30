@@ -19,8 +19,9 @@ public class InputManager : MonoBehaviour
             inputController.BindAxis(PlayerInputType.MoveHorizontal, "Horizontal" + playerNum.ToString());
             inputController.BindAxis(PlayerInputType.MoveVertical, "Vertical" + playerNum.ToString());
             inputController.BindKey(PlayerInputType.Launch, "Launch" + playerNum.ToString());
-            inputController.BindKey(PlayerInputType.Charge, "Charge" + playerNum.ToString());
+            inputController.BindKey(PlayerInputType.Skill, "Skill" + playerNum.ToString());
             inputController.BindKey(PlayerInputType.Dodge, "Dodge" + playerNum.ToString());
+            inputController.BindKey(PlayerInputType.Charge, "Charge" + playerNum.ToString());
         }
     }
 }

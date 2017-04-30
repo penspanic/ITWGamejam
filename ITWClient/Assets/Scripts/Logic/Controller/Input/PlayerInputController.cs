@@ -6,8 +6,9 @@ public enum PlayerInputType
     MoveHorizontal,         // Axis
     MoveVertical,           // Axis
     Launch,                 // Key press
-    Charge,                 // Key press
     Dodge,                  // Key press
+    Skill,                  // Key press
+    Charge,                 // Trigger on / off
 }
 
 public class PlayerInputController : MonoBehaviour
@@ -46,6 +47,14 @@ public class PlayerInputController : MonoBehaviour
             return;
 
         List<PlayerInputType> pressedKeys = new List<PlayerInputType>();
+        if(bindedKeys.ContainsKey(PlayerInputType.Charge) == true)
+        {
+            Debug.Log("Trigger 6 : " + Input.GetAxis(bindedKeys[PlayerInputType.Charge]));
+            if(Input.GetAxis(bindedKeys[PlayerInputType.Charge])> 0.3f)
+            {
+                pressedKeys.Add(PlayerInputType.Charge);
+            }
+        }
         foreach(var keyPair in bindedKeys)
         {
             if(Input.GetButton(keyPair.Value) == true)

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 
 public enum CharacterType
@@ -29,13 +30,17 @@ public enum CharacterState
 public abstract class ICharacter : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed;
+    protected float moveSpeed;
     [SerializeField]
-    private int launchNeedMp;
+    protected int launchNeedMp;
     [SerializeField]
-    private int skillNeedMp;
+    protected int skillNeedMp;
     [SerializeField]
-    private int launchDamage;
+    protected int launchDamage;
+    [SerializeField]
+    protected float launchDistance;
+    [SerializeField]
+    protected float launchMoveTime;
 
     public int MaxHp;
     public int MaxMp;
@@ -68,6 +73,18 @@ public abstract class ICharacter : MonoBehaviour
     protected virtual void Update()
     {
 
+    }
+
+    public virtual void ProcessKeystate(List<PlayerInputType> pressedKeys)
+    {
+        if(pressedKeys.Contains(PlayerInputType.Charge) == true)
+        {
+            DoCharge();
+        }
+        if(pressedKeys.Contains(PlayerInputType.Charge) == false && IsCharging == true)
+        {
+            CancelCharge();
+        }
     }
 
     public void CanMove(Vector2 normalizedDirection)
@@ -109,7 +126,6 @@ public abstract class ICharacter : MonoBehaviour
             transform.rotation = Quaternion.Euler(rotation);
 
             rigidBody.velocity = normalizedDirection * moveSpeed;
-            //transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime, Space.World);
             animator.Play("walk", 0);
             State = CharacterState.Moving;
             prevMovedDirection = normalizedDirection;
@@ -140,6 +156,8 @@ public abstract class ICharacter : MonoBehaviour
                 return false;
             case CharacterState.Hitted:
                 return false;
+            case CharacterState.Charging:
+                return false;
             default:
                 break;
         }
@@ -149,7 +167,6 @@ public abstract class ICharacter : MonoBehaviour
     protected virtual void UseSkill()
     {
         Mp -= -skillNeedMp;
-        StopCharging();
     }
 
     protected virtual void OnSkillEnd()
@@ -192,12 +209,19 @@ public abstract class ICharacter : MonoBehaviour
         State = CharacterState.Flying;
         IsInvincible = true;
         Vector2 endPos = transform.position;
-        endPos += prevMovedDirection * 2.5f;
-        transform.DOMove(endPos, 1f).OnComplete(() => { State = CharacterState.Idle; });
+        endPos += prevMovedDirection * launchDistance;
+        transform.DOMove(endPos, launchMoveTime).OnComplete(() => { OnLaunchEnd(); }).SetEase(Ease.Linear);
     }
 
     protected virtual void OnLaunchEnd()
     {
+        StartCoroutine(LandingProcess());
+    }
+
+    private IEnumerator LandingProcess()
+    {
+        animator.Play("landing", 0);
+        yield return new WaitForSeconds(0.12f);
         State = CharacterState.Idle;
         IsInvincible = false;
     }
@@ -228,7 +252,7 @@ public abstract class ICharacter : MonoBehaviour
             {
                 case CharacterState.Flying:
                     transform.DOKill();
-                    State = CharacterState.Idle;
+                    OnLaunchEnd();
                     break;
                 case CharacterState.Dodge:
                     transform.DOKill();
@@ -251,6 +275,21 @@ public abstract class ICharacter : MonoBehaviour
         {
             OnDead();
         }
+        else
+        {
+            StartCoroutine(DamageProcess());
+        }
+    }
+
+    private IEnumerator DamageProcess()
+    {
+        IsInvincible = true;
+        animator.Play("hit", 0);
+        State = CharacterState.Hitted;
+        yield return new WaitForSeconds(1f);
+        animator.Play("idle", 0);
+        State = CharacterState.Idle;
+        IsInvincible = false;
     }
 
     private void OnDead()
@@ -355,6 +394,8 @@ public abstract class ICharacter : MonoBehaviour
             case CharacterState.SkillActivated:
                 return false;
             case CharacterState.Dodge:
+                return false;
+            case CharacterState.Charging:
                 return false;
             default:
                 break;

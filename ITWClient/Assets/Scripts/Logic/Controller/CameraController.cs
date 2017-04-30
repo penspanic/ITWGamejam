@@ -49,6 +49,7 @@ public class CameraController : MonoBehaviour
             newPos.y = targetRect.center.y;
             Camera.main.transform.position = newPos;
             float orthoSize = targetRect.height / 2f + 0.8f;
+            orthoSize = Mathf.Lerp(Camera.main.orthographicSize, orthoSize, Time.deltaTime);
             if(orthoSize < minOrthoSize)
                 orthoSize = minOrthoSize;
             Camera.main.orthographicSize = orthoSize;
