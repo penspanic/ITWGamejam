@@ -8,6 +8,8 @@ public class Heavy : ICharacter
     private float skillMoveTime;
     [SerializeField]
     private float skillMoveDistance;
+    [SerializeField]
+    private GameObject explosionPrefab;
 
     private Coroutine skillCoroutine = null;
     protected override void Awake()
@@ -52,6 +54,11 @@ public class Heavy : ICharacter
         }
         transform.position = endPos;
 
+        Explosion newExplosion = Instantiate(explosionPrefab).GetComponent<Explosion>();
+        newExplosion.SetOwner(this);
+        newExplosion.gameObject.layer = this.gameObject.layer;
+        newExplosion.transform.position = this.transform.position;
+
         if(State == CharacterState.SkillActivated)
         {
             OnSkillEnd();
@@ -93,7 +100,7 @@ public class Heavy : ICharacter
             if(otherCharacter.State == CharacterState.Flying
                 && this.State == CharacterState.Dodge)
             {
-                otherCharacter.OnDamaged(this, 1, true);
+                otherCharacter.OnHit(this, 1, true);
                 return;
             }
         }

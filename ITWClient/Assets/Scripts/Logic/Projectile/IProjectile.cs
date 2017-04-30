@@ -1,37 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class IProjectile : MonoBehaviour
+public abstract class IProjectile : MonoBehaviour, IObject
 {
-    public ICharacter owner { get; set; }
+    public int Hp { get; set; }
+    public IObject owner { get; set; }
 
     protected virtual void Awake()
     {
 
     }
 
-    public void SetOwner(ICharacter owner)
+    public void SetOwner(IObject owner)
     {
         this.owner = owner;
     }
 
-    protected virtual void Update()
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
 
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D other)
+    // Do nothing
+    public virtual void OnHit(IObject attacker, int damage, bool forced = false)
     {
-        if(owner.gameObject == owner.gameObject)
-        {
-            return;
-        }
-        switch(other.tag)
-        {
-            case "Character":
-                break;
-            default:
-                break;
-        }
+
     }
 }

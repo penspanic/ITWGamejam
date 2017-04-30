@@ -9,47 +9,6 @@ public class MapController : MonoBehaviour
 
     private IObstacle[] obstaclePrefabs;
     private List<IObstacle> obstacles = new List<IObstacle>();
-    //private ITile[,] tiles;
-    //private void Awake()
-    //{
-    //    obstaclePrefabs = Resources.LoadAll<IObstacle>("Prefabs/Obstacle");
-    //    tiles = new ITile[tileSizeX, tileSizeY];
-    //}
-    //#region ITile
-    //public bool IsEmpty(IntVector2 pos)
-    //{
-    //    return tiles[pos.x, pos.y] == null;
-    //}
-    
-    //public ITile GetTile(IntVector2 pos)
-    //{
-    //    return tiles[pos.x, pos.y];
-    //}
-    
-    //public void RemoveTile(IntVector2 pos)
-    //{
-    //    tiles[pos.x, pos.y] = null;
-    //}
-
-    //public IntVector2 GetEmptyTilePos()
-    //{
-    //    // 무한루프 돌 상황까진 없을 것 같다.
-    //    int x, y = 0;
-    //    while(true)
-    //    {
-    //        x = Random.Range(0, tileSizeX);
-    //        y = Random.Range(0, tileSizeY);
-    //        if(IsEmpty(new IntVector2(x, y)) == false)
-    //            return new IntVector2(x, y);
-    //    }
-    //}
-
-
-    //public void SetTile(ITile tile)
-    //{
-    //    tiles[tile.TilePos.x, tile.TilePos.y] = tile;
-    //}
-    //#endregion
 
     public Vector2 GetRandomMapPos()
     {
@@ -74,8 +33,6 @@ public class MapController : MonoBehaviour
             IObstacle obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
             IObstacle newObstacle = Instantiate<IObstacle>(obstaclePrefab);
             obstacles.Add(newObstacle);
-            //IntVector2 coordinate = GetEmptyTilePos();
-            //tiles[coordinate.x, coordinate.y] = newObstacle;
         }
     }
 }

@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 58138212247993968}
   - component: {fileID: 114888896679999608}
   m_Layer: 0
-  m_Name: Poision
+  m_Name: Poison
   m_TagString: Poison
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3016,7 +3016,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 12629095
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0

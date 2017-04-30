@@ -424,10 +424,13 @@ MonoBehaviour:
   launchDistance: 2.5
   launchMoveTime: 1
   dodgeNeedMp: 0
+  dodgeDistance: 0.5
   dodgeCoolTime: 1.5
-  dodgeDuration: 1
+  dodgeDuration: 0.3
   MaxHp: 3
   MaxMp: 1000
+  steamShotPrefab: {fileID: 1093685531474762, guid: 0284c4c63614c56409f2bc8f1409ba07,
+    type: 2}
 --- !u!210 &210484436631929758
 SortingGroup:
   m_ObjectHideFlags: 1
@@ -436,7 +439,7 @@ SortingGroup:
   m_GameObject: {fileID: 1817016208566632}
   m_Enabled: 1
   m_SortingLayerID: 146398115
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
 --- !u!212 &212047920141294018
 SpriteRenderer:

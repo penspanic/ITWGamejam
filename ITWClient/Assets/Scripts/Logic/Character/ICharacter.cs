@@ -27,7 +27,7 @@ public enum CharacterState
 /// <summary>
 /// 각 캐릭터 마다의 상세 구현(스킬 등)을 담당.
 /// </summary>
-public abstract class ICharacter : MonoBehaviour
+public abstract class ICharacter : MonoBehaviour, IObject
 {
     [SerializeField]
     protected float moveSpeed;
@@ -44,6 +44,8 @@ public abstract class ICharacter : MonoBehaviour
     [SerializeField]
     protected int dodgeNeedMp;
     [SerializeField]
+    protected float dodgeDistance;
+    [SerializeField]
     protected float dodgeCoolTime;
     [SerializeField]
     protected float dodgeDuration;
@@ -57,8 +59,10 @@ public abstract class ICharacter : MonoBehaviour
     public bool IsInvincible { get; protected set; }
     public bool IsDodgeCoolTime { get; protected set; }
     public bool IsCharging { get; protected set; }
+    public bool IsFacingRight { get; protected set; }
     public CharacterState State { get; protected set; }
     public CharacterType CharacterType { get; protected set; }
+    public Player Player { get; protected set; }
 
     protected CharacterManager characterManager;
     protected Animator animator;
@@ -83,6 +87,11 @@ public abstract class ICharacter : MonoBehaviour
     protected virtual void Update()
     {
 
+    }
+
+    public void Initialize(Player player)
+    {
+        this.Player = player;
     }
 
     public virtual void ProcessKeystate(List<PlayerInputType> pressedKeys)
@@ -117,6 +126,8 @@ public abstract class ICharacter : MonoBehaviour
                 return false;
             case CharacterState.Charging:
                 return false;
+            case CharacterState.SkillActivated:
+                return false;
         }
         return true;
     }
@@ -130,9 +141,9 @@ public abstract class ICharacter : MonoBehaviour
         }
         else
         {
-            bool facingRight = normalizedDirection.x > 0f;
+            IsFacingRight = normalizedDirection.x > 0f;
             Vector3 rotation = transform.rotation.eulerAngles;
-            rotation.y = facingRight == true ? 180 : 0;
+            rotation.y = IsFacingRight == true ? 180 : 0;
             transform.rotation = Quaternion.Euler(rotation);
 
             rigidBody.velocity = normalizedDirection * moveSpeed;
@@ -244,7 +255,7 @@ public abstract class ICharacter : MonoBehaviour
             switch(State)
             {
                 case CharacterState.Flying:
-                    otherCharacter.OnDamaged(this, launchDamage);
+                    otherCharacter.OnHit(this, launchDamage);
                     OnLaunchEnd();
                     transform.DOKill();
                     break;
@@ -275,8 +286,8 @@ public abstract class ICharacter : MonoBehaviour
             rigidBody.velocity = Vector2.zero;
         }
     }
-    
-    public void OnDamaged(ICharacter atttacker, int damage, bool forced = false)
+
+    public virtual void OnHit(IObject attacker, int damage, bool forced = false)
     {
         if(IsInvincible == true && forced == false)
         {
@@ -320,7 +331,7 @@ public abstract class ICharacter : MonoBehaviour
             IItem item = other.GetComponent<IItem>();
             item.UseItem(this);
         }
-        if(other.CompareTag("Poison") == true && other.GetComponent<Poison>().owner != this)
+        if(other.CompareTag("Poison") == true)
         {
             OnPoisoned(other.gameObject);
         }
@@ -328,7 +339,7 @@ public abstract class ICharacter : MonoBehaviour
 
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
-        if(other.CompareTag("Poison") == true && other.GetComponent<Poison>().owner != this)
+        if(other.CompareTag("Poison") == true)
         {
             triggeredPoisons.Remove(other.gameObject);
             if(triggeredPoisons.Count == 0)
@@ -356,7 +367,7 @@ public abstract class ICharacter : MonoBehaviour
             triggeredPoisons.RemoveAll((GameObject obj) => { return obj == null; });
             if(triggeredPoisons.Count > 0)
             {
-                OnDamaged(this, 1);
+                OnHit(this, 1);
             }
         }
     }
@@ -480,7 +491,7 @@ public abstract class ICharacter : MonoBehaviour
     {
         IsDodgeCoolTime = true;
         Vector2 endPos = transform.position;
-        endPos += prevMovedDirection * 1f;
+        endPos += prevMovedDirection * dodgeDistance;
         transform.DOMove(endPos, dodgeDuration).SetEase(Ease.Linear);
         yield return new WaitForSeconds(dodgeDuration);
 

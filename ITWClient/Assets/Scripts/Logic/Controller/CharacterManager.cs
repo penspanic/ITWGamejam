@@ -15,6 +15,7 @@ public class CharacterManager : MonoBehaviour
     {
         ICharacter newCharacter = characterFactory.Create(characterType);
         player.SetCharacter(newCharacter);
+        newCharacter.Initialize(player);
         int layer = LayerMask.NameToLayer("Team" + TeamController.GetTeam(player.PlayerNumber).TeamNumber.ToString());
         newCharacter.gameObject.layer = layer;
         characters.Add(player, newCharacter);

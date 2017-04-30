@@ -7,10 +7,9 @@ public enum ItemType
     ExtremePotion,
 }
 
-public abstract class IItem : MonoBehaviour, ITile
+public abstract class IItem : MonoBehaviour
 {
     public ItemType Type { get; set; }
-    public IntVector2 TilePos { get; set; }
 
     private MapController mapController;
     protected virtual void Awake()
@@ -23,6 +22,5 @@ public abstract class IItem : MonoBehaviour, ITile
     protected void Destroy()
     {
         Destroy(this.gameObject);
-        //mapController.RemoveTile(TilePos);
     }
 }

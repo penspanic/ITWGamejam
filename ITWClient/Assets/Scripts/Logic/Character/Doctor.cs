@@ -38,6 +38,22 @@ public class Doctor : ICharacter
         }
     }
 
+    protected override bool CanMove()
+    {
+        switch(State)
+        {
+            case CharacterState.Hitted:
+                return false;
+            case CharacterState.Flying:
+                return false;
+            case CharacterState.Dodge:
+                return false;
+            case CharacterState.Charging:
+                return false;
+        }
+        return true;
+    }
+
     protected override void UseSkill()
     {
         if(skillCoroutine != null)
@@ -64,6 +80,7 @@ public class Doctor : ICharacter
                 elapsedTime -= poisonCreateIntervalSecond;
                 Poison newPoison = Instantiate(poisonPrefab).GetComponent<Poison>();
                 newPoison.SetOwner(this);
+                newPoison.gameObject.layer = this.gameObject.layer;
                 float scale = Random.Range(poisonSizeRange.x, poisonSizeRange.y);
                 newPoison.transform.localScale = new Vector3(scale, scale, scale);
 

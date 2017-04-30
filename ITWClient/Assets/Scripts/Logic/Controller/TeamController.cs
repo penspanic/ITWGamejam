@@ -27,12 +27,12 @@ public static class TeamController
         PlayerInTeam red1P = new PlayerInTeam();
         red1P.IsCpu = false;
         red1P.PlayerNumber = 1;
-        red1P.SelectedCharacter = CharacterType.Rocketeer;
+        red1P.SelectedCharacter = CharacterType.Doctor;
         redTeam.Players.Add(red1P);
         PlayerInTeam redAi = new PlayerInTeam();
         redAi.IsCpu = true;
         redAi.PlayerNumber = 3;
-        redAi.SelectedCharacter = CharacterType.Rocketeer;
+        redAi.SelectedCharacter = CharacterType.Heavy;
         redTeam.Players.Add(redAi);
 
         Teams.Add(redTeam);
