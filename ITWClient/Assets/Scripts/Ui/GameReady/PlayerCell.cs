@@ -36,5 +36,24 @@ public class PlayerCell : MonoBehaviour {
         return true;
     }
 
+    public PlayerInTeam GetPlayerData() {
+        PlayerInTeam ret = new PlayerInTeam();
+//        string pl = cells[0].GetCellInfo();
+//        ret.IsCpu =  IsCpu(pl);
+//        ret.PlayerNumber = 
+        return ret;
+    }
+
+
+    private bool IsCpu(string plInfo) {
+        if (plInfo == "Player1" || plInfo == "Player2")
+        {
+            return false;
+        }
+        return true;
+    }
+
+
+
 
 }

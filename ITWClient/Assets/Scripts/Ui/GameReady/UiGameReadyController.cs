@@ -1,9 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
+public enum GameReadyState : short
+{
+    SelectPlayer,
+    SelectCharacter,
+    Done
+}
 
 public class UiGameReadyController : Singleton<UiGameReadyController> {
+    [SerializeField]
+    private Transform gameReadyContent;
     [SerializeField]
     private PlayerCell[] raws;
     [SerializeField]
@@ -13,12 +22,16 @@ public class UiGameReadyController : Singleton<UiGameReadyController> {
     [SerializeField]
     private Transform cursor;
 
+
+
     private ScrollCell[,] scrollCellArr;
     private int currX, currY;
+    private GameReadyState gameReadyState;
     // private TeamData
 
     void Awake()
     {
+        gameReadyState = GameReadyState.SelectPlayer;
         InitScrollCellArr();
     }
 
@@ -56,83 +69,119 @@ public class UiGameReadyController : Singleton<UiGameReadyController> {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        switch (gameReadyState)
         {
-            // Up Arrow..
+            case GameReadyState.SelectPlayer:
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    // Up Arrow..
 
-            scrollCellArr[currY, currX].OnValueChangedCell(ScrollDir.Up);
+                    scrollCellArr[currY, currX].OnValueChangedCell(ScrollDir.Up);
+                }
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    // Down Arrow..
+                    scrollCellArr[currY, currX].OnValueChangedCell(ScrollDir.Down);
+                }
+
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    if (currY <= 0)
+                    {
+                        return;
+                    }
+                    --currY;
+                    SetCursorByCurrPos();
+                }
+
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+//                    Debug.Log("scrollCellArr.GetLength(0): " + scrollCellArr.GetLength(0));
+//                    Debug.Log("currY: " + currY);
+                    if (currY >= scrollCellArr.GetLength(0) - 1)
+                    {
+                        return;
+                    }
+                    ++currY;
+                    SetCursorByCurrPos();
+                }
+
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+//                    
+                    Debug.Log("scrollCellArr.GetLength(1): " + scrollCellArr.GetLength(1));
+//                    Debug.Log("currX: " + currX);
+                    if (currX >= scrollCellArr.GetLength(1) - 1)
+                    {
+                        return;
+                    }
+                    ++currX;
+                    SetCursorByCurrPos();
+                }
+
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    if (currX <= 0)
+                    {
+                        return;
+                    }
+                    --currX;
+                    SetCursorByCurrPos();
+                }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    if (currY < scrollCellArr.GetLength(0) - 1)
+                    {
+                        return;
+                    }
+
+                    if (currX == 0)
+                    {
+                        OnPressedDone();
+                    }
+                    else
+                    {
+                        OnPressedExit();
+                    }
+
+
+                }
+                break;
+            case GameReadyState.SelectCharacter:
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    
+                }
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                }
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                }
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                }
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                }
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                }
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                }
+                //if(Input.GetKeyDown
+
+
+                break;
         }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            // Down Arrow..
-            scrollCellArr[currY, currX].OnValueChangedCell(ScrollDir.Down);
-        }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            if (currY <= 0)
-            {
-                return;
-            }
-            --currY;
-            SetCursorByCurrPos();
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Debug.Log("scrollCellArr.GetLength(0): " + scrollCellArr.GetLength(0));
-            Debug.Log("currY: " + currY);
-            if (currY >= scrollCellArr.GetLength(0) - 1)
-            {
-                return;
-            }
-            ++currY;
-            SetCursorByCurrPos();
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Debug.Log("scrollCellArr.GetLength(1): " + scrollCellArr.GetLength(1));
-            Debug.Log("currX: " + currX);
-            if (currX >= scrollCellArr.GetLength(1) - 1)
-            {
-                return;
-            }
-            ++currX;
-            SetCursorByCurrPos();
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (currX <= 0)
-            {
-                return;
-            }
-            --currX;
-            SetCursorByCurrPos();
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (currY < scrollCellArr.GetLength(0)- 1)
-            {
-                return;
-            }
-
-            if (currX == 0)
-            {
-                OnPressedDone();
-            }
-            else
-            {
-                OnPressedExit();
-            }
-
-
-        }
     }
 
     public void OnPressedDone() {
         // check raws..
+        gameReadyState = GameReadyState.SelectCharacter;
+        gameReadyContent.DOLocalMoveX(-640f, 0.9f).SetEase(Ease.InOutBack);
 
     }
 
@@ -141,7 +190,6 @@ public class UiGameReadyController : Singleton<UiGameReadyController> {
 
     private void SetCursorByCurrPos() {
         Vector2 newPos = scrollCellArr[currY, currX].transform.position;
-        Debug.Log(newPos.x);
         newPos *= 100;
         cursor.localPosition = newPos;
     }

@@ -13,12 +13,13 @@ public enum ScrollCellType {
     Player,
     Team,
     Diff,
-}   
+}
 
 
 public class ScrollCell : MonoBehaviour {
 
     public ScrollCellType scrollCellType;
+    public string[] cellInfo;
 
     private float scrollTime;
     private List<Transform> cellContentList;
@@ -44,8 +45,6 @@ public class ScrollCell : MonoBehaviour {
             cellContentList.Add(content.GetChild(i));
             cellContentList[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, cellHeight * -i);
         }
-
-
     }
 
 
@@ -74,6 +73,11 @@ public class ScrollCell : MonoBehaviour {
             ++currIdx;
             content.DOLocalMoveY(currIdx * cellHeight, scrollTime).SetEase(Ease.OutBack);
         }
+    }
+
+    public string GetCellInfo() 
+    {
+        return cellInfo[currIdx];
     }
 
 
