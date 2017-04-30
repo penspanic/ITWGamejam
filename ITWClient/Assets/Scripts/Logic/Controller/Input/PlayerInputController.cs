@@ -49,7 +49,6 @@ public class PlayerInputController : MonoBehaviour
         List<PlayerInputType> pressedKeys = new List<PlayerInputType>();
         if(bindedKeys.ContainsKey(PlayerInputType.Charge) == true)
         {
-            Debug.Log("Trigger 6 : " + Input.GetAxis(bindedKeys[PlayerInputType.Charge]));
             if(Input.GetAxis(bindedKeys[PlayerInputType.Charge])> 0.3f)
             {
                 pressedKeys.Add(PlayerInputType.Charge);

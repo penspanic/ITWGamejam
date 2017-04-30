@@ -58,7 +58,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.3
 --- !u!114 &114661671067942730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3061a2a820d6b4d449575cc43912558e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DelayTime: 3
+  DelayTime: 5
 --- !u!114 &114888896679999608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,7 +89,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222160908468620}
   serializedVersion: 5
-  lengthInSec: 2
+  lengthInSec: 4
   simulationSpeed: 1
   looping: 0
   prewarm: 0
@@ -137,7 +137,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -592741278
+  randomSeed: 160022543
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -266,7 +266,7 @@ ParticleSystem:
       maxColor: {r: 0.2784314, g: 0.7647059, b: 0, a: 0.397}
     startSize:
       minMaxState: 3
-      scalar: 0.4
+      scalar: 0.6
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -284,7 +284,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.75
+          value: 0.8333333
           inSlope: 0
           outSlope: 0
           tangentMode: 0

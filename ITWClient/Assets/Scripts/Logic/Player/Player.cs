@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
     {
         if(TargetCharacter.IsDead == false)
         {
-            TargetCharacter.CanMove(direction);
+            TargetCharacter.DoMove(direction);
         }
     }
 }

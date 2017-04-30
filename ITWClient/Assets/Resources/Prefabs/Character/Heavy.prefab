@@ -393,8 +393,13 @@ MonoBehaviour:
   launchDamage: 1
   launchDistance: 1.75
   launchMoveTime: 0.8
+  dodgeNeedMp: 300
+  dodgeCoolTime: 1
+  dodgeDuration: 1
   MaxHp: 5
   MaxMp: 1000
+  skillMoveTime: 1
+  skillMoveDistance: 2.5
 --- !u!210 &210523022267907898
 SortingGroup:
   m_ObjectHideFlags: 1

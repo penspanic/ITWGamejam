@@ -41,6 +41,12 @@ public abstract class ICharacter : MonoBehaviour
     protected float launchDistance;
     [SerializeField]
     protected float launchMoveTime;
+    [SerializeField]
+    protected int dodgeNeedMp;
+    [SerializeField]
+    protected float dodgeCoolTime;
+    [SerializeField]
+    protected float dodgeDuration;
 
     public int MaxHp;
     public int MaxMp;
@@ -91,7 +97,7 @@ public abstract class ICharacter : MonoBehaviour
         }
     }
 
-    public void CanMove(Vector2 normalizedDirection)
+    public void DoMove(Vector2 normalizedDirection)
     {
         if(CanMove() == true)
         {
@@ -99,7 +105,7 @@ public abstract class ICharacter : MonoBehaviour
         }
     }
 
-    protected bool CanMove()
+    protected virtual bool CanMove()
     {
         switch(State)
         {
@@ -238,7 +244,7 @@ public abstract class ICharacter : MonoBehaviour
             switch(State)
             {
                 case CharacterState.Flying:
-                    otherCharacter.OnDamaged(launchDamage);
+                    otherCharacter.OnDamaged(this, launchDamage);
                     OnLaunchEnd();
                     transform.DOKill();
                     break;
@@ -270,9 +276,9 @@ public abstract class ICharacter : MonoBehaviour
         }
     }
     
-    public void OnDamaged(int damage)
+    public void OnDamaged(ICharacter atttacker, int damage, bool forced = false)
     {
-        if(IsInvincible == true)
+        if(IsInvincible == true && forced == false)
         {
             return;
         }
@@ -346,11 +352,11 @@ public abstract class ICharacter : MonoBehaviour
     {
         while(true)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.3f);
             triggeredPoisons.RemoveAll((GameObject obj) => { return obj == null; });
             if(triggeredPoisons.Count > 0)
             {
-                OnDamaged(1);
+                OnDamaged(this, 1);
             }
         }
     }
@@ -430,7 +436,8 @@ public abstract class ICharacter : MonoBehaviour
         }
     }
 
-    protected bool CanDodge()
+
+    protected virtual bool CanDodge()
     {
         switch(State)
         {
@@ -447,32 +454,43 @@ public abstract class ICharacter : MonoBehaviour
             default:
                 break;
         }
-        // 쿨타임 체크 필요
-        return true;
+        if(Mp <= dodgeNeedMp)
+        {
+            return false;
+        }
+        return IsDodgeCoolTime == false;
     }
 
     protected virtual void Dodge()
     {
-        CancelCharge();
+        Mp -= dodgeNeedMp;
         IsInvincible = true;
         State = CharacterState.Dodge;
         animator.Play("evade", 0);
         StartCoroutine(DodgeProcess());
     }
 
+    protected virtual void OnDodgeEnd()
+    {
+        IsInvincible = false;
+        State = CharacterState.Idle;
+    }
+
     protected virtual IEnumerator DodgeProcess()
     {
         IsDodgeCoolTime = true;
-        const float dodgeTime = 0.5f;
         Vector2 endPos = transform.position;
         endPos += prevMovedDirection * 1f;
-        transform.DOMove(endPos, dodgeTime).SetEase(Ease.Linear);
-        yield return new WaitForSeconds(dodgeTime);
-        
-        IsInvincible = false;
-        State = CharacterState.Idle;
+        transform.DOMove(endPos, dodgeDuration).SetEase(Ease.Linear);
+        yield return new WaitForSeconds(dodgeDuration);
 
-        yield return new WaitForSeconds(1f);
+        if(State == CharacterState.Dodge) // 중간에 다른데서 State를 바꿨을 수도 있음.
+        {
+            OnDodgeEnd();
+        }
+
+        yield return new WaitForSeconds(dodgeCoolTime - dodgeDuration);
+
         IsDodgeCoolTime = false;
     }
 }
