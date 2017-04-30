@@ -12,6 +12,9 @@ public class GameInfoRaw : MonoBehaviour {
     private GameInfoCell[] cpuMode;
     [SerializeField]
     private UnityEngine.UI.Text titleText;
+    [SerializeField]
+    private bool isBackRaw;
+
     private List<GameInfoCell> infoCellList;
     private UiGameReadyController uiController;
 //    [SerializeField]
@@ -62,7 +65,6 @@ public class GameInfoRaw : MonoBehaviour {
 
     public bool InitCPUCols(GameMode gameMode, HowPlayer howPlayer)
     {
-        
         currIdx = 0;
         switch (gameMode)
         {
@@ -80,6 +82,7 @@ public class GameInfoRaw : MonoBehaviour {
                 // SetCursorByCurrIdx();
                 return true;
             case GameMode.Team:
+                Debug.Log("TEam");
                 InitGameInfoRaw();
                 UpdateCpuModeCols();
 
@@ -94,10 +97,12 @@ public class GameInfoRaw : MonoBehaviour {
 
     private void UpdateCpuModeCols() 
     {
+        Debug.Log(infoCellList.Count);
         for (int i = 0; i < infoCellList.Count; ++i)
         {
             infoCellList[i].gameObject.SetActive(false);
         }
+
 
         infoCellList.Clear();
 
@@ -138,13 +143,7 @@ public class GameInfoRaw : MonoBehaviour {
 
     public void SelectByCurrIdx()
     {
-        var image = infoCellList[currIdx].GetComponent<UnityEngine.UI.Image>();
-        Debug.Log(image);
-
-        if (image != null)
-        {
-            image.color = Color.white;
-        }
+        infoCellList[currIdx].SelectCell(true);
     }
 
     public int GetCurrIdx()
@@ -154,6 +153,36 @@ public class GameInfoRaw : MonoBehaviour {
 
     public void SetCursorByCurrIdx()
     {
+        if (isBackRaw)
+        {
+            BackRawSelectByCurrIdx();
+            return;
+        }
+
+        for (int i = 0; i < infoCellList.Count; ++i)
+        {
+            Debug.Log("[InfoCell] pos : " + infoCellList[i].transform.position);
+        }
+        Invoke("DelaySetCursor", 0.05f);
+
+    }
+
+    private void DelaySetCursor() 
+    {
         uiController.SetCursor(infoCellList[currIdx].transform.position);
+    }
+
+    public void BackRawSelectByCurrIdx(bool reset = false) {
+        for (int i = 0; i < infoCellList.Count; ++i)
+        {
+            if (currIdx == i && reset == false)
+            {
+                infoCellList[i].SelectCell(true);
+            }
+            else
+            {
+                infoCellList[i].SelectCell(false);
+            }
+        }
     }
 }

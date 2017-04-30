@@ -95,6 +95,7 @@ public class GameInfoReady : MonoBehaviour {
                         if (isAllCheck == true)
                         {
                             selectCheck.SetSelected(false);
+                            selectCheck.gameObject.SetActive(false);
                             uiGameReady.SetGameReadyState(GameReadyState.SelectCharacter);
                         }
                         break;
@@ -136,7 +137,15 @@ public class GameInfoReady : MonoBehaviour {
                     var selectIdx = selectCPU.GetCurrIdx(); // if canGetCputCnt true -> pvc, pvp Idx
                     if (canGetCpuCount == true)
                     {
-                        uiGameReady.cpuCount = selectIdx;
+                        if (uiGameReady.howPlayer == HowPlayer.P1)
+                        {
+                            uiGameReady.cpuCount = selectIdx + 1;
+                        }
+                        else
+                        {
+                            uiGameReady.cpuCount = selectIdx;
+                        }
+
                     }
                     else
                     {
@@ -176,8 +185,10 @@ public class GameInfoReady : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            
             if (gameInfoState != GameInfoState.SelectCheck)
             {
+                selectCheck.BackRawSelectByCurrIdx(true);
                 selectDic[gameInfoState].SetSelected(true);
                 selectCheck.SetSelected(false);
                 isDoneRaw = false;

@@ -17,7 +17,7 @@ public class CharacterSelecter : MonoBehaviour {
     public PlayerType plType;
     public bool isSelected = false;
 
-    private int currIdx;
+    public int currIdx { get; private set; }
     private float selecterWidth;
     private bool isRotating = false;
 

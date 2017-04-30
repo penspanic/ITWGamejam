@@ -83,6 +83,10 @@ public class CharacterReady : MonoBehaviour {
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
                         Debug.Log("checkIdx:" + checkIdx);
+                        if (IsCharacterNoneIdx(selecters[0].currIdx))
+                        {
+                            return;
+                        }
                         characterTypeList.Add((CharacterType)selecters[0].DecideCharacter());
                         ++currCheckPlCnt;
 
@@ -99,6 +103,10 @@ public class CharacterReady : MonoBehaviour {
                     }
                     if (Input.GetKeyDown(KeyCode.F))
                     {
+                        if (IsCharacterNoneIdx(selecters[1].currIdx))
+                        {
+                            return;
+                        }
                         characterTypeList.Add((CharacterType)selecters[1].DecideCharacter());
                         ++currCheckPlCnt;
                         // selecters[1].OnSelected(true);
@@ -129,6 +137,10 @@ public class CharacterReady : MonoBehaviour {
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    if (IsCharacterNoneIdx(selecters[checkIdx].currIdx))
+                    {
+                        return;
+                    }
                     characterTypeList.Add((CharacterType)selecters[checkIdx].DecideCharacter());
                     ++currCheckCpuCnt;
                     if (checkIdx <= selecters.Length - 2)
@@ -207,7 +219,10 @@ public class CharacterReady : MonoBehaviour {
 
         //SceneManager.LoadScene("InGame");
 
+    }
 
+    private bool IsCharacterNoneIdx(int idx) {
+        return idx == 0 ? true : false;
     }
 
 
