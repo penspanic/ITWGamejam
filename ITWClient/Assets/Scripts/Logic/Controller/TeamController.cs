@@ -101,24 +101,8 @@ public static class TeamController
     }
 
     public static void AddPlayerInTeam(int teamNum, bool isCPU, int plNum, CharacterType charType) {
-        bool correctTeamNum = false;
+        bool existTeam = false;
         int teamIdx = 0;
-        for (int i = 0; i < Teams.Count; ++i)
-        {
-            if (Teams[i].TeamNumber == teamNum)
-            {
-                teamIdx = i;
-                correctTeamNum = true;
-                break;
-            }
-        }
-        if (correctTeamNum == false)
-        {
-            Debug.Log("Team Number is not correct");
-            return;
-        }
-
-        var currTeamPlayers = Teams[teamIdx].Players;
 
         foreach (var eachTeam in Teams)
         {
@@ -132,11 +116,24 @@ public static class TeamController
             }
         }
 
-        var newChar = new PlayerInTeam();
-        newChar.IsCpu = isCPU;
-        newChar.PlayerNumber = plNum;
-        newChar.SelectedCharacter = charType;
-        currTeamPlayers.Add(newChar);
+        var newPlayer = new PlayerInTeam();
+        newPlayer.IsCpu = isCPU;
+        newPlayer.PlayerNumber = plNum;
+        newPlayer.SelectedCharacter = charType;
+
+        for (int i = 0; i < Teams.Count; ++i)
+        {
+            if (Teams[i].TeamNumber == teamNum)
+            {
+                teamIdx = i;
+                Teams[i].Players.Add(newPlayer);
+                return;
+            }
+        }
+
+        List<PlayerInTeam> players = new List<PlayerInTeam>();
+        players.Add(newPlayer);
+        AddTeam(teamNum, players);
     }
 
     public static CharacterType GetCharacterType(int playerNum)
