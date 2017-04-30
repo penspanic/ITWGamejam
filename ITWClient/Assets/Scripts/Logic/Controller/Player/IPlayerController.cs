@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// 실제 플레이어, AI 플레이어의 동작을 위해 추상 클래스로 분리.
@@ -27,9 +28,9 @@ public abstract class IPlayerController : MonoBehaviour
         TargetPlayer.KeyUp(inputType);
     }
 
-    public void ProcessKeyState(PlayerInputType inputType, bool pressed)
+    public void ProcessKeyState(List<PlayerInputType> pressedKeys)
     {
-        TargetPlayer.KeyState(inputType, pressed);
+        TargetPlayer.KeyState(pressedKeys);
     }
 
     public void ProcessMove(Vector2 normalizedDirection)

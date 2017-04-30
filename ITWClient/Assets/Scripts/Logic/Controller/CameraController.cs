@@ -12,12 +12,13 @@ public class CameraController : MonoBehaviour
     private float minOrthoSize;
     private void Awake()
     {
-        StartAnimating();
+
     }
 
     public void SetTargets(GameObject[] targets)
     {
         this.targets = targets;
+        StartAnimating();
     }
 
     public void StartAnimating()
@@ -27,6 +28,7 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator ZoomInOutProcess()
     {
+        // http://www.gamasutra.com/blogs/ItayKeren/20150511/243083/Scroll_Back_The_Theory_and_Practice_of_Cameras_in_SideScrollers.php
         while(true)
         {
             Rect targetRect = new Rect();
@@ -46,12 +48,12 @@ public class CameraController : MonoBehaviour
             newPos.x = targetRect.center.x;
             newPos.y = targetRect.center.y;
             Camera.main.transform.position = newPos;
-            float orthoSize = targetRect.height / 2 + 0.5f;
+            float orthoSize = targetRect.height / 2f + 0.8f;
             if(orthoSize < minOrthoSize)
                 orthoSize = minOrthoSize;
             Camera.main.orthographicSize = orthoSize;
 
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
     }
 }

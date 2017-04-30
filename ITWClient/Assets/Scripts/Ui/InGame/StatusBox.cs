@@ -11,7 +11,7 @@ public class StatusBox : MonoBehaviour
         Mp,
     }
 
-    private ICharacter targetCharacter;
+    private Player targetPlayer;
     private Image portraitImage;
     private GameObject[] heartObjects;
     private Image mpGaugeImage;
@@ -29,22 +29,26 @@ public class StatusBox : MonoBehaviour
         heartObjects = heartList.ToArray();
     }
 
-    public void SetCharacter(ICharacter character)
+    public void SetPlayer(Player player)
     {
-        this.targetCharacter = character;
+        this.targetPlayer = player;
         SetPortrait();
         Refresh();
     }
 
     private void SetPortrait()
     {
-        portraitImage.sprite = Resources.Load<Sprite>("Sprites/UI/Portrait/" + targetCharacter.CharacterType.ToString());
+        portraitImage.sprite = Resources.Load<Sprite>("Sprites/UI/Portrait/" + targetPlayer.TargetCharacter.CharacterType.ToString());
+        int playerNumber = targetPlayer.PlayerNumber;
+        portraitImage.transform.FindChild("Team Color").GetComponent<Image>().color = TeamController.GetTeamColor(playerNumber);
     }
-
 
     private void Update()
     {
-        Refresh();
+        if(targetPlayer != null && targetPlayer.TargetCharacter != null)
+        {
+            Refresh();
+        }
     }
 
     public void Refresh()
@@ -60,7 +64,7 @@ public class StatusBox : MonoBehaviour
             heartObject.SetActive(false);
         }
 
-        for(int i = 0; i < targetCharacter.Hp; ++i)
+        for(int i = 0; i < targetPlayer.TargetCharacter.Hp; ++i)
         {
             heartObjects[i].SetActive(true);
         }
@@ -68,6 +72,6 @@ public class StatusBox : MonoBehaviour
 
     private void SetMpGuage()
     {
-        mpGaugeImage.fillAmount = (float)targetCharacter.Mp / (float)targetCharacter.MaxMp;
+        mpGaugeImage.fillAmount = (float)targetPlayer.TargetCharacter.Mp / (float)targetPlayer.TargetCharacter.MaxMp;
     }
 }

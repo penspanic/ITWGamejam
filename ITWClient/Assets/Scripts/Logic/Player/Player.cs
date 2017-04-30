@@ -8,8 +8,6 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour
 {
     public int PlayerNumber { get; protected set; }
-    private List<PlayerInputType> inputtedKeys = new List<PlayerInputType>();
-    private List<PlayerInputType> prevInputtedKeys = new List<PlayerInputType>();
     public ICharacter TargetCharacter { get; protected set; }
 
     private void Awake()
@@ -34,23 +32,10 @@ public class Player : MonoBehaviour
 
     }
 
-    public void ClearKeys()
-    {
-        prevInputtedKeys.Clear();
-        prevInputtedKeys.AddRange(inputtedKeys);
-        inputtedKeys.Clear();
-    }
-
     public void KeyDown(PlayerInputType inputType)
     {
-        inputtedKeys.Add(inputType);
-
-        // Special Attack
-        if(prevInputtedKeys.Contains(PlayerInputType.Charge) == true
-            && inputtedKeys.Contains(PlayerInputType.Charge) == true
-            && inputtedKeys.Contains(PlayerInputType.Launch) == true)
+        if(TargetCharacter.IsDead == true)
         {
-            TargetCharacter.DoUseSkill();
             return;
         }
 
@@ -80,24 +65,24 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void KeyState(PlayerInputType inputType, bool pressed)
+    public void KeyState(List<PlayerInputType> keys)
     {
-        switch(inputType)
+        if(keys.Contains(PlayerInputType.Charge) == false && TargetCharacter.IsCharging == true)
         {
-            case PlayerInputType.Charge:
-                if(pressed == false && TargetCharacter.IsCharging == true)
-                {
-                    TargetCharacter.CancelCharge();
-                }
-                break;
-            default:
-                break;
+            TargetCharacter.CancelCharge();
+        }
+
+        if(keys.Contains(PlayerInputType.Charge) == true && keys.Contains(PlayerInputType.Launch) == true)
+        {
+            TargetCharacter.DoUseSkill();
         }
     }
 
-
     public void Move(Vector2 direction)
     {
-        TargetCharacter.CanMove(direction);
+        if(TargetCharacter.IsDead == false)
+        {
+            TargetCharacter.CanMove(direction);
+        }
     }
 }

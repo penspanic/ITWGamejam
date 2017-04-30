@@ -19,7 +19,7 @@ public class UiPlayerController : MonoBehaviour
         foreach(Player player in players)
         {
             StatusBox newBox = Instantiate(statusBoxPrefab).GetComponent<StatusBox>();
-            newBox.SetCharacter(player.TargetCharacter);
+            newBox.SetPlayer(player);
             newBox.transform.SetParent(statusBoxesParent);
             newBox.transform.localScale = Vector3.one;
             statusBoxes.Add(newBox);

@@ -40,12 +40,21 @@ public class PlayerInputController : MonoBehaviour
         bindedAxes.Add(type, axisName);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(Initialized == false)
             return;
 
-        playerController.TargetPlayer.ClearKeys();
+        List<PlayerInputType> pressedKeys = new List<PlayerInputType>();
+        foreach(var keyPair in bindedKeys)
+        {
+            if(Input.GetButton(keyPair.Value) == true)
+            {
+                pressedKeys.Add(keyPair.Key);
+            }
+        }
+        playerController.ProcessKeyState(pressedKeys);
+
         foreach(var keyPair in bindedKeys)
         {
             if(Input.GetButtonDown(keyPair.Value) == true)
@@ -56,7 +65,6 @@ public class PlayerInputController : MonoBehaviour
             {
                 playerController.ProcessKeyUp(keyPair.Key);
             }
-            playerController.ProcessKeyState(keyPair.Key, Input.GetButton(keyPair.Value));
         }
 
         float horizontal = Input.GetAxis(bindedAxes[PlayerInputType.MoveHorizontal]);
@@ -67,8 +75,6 @@ public class PlayerInputController : MonoBehaviour
             playerController.ProcessMove(Vector2.zero);
             return;
         }
-        Debug.Log("Horizontal : " + horizontal + " Vertical : " + vertical);
-        Debug.Log("Direction Length : " + direction.magnitude);
         playerController.ProcessMove(direction.normalized);
     }
 

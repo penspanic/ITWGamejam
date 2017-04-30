@@ -40,6 +40,7 @@ public abstract class ICharacter : MonoBehaviour
     public int MaxHp;
     public int MaxMp;
 
+    public bool IsDead { get; set; }
     public int Hp { get; set; }
     public int Mp { get; set; }
     public bool IsInvincible { get; protected set; }
@@ -48,14 +49,18 @@ public abstract class ICharacter : MonoBehaviour
     public CharacterState State { get; protected set; }
     public CharacterType CharacterType { get; protected set; }
 
-    private Animator animator;
-    private Vector2 prevDirection;
-    private Vector2 prevMovedDirection;
+    protected Animator animator;
+    protected BoxCollider2D boxCollider;
+    protected Rigidbody2D rigidBody;
+    protected Vector2 prevDirection;
+    protected Vector2 prevMovedDirection;
 
     private Coroutine chargeCoroutine = null;
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        rigidBody = GetComponent<Rigidbody2D>();
         Hp = MaxHp;
         Mp = MaxMp;
     }
@@ -102,7 +107,9 @@ public abstract class ICharacter : MonoBehaviour
             Vector3 rotation = transform.rotation.eulerAngles;
             rotation.y = facingRight == true ? 180 : 0;
             transform.rotation = Quaternion.Euler(rotation);
-            transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime, Space.World);
+
+            rigidBody.velocity = normalizedDirection * moveSpeed;
+            //transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime, Space.World);
             animator.Play("walk", 0);
             State = CharacterState.Moving;
             prevMovedDirection = normalizedDirection;
@@ -121,7 +128,6 @@ public abstract class ICharacter : MonoBehaviour
         {
             UseSkill();
         }
-        UseSkill();
     }
 
     protected virtual bool CanUseSkill()
@@ -143,6 +149,12 @@ public abstract class ICharacter : MonoBehaviour
     protected virtual void UseSkill()
     {
         Mp -= -skillNeedMp;
+        StopCharging();
+    }
+
+    protected virtual void OnSkillEnd()
+    {
+
     }
 
     public void DoLaunch()
@@ -161,6 +173,12 @@ public abstract class ICharacter : MonoBehaviour
                 return false;
             case CharacterState.Hitted:
                 return false;
+            case CharacterState.Dodge:
+                return false;
+            case CharacterState.Charging:
+                return false;
+            case CharacterState.SkillActivated:
+                return false;
             default:
                 break;
         }
@@ -172,23 +190,27 @@ public abstract class ICharacter : MonoBehaviour
         Mp -= launchNeedMp;
         animator.Play("flying", 0);
         State = CharacterState.Flying;
+        IsInvincible = true;
         Vector2 endPos = transform.position;
         endPos += prevMovedDirection * 2.5f;
         transform.DOMove(endPos, 1f).OnComplete(() => { State = CharacterState.Idle; });
     }
 
+    protected virtual void OnLaunchEnd()
+    {
+        State = CharacterState.Idle;
+        IsInvincible = false;
+    }
+
     protected virtual void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Player") == true)
+        if(other.gameObject.CompareTag("Character") == true)
         {
             ICharacter otherCharacter = other.gameObject.GetComponent<ICharacter>();
             switch(State)
             {
                 case CharacterState.Flying:
-                    if(otherCharacter.IsInvincible == false)
-                    {
-                        otherCharacter.OnDamaged(launchDamage);
-                    }
+                    otherCharacter.OnDamaged(launchDamage);
                     break;
                 case CharacterState.Dodge:
                     transform.DOKill();
@@ -200,12 +222,12 @@ public abstract class ICharacter : MonoBehaviour
                     break;
             }
         }
-        else
+        else if(other.gameObject.CompareTag("Map") == true)
         {
             switch(State)
             {
                 case CharacterState.Flying:
-                    transform.DOKill(false);
+                    transform.DOKill();
                     State = CharacterState.Idle;
                     break;
                 case CharacterState.Dodge:
@@ -214,6 +236,7 @@ public abstract class ICharacter : MonoBehaviour
                 default:
                     break;
             }
+            rigidBody.velocity = Vector2.zero;
         }
     }
     
@@ -223,6 +246,18 @@ public abstract class ICharacter : MonoBehaviour
         {
             return;
         }
+        Hp -= damage;
+        if(Hp <= 0)
+        {
+            OnDead();
+        }
+    }
+
+    private void OnDead()
+    {
+        IsDead = true;
+        GetComponent<Collider2D>().enabled = false;
+        animator.Play("death", 0);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
