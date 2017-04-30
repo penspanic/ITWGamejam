@@ -70,7 +70,7 @@ public static class TeamController
         }
     }
 
-    public TeamData GetTeam(int playerNum){
+    public static TeamData GetTeam(int playerNum){
         foreach (var eachTeam in Teams)
         {
             foreach (PlayerInTeam player in eachTeam.Players)
