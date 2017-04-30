@@ -443,7 +443,7 @@ SortingGroup:
   m_GameObject: {fileID: 1277216865118276}
   m_Enabled: 1
   m_SortingLayerID: 146398115
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
 --- !u!212 &212051733535174510
 SpriteRenderer:

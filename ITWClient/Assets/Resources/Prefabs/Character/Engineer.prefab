@@ -421,10 +421,10 @@ MonoBehaviour:
   launchNeedMp: 100
   skillNeedMp: 400
   launchDamage: 1
-  launchDistance: 2.5
-  launchMoveTime: 1
+  launchDistance: 1.7
+  launchMoveTime: 0.6
   dodgeNeedMp: 0
-  dodgeDistance: 0.5
+  dodgeDistance: 0.7
   dodgeCoolTime: 1.5
   dodgeDuration: 0.3
   MaxHp: 3

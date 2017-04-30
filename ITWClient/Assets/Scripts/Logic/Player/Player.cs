@@ -67,7 +67,10 @@ public class Player : MonoBehaviour
 
     public void KeyState(List<PlayerInputType> keys)
     {
-        TargetCharacter.ProcessKeystate(keys);
+        if(TargetCharacter.IsDead == false)
+        {
+            TargetCharacter.ProcessKeystate(keys);
+        }
     }
 
     public void Move(Vector2 direction)
