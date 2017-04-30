@@ -11,7 +11,7 @@ public class GameInfoRaw : MonoBehaviour {
     [SerializeField]
     private GameInfoCell[] cpuMode;
     [SerializeField]
-    private UnityEngine.UI.Text titleText;
+    private GameObject titleObj;
     [SerializeField]
     private bool isBackRaw;
 
@@ -40,12 +40,12 @@ public class GameInfoRaw : MonoBehaviour {
         }
         else
         {
-            for (int i = 0; i < infoCnt; ++i)
+            int j = uiController.howPlayer == HowPlayer.P1 ? 1 : 0;
+            for (; j < infoCnt; ++j)
             {
-                infoCellList.Add(infoCells[i]);
+                infoCellList.Add(infoCells[j]);
             }
         }
-        Debug.Log(name + "'s infoCellListCnt: " + infoCellList.Count);
 
         for (int i = 0; i < infoCellList.Count; ++i)
         {
@@ -54,17 +54,26 @@ public class GameInfoRaw : MonoBehaviour {
 
     }
 
-    public void SetSelected(bool isSelect) 
+    public void SetSelected(bool isSelect, bool setCursor = false, int startIdx = 99) 
     {
         isSelected = isSelect;
         if (isSelected == true)
         {
-            SetCursorByCurrIdx();
+            if (startIdx != 99)
+            {
+                currIdx = startIdx;
+            }
+
+            if(setCursor == true) {
+                SetCursorByCurrIdx();
+            }
         }
     }
 
     public bool InitCPUCols(GameMode gameMode, HowPlayer howPlayer)
     {
+        Debug.Log("GameMode: " + gameMode.ToString());
+        Debug.Log("HowPlayer:" + howPlayer.ToString());
         currIdx = 0;
         switch (gameMode)
         {
@@ -74,9 +83,9 @@ public class GameInfoRaw : MonoBehaviour {
                 else if (howPlayer == HowPlayer.P2)
                     InitGameInfoRaw(3);
 
-                if (titleText != null)
+                if (titleObj != null)
                 {
-                    titleText.text = "CPU 숫자";
+                    titleObj.SetActive(true);
                 }
 
                 // SetCursorByCurrIdx();
@@ -86,9 +95,9 @@ public class GameInfoRaw : MonoBehaviour {
                 InitGameInfoRaw();
                 UpdateCpuModeCols();
 
-                if (titleText != null)
+                if (titleObj != null)
                 {
-                    titleText.text = "모드선택";
+                    titleObj.SetActive(false);
                 }
                 return false;
         }
@@ -119,7 +128,6 @@ public class GameInfoRaw : MonoBehaviour {
         {
             return;
         }
-        Debug.Log("Selected: " + name);
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -159,10 +167,6 @@ public class GameInfoRaw : MonoBehaviour {
             return;
         }
 
-        for (int i = 0; i < infoCellList.Count; ++i)
-        {
-            Debug.Log("[InfoCell] pos : " + infoCellList[i].transform.position);
-        }
         Invoke("DelaySetCursor", 0.05f);
 
     }

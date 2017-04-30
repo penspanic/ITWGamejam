@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public enum GameInfoState : short
 {
@@ -38,14 +39,19 @@ public class GameInfoReady : MonoBehaviour {
     private GameInfoRaw selectCPU;
     [SerializeField]
     private GameInfoRaw selectCheck;
+    [SerializeField]
+    private float infoRawAniTime;
 
     private GameInfoState gameInfoState;
     private Dictionary<GameInfoState, GameInfoRaw> selectDic;
-    private UiGameReadyController uiGameReady;
+    private Vector2[] oriPosRaws;
+    private UiGameReadyController uiGameReady; 
+    private bool isInit = false;
     private bool isDoneRaw = false;
     private bool canGetCpuCount = false;
     private bool isAllCheck = false;
     private bool isDone = false;
+    //private bool isAnimating = false;
 
     // SaveData
 
@@ -63,15 +69,39 @@ public class GameInfoReady : MonoBehaviour {
         selectMode.InitGameInfoRaw();
         // selectCPU.InitGameInfoRaw();
         selectCheck.InitGameInfoRaw();
-        selectPlayer.SetSelected(true);
+
         isDoneRaw = false;
         isAllCheck = false;
+        isInit = true;
+
+        selectPlayer.transform.localPosition = new Vector2(1280f, selectPlayer.transform.localPosition.y);
+        selectMode.transform.localPosition = new Vector2(1280, selectMode.transform.localPosition.y);
+        selectCPU.transform.localPosition = new Vector2(1280, selectCPU.transform.localPosition.y);
+        selectPlayer.gameObject.SetActive(false);
+        selectMode.gameObject.SetActive(false);
+        selectCPU.gameObject.SetActive(false);
+
+        //isAnimating = true;
+        MoveRightToCenter(selectPlayer);
+        
     }
 
-
+    private void MoveRightToCenter(GameInfoRaw target) 
+    {
+        target.gameObject.SetActive(true);
+        target.transform.DOLocalMoveX(0f, infoRawAniTime).OnComplete(() =>
+            {
+                //isAnimating = false;
+                target.SetSelected(true);
+            });
+    }
 
     void Update()
     {
+        if (isInit == false)
+        {
+            return;
+        }
         if (uiGameReady.gameReadyState != GameReadyState.SelectInfo)
         {
             return;
@@ -112,6 +142,7 @@ public class GameInfoReady : MonoBehaviour {
                     uiGameReady.howPlayer = (HowPlayer)selectPlayer.GetCurrIdx();
                     ++gameInfoState;
                     selectPlayer.SetSelected(false);
+                    MoveRightToCenter(selectMode);
                     selectMode.SetSelected(true);
                     break;
                 case GameInfoState.SelectMode:
@@ -124,12 +155,13 @@ public class GameInfoReady : MonoBehaviour {
                     {
                         gameInfoState = GameInfoState.SelectCheck;
                         uiGameReady.cpuCount = 3;
-                        selectCheck.SetSelected(true);
+                        selectCheck.SetSelected(true, true, 1);
                         isDoneRaw = true;
                         isAllCheck = true;
                         return;
                     }
                     canGetCpuCount = selectCPU.InitCPUCols(uiGameReady.gameMode, uiGameReady.howPlayer);
+                    MoveRightToCenter(selectCPU);
                     selectCPU.SetSelected(true);
                     break;
                 case GameInfoState.SelectCPU:
@@ -161,7 +193,7 @@ public class GameInfoReady : MonoBehaviour {
                     }
                     ++gameInfoState;
                     selectCPU.SetSelected(false);
-                    selectCheck.SetSelected(true);
+                    selectCheck.SetSelected(true, true, 1);
                     isAllCheck = true;
                     isDoneRaw = true;
                     break;
@@ -178,7 +210,7 @@ public class GameInfoReady : MonoBehaviour {
             if (gameInfoState != GameInfoState.SelectCheck)
             {
                 selectDic[gameInfoState].SetSelected(false);
-                selectCheck.SetSelected(true);
+                selectCheck.SetSelected(true, true);
                 isDoneRaw = true;
             }
 

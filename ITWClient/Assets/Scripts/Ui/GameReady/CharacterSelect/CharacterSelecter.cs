@@ -15,11 +15,14 @@ public enum PlayerType
 public class CharacterSelecter : MonoBehaviour {
     public Transform[] characterArr;
     public PlayerType plType;
+    public GameObject selectObj;
+    public Text selectObjText;
     public bool isSelected = false;
 
     public int currIdx { get; private set; }
-    private float selecterWidth;
+    private float selecterHeight;
     private bool isRotating = false;
+
 
     public void InitCharacterSelecter(int startIdx, PlayerType plType) 
     {
@@ -30,12 +33,13 @@ public class CharacterSelecter : MonoBehaviour {
             return;
         }
         isRotating = false;
-        selecterWidth = GetComponent<RectTransform>().sizeDelta.x;
+        selecterHeight = GetComponent<RectTransform>().sizeDelta.y;
         currIdx = startIdx;
         characterArr[0].localPosition = Vector2.one;
         for (int i = 1; i < characterArr.Length; ++i)
         {
-            characterArr[i].localPosition = new Vector2(selecterWidth, 0);
+            characterArr[i].gameObject.SetActive(true);
+            characterArr[i].localPosition = new Vector2(0, selecterHeight);
         }
 
 
@@ -55,9 +59,20 @@ public class CharacterSelecter : MonoBehaviour {
         
     }
 
-    public void OnSelected(bool isSelect)
+    public void OnSelected(bool isSelect, string text)
     {
         isSelected = isSelect;
+        selectObj.SetActive(isSelect);
+
+        if (isSelect == true)
+        {            
+            selectObjText.text = text;
+        }
+        else
+        {
+            selectObjText.text = "";
+            selectObjText.gameObject.SetActive(isSelect);
+        }
     }
 
     public void MoveNext()
@@ -72,11 +87,11 @@ public class CharacterSelecter : MonoBehaviour {
         {
             currIdx = 0;
         }
-        characterArr[currIdx].localPosition = new Vector2(selecterWidth, 0);
+        characterArr[currIdx].localPosition = new Vector2(0, selecterHeight);
 
         isRotating = true;
-        characterArr[prevIdx].DOLocalMoveX(-selecterWidth, 0.4f).SetEase(Ease.InOutBack);
-        characterArr[currIdx].DOLocalMoveX(0f, 0.4f).SetEase(Ease.InOutBack).OnComplete(() =>
+        characterArr[prevIdx].DOLocalMoveY(-selecterHeight, 0.4f).SetEase(Ease.InOutBack);
+        characterArr[currIdx].DOLocalMoveY(0f, 0.4f).SetEase(Ease.InOutBack).OnComplete(() =>
             {
                 isRotating = false;
             });
@@ -85,7 +100,7 @@ public class CharacterSelecter : MonoBehaviour {
 
     public int DecideCharacter()
     {
-        OnSelected(false);
+        OnSelected(false, "");
         return currIdx;
     }
 }

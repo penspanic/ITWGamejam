@@ -44,13 +44,13 @@ public class CharacterReady : MonoBehaviour {
         if (plCnt >= 1)
         {
             selecters[currIdx].InitCharacterSelecter(0, PlayerType.PL1);
-            selecters[currIdx++].OnSelected(true);
+            selecters[currIdx++].OnSelected(true, "P1");
         }
         if (plCnt == 2)
         {
             selecters[currIdx].InitCharacterSelecter(0, PlayerType.PL2);
             Debug.Log(currIdx);
-            selecters[currIdx++].OnSelected(true);
+            selecters[currIdx++].OnSelected(true, "P2");
         }
         for (int i = currIdx; i < totalCnt; ++i)
         {
@@ -114,10 +114,9 @@ public class CharacterReady : MonoBehaviour {
                     }
                 }
 
-                Debug.Log(currCheckPlCnt);
                 if (currCheckPlCnt >= plCnt)
                 {
-                    selecters[checkIdx].OnSelected(true);
+                    selecters[checkIdx].OnSelected(true, "CPU");
                     ++selectState;
                 }
                 break;
@@ -145,7 +144,7 @@ public class CharacterReady : MonoBehaviour {
                     ++currCheckCpuCnt;
                     if (checkIdx <= selecters.Length - 2)
                     {
-                        selecters[++checkIdx].OnSelected(true);
+                        selecters[++checkIdx].OnSelected(true, "CPU");
                     }
                 }
 
@@ -165,6 +164,11 @@ public class CharacterReady : MonoBehaviour {
             return;
         }
         isStart = true;
+
+        for (int i = 0; i < selecters.Length; ++i)
+        {
+            selecters[i].OnSelected(false, "");
+        }
 
 
         TeamController.Teams.Clear();
@@ -217,7 +221,7 @@ public class CharacterReady : MonoBehaviour {
 
         }
 
-        //SceneManager.LoadScene("InGame");
+        SceneManager.LoadScene("InGame");
 
     }
 

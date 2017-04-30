@@ -24,6 +24,7 @@ public class UiGameReadyController : MonoBehaviour {
     private Image bg;
 
     public GameReadyState gameReadyState { get; private set; }
+    private float moveTime = 0.0f;
 
     // Data
     public HowPlayer howPlayer = HowPlayer.P1;
@@ -37,6 +38,7 @@ public class UiGameReadyController : MonoBehaviour {
 
     void Awake()
     {
+        cursorTrs.gameObject.SetActive(true);
         SetGameReadyState(GameReadyState.SelectInfo);
     }
 
@@ -62,12 +64,11 @@ public class UiGameReadyController : MonoBehaviour {
 
     public void MoveNext()
     {
-        gameInfoReady.GetComponent<RectTransform>().pivot = new Vector2(0f, 0.5f);
-        charReady.GetComponent<RectTransform>().pivot = new Vector2(1f, 0.5f);
+        gameInfoReady.transform.localPosition = Vector2.zero;
+        charReady.transform.localPosition = new Vector2(1280, 0);
 
-        gameInfoReady.transform.DOScaleX(0f, 0.8f).SetEase(Ease.OutQuad);
-        charReady.transform.localScale = new Vector2(0, 1);
-        charReady.transform.DOScaleX(1f, 0.8f).SetEase(Ease.OutQuad).SetDelay(1f);
+        gameInfoReady.transform.DOLocalMoveX(-1280f, 0.5f).SetEase(Ease.OutCirc);
+        charReady.transform.DOLocalMoveX(0f, 0.5f).SetEase(Ease.OutCirc).SetDelay(1f);
     }
 
 
@@ -75,7 +76,6 @@ public class UiGameReadyController : MonoBehaviour {
     {
         // -1.5, -1.4
         // -1.1, -1.4
-        Debug.Log(position);
         cursorTrs.DOMove(position, 0.2f);
         //cursorTrs.position = position;
 
