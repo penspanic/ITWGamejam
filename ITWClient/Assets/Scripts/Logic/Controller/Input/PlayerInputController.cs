@@ -78,6 +78,7 @@ public class PlayerInputController : MonoBehaviour
         float horizontal = Input.GetAxis(bindedAxes[PlayerInputType.MoveHorizontal]);
         float vertical = Input.GetAxis(bindedAxes[PlayerInputType.MoveVertical]);
         Vector2 direction = new Vector2(horizontal, -vertical);
+        Debug.Log("Horizontal : " + horizontal + " Vertical + " + vertical + "length : " + direction.magnitude);
         if(direction.magnitude < 0.3f)
         {
             playerController.ProcessMove(Vector2.zero);
