@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 public class StageController : MonoBehaviour
 {
+    [SerializeField]
+    private float maxStageTime;
     public bool IsStageStarted { get; set; }
+    public float RemainElapsedTime { get; set; }
 
     private ItemController itemController;
     private MapController mapController;
@@ -25,6 +28,7 @@ public class StageController : MonoBehaviour
         cameraController = GameObject.FindObjectOfType<CameraController>();
 
         IsStageStarted = false;
+        RemainElapsedTime = maxStageTime;
         int obstacleCount = Random.Range(5, 10);
         //mapController.CreateObstacles(obstacleCount);
 
@@ -42,7 +46,8 @@ public class StageController : MonoBehaviour
         }
         uiPlayerController.SetPlayers(playerManager.Players.ToArray());
         cameraController.SetTargets(characterObjects.ToArray());
-        yield return new WaitForSeconds(5f);
+
+        yield return new WaitForSeconds(3f);
 
         StartStage();
     }
@@ -50,6 +55,16 @@ public class StageController : MonoBehaviour
     private void StartStage()
     {
         IsStageStarted = true;
+        StartCoroutine(StageTimeProcess());
         itemController.OnStageStart();
+    }
+
+    private IEnumerator StageTimeProcess()
+    {
+        while(IsStageStarted == true)
+        {
+            yield return null;
+            RemainElapsedTime -= Time.deltaTime;
+        }
     }
 }
