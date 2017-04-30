@@ -61,6 +61,8 @@ public abstract class ICharacter : MonoBehaviour
     protected Vector2 prevMovedDirection;
 
     private Coroutine chargeCoroutine = null;
+    private Coroutine poisoningCoroutine = null;
+    private List<GameObject> triggeredPoisons = new List<GameObject>();
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
@@ -305,6 +307,45 @@ public abstract class ICharacter : MonoBehaviour
         {
             IItem item = other.GetComponent<IItem>();
             item.UseItem(this);
+        }
+        if(other.CompareTag("Poison") == true && other.GetComponent<Poison>().owner != this)
+        {
+            OnPoisoned(other.gameObject);
+        }
+    }
+
+    protected virtual void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.CompareTag("Poison") == true && other.GetComponent<Poison>().owner != this)
+        {
+            triggeredPoisons.Remove(other.gameObject);
+            if(triggeredPoisons.Count == 0)
+            {
+                StopCoroutine(poisoningCoroutine);
+                poisoningCoroutine = null;
+            }
+        }
+    }
+
+    private void OnPoisoned(GameObject poisonObject)
+    {
+        triggeredPoisons.Add(poisonObject);
+        if(poisoningCoroutine == null)
+        {
+            poisoningCoroutine = StartCoroutine(PoisonedProcess());
+        }
+    }
+
+    private IEnumerator PoisonedProcess()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(2f);
+            triggeredPoisons.RemoveAll((GameObject obj) => { return obj == null; });
+            if(triggeredPoisons.Count > 0)
+            {
+                OnDamaged(1);
+            }
         }
     }
 

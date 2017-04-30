@@ -429,6 +429,8 @@ MonoBehaviour:
     type: 2}
   poisonCreateIntervalSecond: 0.125
   skillMoveSpeed: 3
+  poisonSizeRange: {x: 0.5, y: 1}
+  poisonPosRange: {x: -0.1, y: 0.1}
 --- !u!210 &210930645463242314
 SortingGroup:
   m_ObjectHideFlags: 1

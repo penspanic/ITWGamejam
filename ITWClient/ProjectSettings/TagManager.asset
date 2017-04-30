@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - Item
   - Map
+  - Poison
   layers:
   - Default
   - TransparentFX
