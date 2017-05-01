@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class GameInfoRaw : MonoBehaviour {
     [SerializeField]
+    private GameInfoState infoType;
+    [SerializeField]
     private GameInfoCell[] infoCells;
     [SerializeField]
     private GameInfoCell[] cpuMode;
@@ -17,8 +19,6 @@ public class GameInfoRaw : MonoBehaviour {
 
     private List<GameInfoCell> infoCellList;
     private UiGameReadyController uiController;
-//    [SerializeField]
-//    private string[] infos;
 
     private int currIdx;
     private bool isSelected = false;
@@ -29,11 +29,54 @@ public class GameInfoRaw : MonoBehaviour {
         currIdx = 0;
         infoCellList = new List<GameInfoCell>();
 
+        InitByInfoType();
+
+        if (infoType != GameInfoState.AllSelectDone)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void InitByInfoType()
+    {
+        transform.localPosition = new Vector2(1280f, transform.localPosition.y);
+        switch (infoType)
+        {
+            case GameInfoState.SelectPlayer:
+                break;
+            case GameInfoState.SelectMode:
+                break;
+            case GameInfoState.SelectCPU:
+                break;
+            case GameInfoState.AllSelectDone:
+                transform.localPosition = new Vector2(0f, transform.localPosition.y);
+                break;
+            default:
+                break;
+        }
+    }
+    public void UpdateDataByInfoType(int infoCnt = 99)
+    {
+        currIdx = 0;
+        switch (infoType)
+        {
+            case GameInfoState.SelectPlayer:
+                break;
+            case GameInfoState.SelectMode:
+                break;
+            case GameInfoState.SelectCPU:
+                break;
+            case GameInfoState.AllSelectDone:
+                currIdx = 1;
+                break;
+            default:
+                break;
+        }
+        
         for (int i = 0; i < infoCells.Length; ++i)
         {
             infoCells[i].gameObject.SetActive(false);
         }
-
         if (infoCnt == 99)
         {
             infoCellList.AddRange(infoCells);
@@ -46,13 +89,14 @@ public class GameInfoRaw : MonoBehaviour {
                 infoCellList.Add(infoCells[j]);
             }
         }
-
         for (int i = 0; i < infoCellList.Count; ++i)
         {
             infoCellList[i].gameObject.SetActive(true);
         }
 
     }
+
+
 
     public void SetSelected(bool isSelect, bool setCursor = false, int startIdx = 99) 
     {
@@ -79,9 +123,9 @@ public class GameInfoRaw : MonoBehaviour {
         {
             case GameMode.Personal:
                 if (howPlayer == HowPlayer.P1)
-                    InitGameInfoRaw(4);
+                    UpdateDataByInfoType(4);
                 else if (howPlayer == HowPlayer.P2)
-                    InitGameInfoRaw(3);
+                    UpdateDataByInfoType(3);
 
                 if (titleObj != null)
                 {
@@ -92,7 +136,7 @@ public class GameInfoRaw : MonoBehaviour {
                 return true;
             case GameMode.Team:
                 Debug.Log("TEam");
-                InitGameInfoRaw();
+                UpdateDataByInfoType();
                 UpdateCpuModeCols();
 
                 if (titleObj != null)

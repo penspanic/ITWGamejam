@@ -82,7 +82,6 @@ public class CharacterReady : MonoBehaviour {
                     }
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
-                        Debug.Log("checkIdx:" + checkIdx);
                         if (IsCharacterNoneIdx(selecters[0].currIdx))
                         {
                             return;
@@ -195,14 +194,14 @@ public class CharacterReady : MonoBehaviour {
                 }
                 else if (uiReadyController.howPlayer == HowPlayer.P2)
                 {
-                    if (uiReadyController.versusMode == PlayerTeamVersus.PL2vsCP2)
+                    if (uiReadyController.versusMode == P2TeamMode.PL2vsCP2)
                     {
                         TeamController.AddPlayerInTeam(1, false, 1, characterTypeList[0]);
                         TeamController.AddPlayerInTeam(1, false, 2, characterTypeList[1]);
                         TeamController.AddPlayerInTeam(2, true, 3, characterTypeList[2]);
                         TeamController.AddPlayerInTeam(2, true, 4, characterTypeList[3]);
                     }
-                    else if (uiReadyController.versusMode == PlayerTeamVersus.PLCPvsPLCP)
+                    else if (uiReadyController.versusMode == P2TeamMode.PLCPvsPLCP)
                     {
                         TeamController.AddPlayerInTeam(1, false, 1, characterTypeList[0]);
                         TeamController.AddPlayerInTeam(1, true, 2, characterTypeList[1]);

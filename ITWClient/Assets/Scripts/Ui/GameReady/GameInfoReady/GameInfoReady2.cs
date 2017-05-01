@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public enum GameInfoState : short
-{
-    SelectPlayer,
-    SelectMode,
-    SelectCPU,
-    AllSelectDone,
-}
+//public enum GameInfoState : short
+//{
+//    SelectPlayer,
+//    SelectMode,
+//    SelectCPU,
+//    SelectCheck,
+//}
 
 /// <summary>
 /// 게임 정보를 선택하는 창 부모 스크립트
 /// </summary>
-public class GameInfoReady : MonoBehaviour
-{
+public class GameInfoReady2 : MonoBehaviour {
     [SerializeField]
     private GameInfoRaw selectPlayer;  // 플레이어 선택창
     [SerializeField]
@@ -38,7 +37,7 @@ public class GameInfoReady : MonoBehaviour
     private bool isDone = false;
 
 
-    public void InitGameInfoReady()
+    public void InitGameInfoReady() 
     {
         uiGameReady = FindObjectOfType<UiGameReadyController>();
         selectDic = new Dictionary<GameInfoState, GameInfoRaw>();
@@ -57,21 +56,16 @@ public class GameInfoReady : MonoBehaviour
         isCanTouch = false;
 
         MoveRightToCenter(selectPlayer);
-        selectPlayer.UpdateDataByInfoType();
-        selectCheck.UpdateDataByInfoType();
     }
 
-    private void MoveRightToCenter(GameInfoRaw target)
+    private void MoveRightToCenter(GameInfoRaw target) 
     {
-        isCanTouch = false;
-        target.gameObject.SetActive(true);
         target.transform.localPosition = new Vector2(1280f, target.transform.localPosition.y);
         target.transform.DOLocalMoveX(0f, infoRawAniTime).OnComplete(() =>
-        {
-            uiGameReady.SetCursorEnable(true);
-            isCanTouch = true;
-            target.SetSelected(true, true);
-        });
+            {
+                isCanTouch = true;
+                target.SetSelected(true);
+            });
     }
 
     void Update()
@@ -92,11 +86,6 @@ public class GameInfoReady : MonoBehaviour
                 if (selectCheck.GetCurrIdx() == 0)
                 {
                     //back
-                    return;
-                }
-
-                if (gameInfoState != GameInfoState.AllSelectDone)
-                {
                     return;
                 }
             }
@@ -170,7 +159,6 @@ public class GameInfoReady : MonoBehaviour
                     else if (idx == 1)
                     {
                         // next
-                        isCanTouch = false;
                         selectCheck.SetSelected(false);
                         selectCheck.gameObject.SetActive(false);
                         uiGameReady.SetGameReadyState(GameReadyState.SelectCharacter);
@@ -180,7 +168,7 @@ public class GameInfoReady : MonoBehaviour
 
             if ((int)gameInfoState <= (int)GameInfoState.SelectMode)
             {
-                selectDic[gameInfoState].UpdateDataByInfoType();
+                selectDic[gameInfoState].InitGameInfoRaw();
             }
         }
 
@@ -196,7 +184,7 @@ public class GameInfoReady : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-
+            
             if (gameInfoState != GameInfoState.AllSelectDone)
             {
                 selectCheck.BackRawSelectByCurrIdx(true);
@@ -208,8 +196,7 @@ public class GameInfoReady : MonoBehaviour
         }
     }
 
-    private bool IsSoloTeam(GameMode gm, HowPlayer howPlay)
-    {
+    private bool IsSoloTeam(GameMode gm, HowPlayer howPlay) {
         if (gm == GameMode.Team && howPlay == HowPlayer.P1)
         {
             return true;

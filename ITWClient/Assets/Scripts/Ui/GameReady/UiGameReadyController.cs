@@ -11,11 +11,43 @@ public enum GameReadyState : short
     Done
 }
 
-public class UiGameReadyController : MonoBehaviour {
+/// <summary>
+/// PlayerMode
+/// </summary>
+public enum HowPlayer : short
+{
+    P1,
+    P2,
+}
+
+/// <summary>
+/// GameMode: 개인전, 팀전
+/// </summary>
+public enum GameMode : short
+{
+    Personal,
+    Team
+}
+
+/// <summary>
+/// 2PTeamMode, default = none
+/// </summary>
+public enum P2TeamMode
+{
+    None,
+    PL2vsCP2,
+    PLCPvsPLCP,
+}
+
+/// <summary>
+/// 게임준비씬 담당 컨트롤러
+/// </summary>
+public class UiGameReadyController : MonoBehaviour
+{
     [SerializeField]
-    private GameInfoReady gameInfoReady;
+    private GameInfoReady gameInfoReady; // 게임 정보 설정창
     [SerializeField]
-    private CharacterReady charReady;
+    private CharacterReady charReady;   // 캐릭터 준비창
     [SerializeField]
     private Transform cursorTrs;
     [SerializeField]
@@ -23,46 +55,63 @@ public class UiGameReadyController : MonoBehaviour {
     [SerializeField]
     private Image bg;
 
-    public GameReadyState gameReadyState { get; private set; }
-    private float moveTime = 0.0f;
+    public float transitionTime; // 화면 전환 타임
+    public GameReadyState gameReadyState { get; private set; }  // 게임 준비 상태
 
-    // Data
-    public HowPlayer howPlayer = HowPlayer.P1;
-    public GameMode gameMode = GameMode.Personal;
-    public PlayerTeamVersus versusMode = PlayerTeamVersus.None;
-    public int cpuCount = 2;
-
-
-
+    // 인게임으로 가기전 필요한 데이터
+    public HowPlayer howPlayer { get; set; }
+    public GameMode gameMode { get; set; }
+    public P2TeamMode versusMode { get; set; }
+    public int cpuCount { get; set; }
 
 
     void Awake()
     {
-        cursorTrs.gameObject.SetActive(true);
         SetGameReadyState(GameReadyState.SelectInfo);
     }
 
-    public void SetGameReadyState(GameReadyState readyState) 
+    public void SetGameReadyState(GameReadyState readyState)
     {
         gameReadyState = readyState;
+        SetBG(readyState);
+
         switch (gameReadyState)
         {
             case GameReadyState.SelectInfo:
-                bg.sprite = bgs[0];
                 gameInfoReady.InitGameInfoReady();
 
                 break;
             case GameReadyState.SelectCharacter:
-                bg.sprite = bgs[1];
-                cursorTrs.gameObject.SetActive(false);
-                MoveNext();
+                MoveToSelectCharacter();
+                SetCursorEnable(false);
                 charReady.InitCharacterReady();
                 break;
 
         }
     }
 
-    public void MoveNext()
+    private void SetBG(GameReadyState gs)
+    {
+        var bgIdx = (int)gs;
+
+        if (bgIdx < bgs.Length)
+        {
+            bg.sprite = bgs[(int)gs];
+        }
+        else
+        {
+            Debug.Log("GameReadyState is over than BgIdx: " + gs.ToString());
+            return;
+        }
+    }
+
+    public void SetCursorEnable(bool isOn)
+    {
+        cursorTrs.gameObject.SetActive(isOn);
+    }
+
+
+    public void MoveToSelectCharacter()
     {
         gameInfoReady.transform.localPosition = Vector2.zero;
         charReady.transform.localPosition = new Vector2(1280, 0);
@@ -72,7 +121,7 @@ public class UiGameReadyController : MonoBehaviour {
     }
 
 
-    public void SetCursor(Vector2 position, bool isBack = false) 
+    public void SetCursor(Vector2 position, bool isBack = false)
     {
         // -1.5, -1.4
         // -1.1, -1.4

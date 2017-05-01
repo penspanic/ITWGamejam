@@ -1216,10 +1216,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: afc960686561947ee9cc4b5c6c6c9f8b, type: 3}
   - {fileID: 21300000, guid: bc34da8faa4b74de688aeb95e327291f, type: 3}
   bg: {fileID: 150853020}
-  howPlayer: 0
-  gameMode: 0
-  versusMode: 0
-  cpuCount: 2
+  transitionTime: 0.5
 --- !u!1 &305588319
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,6 +1264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b110006ee443492a8ebcc99623911f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoType: 1
   infoCells:
   - {fileID: 106486124}
   - {fileID: 1809106801}
@@ -1736,7 +1734,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9ef4e9223b40041f18def2459ba453ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a68ffe1afe555394086ccddeb661cb61, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2139,6 +2137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b110006ee443492a8ebcc99623911f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoType: 2
   infoCells:
   - {fileID: 1973480025}
   - {fileID: 815960568}
@@ -3089,6 +3088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b110006ee443492a8ebcc99623911f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoType: 0
   infoCells:
   - {fileID: 11340858}
   - {fileID: 1181998360}
@@ -3669,7 +3669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1431829162
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3685,7 +3685,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -233, y: 260}
+  m_AnchoredPosition: {x: -233, y: 263}
   m_SizeDelta: {x: 275, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1431829163
@@ -5209,6 +5209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b110006ee443492a8ebcc99623911f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoType: 0
   infoCells:
   - {fileID: 2021057246}
   - {fileID: 1475703404}
@@ -5975,6 +5976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b110006ee443492a8ebcc99623911f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoType: 3
   infoCells:
   - {fileID: 1809070453}
   - {fileID: 1035413137}
