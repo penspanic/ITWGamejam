@@ -130,7 +130,6 @@ public class CharacterReady : MonoBehaviour {
                 }
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    Debug.Log("checkIdx:" + checkIdx);
                     selecters[checkIdx].MoveNext();
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
@@ -180,7 +179,7 @@ public class CharacterReady : MonoBehaviour {
             case GameMode.Personal:
                 for (int i = 0; i < totalCnt; ++i)
                 {
-                    TeamController.AddPlayerInTeam(i, ((i + 1 <= plNum) ? false : true), i+1, characterTypeList[i]);
+                    TeamController.AddPlayerInTeam(i + 1, ((i + 1 <= plNum) ? false : true), i+1, characterTypeList[i]);
                 }
                 break;
             case GameMode.Team:

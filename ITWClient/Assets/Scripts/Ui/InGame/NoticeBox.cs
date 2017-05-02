@@ -47,6 +47,7 @@ public class NoticeBox : MonoBehaviour
                 break;
         }
         transform.localPosition = new Vector2(0, -410f);
+
         yield return transform.DOLocalMoveY(0f, moveTime).SetEase(Ease.Linear).WaitForCompletion();
         yield return new WaitForSeconds(0.8f);
         if (noticeType == NoticeType.ReadyAndFight)
@@ -54,7 +55,7 @@ public class NoticeBox : MonoBehaviour
             yield return readyFight.ChangeToFight();
             yield return new WaitForSeconds(0.5f);
         }
-        yield return transform.DOLocalMoveY(410f, moveTime).SetEase(Ease.Linear).WaitForCompletion();
+        yield return transform.DOLocalMoveY(410f, moveTime).SetEase(Ease.InBack).WaitForCompletion();
         AllNoticeSetActive(false);
     }
 

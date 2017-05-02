@@ -19,12 +19,12 @@ public class ReadyFight : MonoBehaviour {
     public void SetPositionReadyFightTrs()
     {
         readyTrs.localPosition = Vector2.zero;
-        fightTrs.localPosition = new Vector2(0, -60);
+        fightTrs.localPosition = new Vector2(0, 60);
     }
 
     public IEnumerator ChangeToFight()
     {
-        readyTrs.DOLocalMoveY(60f, scrollTime).SetEase(Ease.InOutBack);
+        readyTrs.DOLocalMoveY(-60, scrollTime).SetEase(Ease.InOutBack);
         yield return fightTrs.DOLocalMoveY(0f, scrollTime).SetEase(Ease.InOutBack).WaitForCompletion();
     }
 }

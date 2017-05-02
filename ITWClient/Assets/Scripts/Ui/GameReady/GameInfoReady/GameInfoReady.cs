@@ -66,7 +66,7 @@ public class GameInfoReady : MonoBehaviour
         isCanTouch = false;
         target.gameObject.SetActive(true);
         target.transform.localPosition = new Vector2(1280f, target.transform.localPosition.y);
-        target.transform.DOLocalMoveX(0f, infoRawAniTime).OnComplete(() =>
+        target.transform.DOLocalMoveX(0f, infoRawAniTime).SetEase(Ease.OutBounce).OnComplete(() =>
         {
             uiGameReady.SetCursorEnable(true);
             isCanTouch = true;

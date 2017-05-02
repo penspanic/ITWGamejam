@@ -12,13 +12,14 @@ public class UiMainMenuController : MonoBehaviour
 
     private bool isOpening;
     private bool isTitlePressed;
+    private bool isAnimating;
     private bool canButtonPress;
     private int currIdx;
 
     private void Awake()
     {
         isOpening = true;
-        isTitlePressed = false;
+        isAnimating = false;
         canButtonPress = false;
         currIdx = 0;
 
@@ -33,8 +34,10 @@ public class UiMainMenuController : MonoBehaviour
 
     private void StartTitleAnimation() {
         titleTrs.position = new Vector3(-12.4f, 0f);
+        isAnimating = true;
         titleTrs.DOMoveX(0, 1.5f).SetEase(Ease.OutBounce, 0f).OnComplete(() =>
             {
+                isAnimating = false;
                 isOpening = false;
             });
     }
@@ -43,21 +46,19 @@ public class UiMainMenuController : MonoBehaviour
 
     void Update()
     {
-        if (isOpening == true)
+        if (isAnimating == true || isOpening == true)
         {
             return;
         }
+
         if (Input.GetMouseButtonUp(0))
         {
-            isTitlePressed = true;
+            isAnimating = true;
             titleTrs.DOMoveY(-7.2f, 0.7f).SetEase(Ease.InBack).OnComplete(() =>
                 {
+                    isAnimating = false;
                     canButtonPress = true;
                 });
-        }
-        if (isTitlePressed == false)
-        {
-            return;
         }
 
         // pad Control??

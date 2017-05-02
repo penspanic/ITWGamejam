@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222160908468620}
   m_LocalRotation: {x: -0.030843178, y: 0.70643383, z: -0.030843178, w: 0.70643383}
-  m_LocalPosition: {x: 0, y: 0.926, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,13 +96,13 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1431010189
+  randomSeed: -2005629989
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 1.96
+      scalar: 1.6
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -134,8 +134,8 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     startSpeed:
-      minMaxState: 0
-      scalar: 2
+      minMaxState: 3
+      scalar: 0.6
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -153,7 +153,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.20449896
+          value: 0.5833333
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -225,7 +225,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
     startSize:
       minMaxState: 3
-      scalar: 0.3
+      scalar: 0.35
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -243,7 +243,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.6666666
+          value: 0.5714286
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -360,7 +360,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startRotation:
       minMaxState: 3
-      scalar: 0.6981317
+      scalar: 0.87266463
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1205,7 +1205,7 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2957,7 +2957,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: fee49fa8b9c434ae2b907910d507c0dd, type: 2}
+  - {fileID: 2100000, guid: 940ff160956abc94da33ff16c10065a6, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
