@@ -482,12 +482,14 @@ public abstract class ICharacter : MonoBehaviour, IObject
         IsInvincible = true;
         State = CharacterState.Dodge;
         animator.Play("evade", 0);
+        boxCollider.enabled = false;
         StartCoroutine(DodgeProcess());
     }
 
     protected virtual void OnDodgeEnd()
     {
         IsInvincible = false;
+        boxCollider.enabled = true;
         State = CharacterState.Idle;
     }
 
