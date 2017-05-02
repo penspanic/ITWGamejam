@@ -56,6 +56,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public bool IsDead { get; set; }
     public int Hp { get; set; }
     public int Mp { get; set; }
+    public bool IsExtremeMp { get; set; }
     public bool IsInvincible { get; protected set; }
     public bool IsDodgeCoolTime { get; protected set; }
     public bool IsCharging { get; protected set; }
@@ -182,6 +183,8 @@ public abstract class ICharacter : MonoBehaviour, IObject
             case CharacterState.Hitted:
                 return false;
             case CharacterState.Charging:
+                return false;
+            case CharacterState.Dodge:
                 return false;
             default:
                 break;

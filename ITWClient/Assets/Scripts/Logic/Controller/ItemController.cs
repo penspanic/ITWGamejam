@@ -7,9 +7,13 @@ using System.Collections;
 public class ItemController : MonoBehaviour
 {
 
-    // HP 회복 물약,
-    // 일정시간 MP 무제한
-    // MP 회복 물약
+    [SerializeField]
+    float basicCreateInterval;
+    [SerializeField]
+    float nextStepElapsedTime;
+    [SerializeField]
+    float nextStepDecreaseInterval;
+
     private StageController stageController;
     private ItemFactory itemFactory;
     private void Awake()
@@ -30,9 +34,9 @@ public class ItemController : MonoBehaviour
         float elapsedTime = 0f;
         while(stageController.IsStageStarted == true)
         {
-            float nextCreateInterval = 20f;
-            if(elapsedTime > 60f)
-                nextCreateInterval = 15f;
+            float nextCreateInterval = basicCreateInterval;
+            if(elapsedTime > nextStepElapsedTime)
+                nextCreateInterval = nextStepDecreaseInterval;
             yield return new WaitForSeconds(nextCreateInterval);
             itemFactory.CreateItem(GetNewItemType());
             elapsedTime += Time.deltaTime;

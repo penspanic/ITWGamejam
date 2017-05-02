@@ -88,6 +88,7 @@ public class StatusBox : MonoBehaviour
 
     private void SetMpGauge()
     {
+        mpGaugeImage.sprite = targetPlayer.TargetCharacter.IsExtremeMp ? extremeMpGaugeSprite : basicMpGaugeSprite;
         mpGaugeImage.fillAmount = (float)targetPlayer.TargetCharacter.Mp / (float)targetPlayer.TargetCharacter.MaxMp;
     }
 }

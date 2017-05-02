@@ -1828,6 +1828,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ea1c94de2a194439262b0da3e21837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basicCreateInterval: 20
+  nextStepElapsedTime: 60
+  nextStepDecreaseInterval: 5
 --- !u!1 &696812867
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,6 +25,7 @@ public class ExtremeItem : IItem
 
     private IEnumerator ItemEffectProcess()
     {
+        user.IsExtremeMp = true;
         float elapsedTime = 0.0f;
         while(elapsedTime < duration)
         {
@@ -32,6 +33,7 @@ public class ExtremeItem : IItem
             elapsedTime += Time.deltaTime;
             user.Mp = user.MaxMp;
         }
+        user.IsExtremeMp = false;
         Destroy();
     }
 }
