@@ -6,6 +6,8 @@ public class UiStageController : MonoBehaviour
 {
     [SerializeField]
     private Text remainTimeText;
+    [SerializeField]
+    private NoticeBox noticeBox;
 
     private StageController stageController;
     private void Awake()
@@ -13,6 +15,8 @@ public class UiStageController : MonoBehaviour
         stageController = GameObject.FindObjectOfType<StageController>();
         stageController.OnStageStart += OnStageStart;
         stageController.OnStageEnd += OnStageEnd;
+
+        noticeBox.InitNoticeBox();
     }
 
     private void Start()
@@ -27,7 +31,8 @@ public class UiStageController : MonoBehaviour
 
     private IEnumerator ReadyStartProcess()
     {
-        yield break;
+        yield return noticeBox.ShowNoticeBox(NoticeType.ReadyAndFight);
+        // yield break;
     }
 
     private void Update()
