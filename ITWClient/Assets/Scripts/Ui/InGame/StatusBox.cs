@@ -13,20 +13,35 @@ public class StatusBox : MonoBehaviour
 
     private Player targetPlayer;
     private Image portraitImage;
-    private GameObject[] heartObjects;
+    private Image[] heartImages;
     private Image mpGaugeImage;
+
+    private static Sprite filledHeartSprite;
+    private static Sprite emptyHeartSprite;
+
+    private static Sprite basicMpGaugeSprite;
+    private static Sprite extremeMpGaugeSprite;
+
     private void Awake()
     {
+        if(filledHeartSprite == null)
+        {
+            filledHeartSprite = Resources.Load<Sprite>("Sprites/UI/Status/heart");
+            emptyHeartSprite = Resources.Load<Sprite>("Sprites/UI/Status/heart0");
+            basicMpGaugeSprite = Resources.Load<Sprite>("Sprites/UI/Status/mpbar");
+            extremeMpGaugeSprite = Resources.Load<Sprite>("Sprites/UI/Status/mpbar2");
+        }
+
         portraitImage = transform.FindChild("Portrait").GetComponent<Image>();
         mpGaugeImage = transform.FindChild("Right").FindChild("Mp").FindChild("Mp Value").GetComponent<Image>();
 
-        List<GameObject> heartList = new List<GameObject>();
+        List<Image> heartList = new List<Image>();
         Transform heartsParent = transform.FindChild("Right").FindChild("Heart");
         for(int i = 0; i < heartsParent.childCount; ++i)
         {
-            heartList.Add(heartsParent.GetChild(i).gameObject);
+            heartList.Add(heartsParent.GetChild(i).GetComponent<Image>());
         }
-        heartObjects = heartList.ToArray();
+        heartImages = heartList.ToArray();
     }
 
     public void SetPlayer(Player player)
@@ -55,23 +70,23 @@ public class StatusBox : MonoBehaviour
     public void Refresh()
     {
         SetHearts();
-        SetMpGuage();
+        SetMpGauge();
     }
 
     private void SetHearts()
     {
-        foreach(GameObject heartObject in heartObjects)
+        foreach(Image eachHeartImage in heartImages)
         {
-            heartObject.SetActive(false);
+            eachHeartImage.sprite = emptyHeartSprite;
         }
 
         for(int i = 0; i < targetPlayer.TargetCharacter.Hp; ++i)
         {
-            heartObjects[i].SetActive(true);
+            heartImages[i].sprite = filledHeartSprite;
         }
     }
 
-    private void SetMpGuage()
+    private void SetMpGauge()
     {
         mpGaugeImage.fillAmount = (float)targetPlayer.TargetCharacter.Mp / (float)targetPlayer.TargetCharacter.MaxMp;
     }
