@@ -6,6 +6,8 @@ public abstract class IProjectile : MonoBehaviour, IObject
     public int Hp { get; set; }
     public IObject owner { get; set; }
 
+    public event OnObjectDestroyed OnDestroyed;
+
     protected virtual void Awake()
     {
 

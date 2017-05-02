@@ -64,6 +64,10 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public CharacterType CharacterType { get; protected set; }
     public Player Player { get; protected set; }
 
+    #region Event
+    public event OnObjectDestroyed OnDestroyed;
+    #endregion
+
     protected CharacterManager characterManager;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
@@ -249,7 +253,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Character") == true)
+        if(other.gameObject.CompareTag(TagNames.Character) == true)
         {
             ICharacter otherCharacter = other.gameObject.GetComponent<ICharacter>();
             switch(State)
@@ -269,7 +273,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
                     break;
             }
         }
-        else if(other.gameObject.CompareTag("Map") == true)
+        else if(other.gameObject.CompareTag(TagNames.Map) == true)
         {
             switch(State)
             {
@@ -296,7 +300,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         Hp -= damage;
         if(Hp <= 0)
         {
-            OnDead();
+            OnDeath();
         }
         else
         {
@@ -315,23 +319,23 @@ public abstract class ICharacter : MonoBehaviour, IObject
         IsInvincible = false;
     }
 
-    private void OnDead()
+    private void OnDeath()
     {
         IsDead = true;
         GetComponent<Collider2D>().enabled = false;
         animator.Play("death", 0);
 
-        characterManager.OnDead(this);
+        OnDestroyed(this);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Item") == true)
+        if(other.CompareTag(TagNames.Item) == true)
         {
             IItem item = other.GetComponent<IItem>();
             item.UseItem(this);
         }
-        if(other.CompareTag("Poison") == true)
+        if(other.CompareTag(TagNames.Poison) == true)
         {
             OnPoisoned(other.gameObject);
         }
@@ -339,7 +343,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
-        if(other.CompareTag("Poison") == true)
+        if(other.CompareTag(TagNames.Poison) == true)
         {
             triggeredPoisons.Remove(other.gameObject);
             if(triggeredPoisons.Count == 0)

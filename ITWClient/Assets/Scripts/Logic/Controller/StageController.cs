@@ -9,6 +9,11 @@ public class StageController : MonoBehaviour
     public bool IsStageStarted { get; set; }
     public float RemainElapsedTime { get; set; }
 
+    #region Event
+    public event System.Action OnStageStart;
+    public event System.Action OnStageEnd;
+    #endregion
+
     private ItemController itemController;
     private MapController mapController;
     private CharacterFactory characterFactory;
@@ -43,6 +48,7 @@ public class StageController : MonoBehaviour
         {
             characterManager.Create(eachPlayer, TeamController.GetCharacterType(eachPlayer.PlayerNumber));
             characterObjects.Add(eachPlayer.TargetCharacter.gameObject);
+            eachPlayer.TargetCharacter.OnDestroyed += OnCharacterDeath;
         }
         uiPlayerController.SetPlayers(playerManager.Players.ToArray());
         cameraController.SetTargets(characterObjects.ToArray());
@@ -56,7 +62,7 @@ public class StageController : MonoBehaviour
     {
         IsStageStarted = true;
         StartCoroutine(StageTimeProcess());
-        itemController.OnStageStart();
+        OnStageStart();
     }
 
     private IEnumerator StageTimeProcess()
@@ -65,6 +71,30 @@ public class StageController : MonoBehaviour
         {
             yield return null;
             RemainElapsedTime -= Time.deltaTime;
+        }
+    }
+
+    public void OnCharacterDeath(IObject target)
+    {
+        ICharacter deadCharacter = target as ICharacter;
+        HashSet<int> aliveTeams = new HashSet<int>(); // 중복 값 제거 위해.
+        foreach(var pair in characterManager.Characters)
+        {
+            int teamNumber = TeamController.GetTeam(pair.Key.PlayerNumber).TeamNumber;
+            if(pair.Value.IsDead == false)
+            {
+                aliveTeams.Add(teamNumber);
+            }
+        }
+
+        if(aliveTeams.Count == 0) // 이런 경우는 안나올 것 같음.
+        {
+
+        }
+        else if(aliveTeams.Count == 1)
+        {
+            IsStageStarted = false;
+            OnStageEnd();
         }
     }
 }

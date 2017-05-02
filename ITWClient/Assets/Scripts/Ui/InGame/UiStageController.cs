@@ -11,6 +11,8 @@ public class UiStageController : MonoBehaviour
     private void Awake()
     {
         stageController = GameObject.FindObjectOfType<StageController>();
+        stageController.OnStageStart += OnStageStart;
+        stageController.OnStageEnd += OnStageEnd;
     }
 
     private void Start()
@@ -18,7 +20,7 @@ public class UiStageController : MonoBehaviour
         remainTimeText.text = ((int)stageController.RemainElapsedTime).ToString();
     }
 
-    public void StartStage()
+    private void OnStageStart()
     {
         StartCoroutine(ReadyStartProcess());
     }
@@ -34,5 +36,10 @@ public class UiStageController : MonoBehaviour
         {
             remainTimeText.text = ((int)stageController.RemainElapsedTime).ToString();
         }
+    }
+
+    private void OnStageEnd()
+    {
+
     }
 }

@@ -6,7 +6,12 @@ public class CharacterManager : MonoBehaviour
 {
     [SerializeField]
     private CharacterFactory characterFactory = null;
-    private Dictionary<Player, ICharacter> characters = new Dictionary<Player, ICharacter>();
+    public Dictionary<Player, ICharacter> Characters { get; private set; }
+    public CharacterManager()
+    {
+        Characters = new Dictionary<Player, ICharacter>();
+    }
+
     private void Awake()
     {
     }
@@ -18,7 +23,8 @@ public class CharacterManager : MonoBehaviour
         newCharacter.Initialize(player);
         int layer = LayerMask.NameToLayer("Team" + TeamController.GetTeam(player.PlayerNumber).TeamNumber.ToString());
         newCharacter.gameObject.layer = layer;
-        characters.Add(player, newCharacter);
+        newCharacter.OnDestroyed += OnCharacterDeath;
+        Characters.Add(player, newCharacter);
 
         if(player.GetComponent<PlayerInputController>() != null)
             player.GetComponent<PlayerInputController>().Initialized = true;
@@ -26,17 +32,18 @@ public class CharacterManager : MonoBehaviour
 
     public void ChangeCharacter(Player player, CharacterType characterType)
     {
-        if(characters.ContainsKey(player) == false)
+        if(Characters.ContainsKey(player) == false)
         {
             throw new UnityException("Can not change character before create character, " + player.name);
         }
 
-        characters.Remove(player);
+        Characters.Remove(player);
         Create(player, characterType);
     }
 
-    public void OnDead(ICharacter character)
+    public void OnCharacterDeath(IObject character)
     {
+        ICharacter deadCharacter = character as ICharacter;
         // TODO : 죽은 캐릭터 가장 뒤에 보이도록 해야 함.
     }
 }

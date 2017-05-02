@@ -15,10 +15,11 @@ public class ItemController : MonoBehaviour
     private void Awake()
     {
         stageController = GameObject.FindObjectOfType<StageController>();
+        stageController.OnStageStart += OnStageStart;
         itemFactory = gameObject.AddComponent<ItemFactory>();
     }
 
-    public void OnStageStart()
+    private void OnStageStart()
     {
         StartCoroutine(ItemCreateProcess());
     }

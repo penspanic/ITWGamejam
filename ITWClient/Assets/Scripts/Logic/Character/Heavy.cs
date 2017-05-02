@@ -96,7 +96,7 @@ public class Heavy : ICharacter
 
     protected override void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Character") == true)
+        if(other.gameObject.CompareTag(TagNames.Character) == true)
         {
             ICharacter otherCharacter = other.gameObject.GetComponent<ICharacter>();
             if(otherCharacter.State == CharacterState.Flying
@@ -106,7 +106,7 @@ public class Heavy : ICharacter
                 return;
             }
         }
-        else if(other.gameObject.CompareTag("Map") == true)
+        else if(other.gameObject.CompareTag(TagNames.Map) == true)
         {
             if(State == CharacterState.SkillActivated)
             {

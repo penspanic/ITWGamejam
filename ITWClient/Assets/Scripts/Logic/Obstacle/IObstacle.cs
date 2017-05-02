@@ -7,6 +7,8 @@ public abstract class IObstacle : MonoBehaviour, IObject
     private int MaxHp;
 
     public int Hp { get; protected set; }
+
+    public event OnObjectDestroyed OnDestroyed;
     private void Awake()
     {
 
@@ -22,12 +24,7 @@ public abstract class IObstacle : MonoBehaviour, IObject
         Hp -= damage;
         if(Hp <= 0)
         {
-            OnDestroyed();
+            OnDestroyed(this);
         }
-    }
-
-    protected virtual void OnDestroyed()
-    {
-
     }
 }
