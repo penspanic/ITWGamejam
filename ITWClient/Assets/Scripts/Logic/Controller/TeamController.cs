@@ -63,16 +63,17 @@ public static class TeamController
         switch (teamNum)
         {
             case 1:
-                return Color.red;
+                return new Color(242f / 255f, 35f / 255f, 9f / 255f);
             case 2:
-                return Color.blue;
+                return new Color(27f / 255f, 45f / 255f, 246f / 255f);
             case 3:
-                return Color.green;
+                return new Color(239f / 255f, 211f / 255f, 43f / 255f);
             case 4:
-                return Color.yellow;
+                return new Color(77f / 255f, 219f / 255f, 22f / 255f);
             default:
-                return Color.black;
+                break;
         }
+        throw new UnityException("There's no color for " + teamNum.ToString() + " Team.");
     }
 
     public static TeamData GetTeam(int playerNum){
