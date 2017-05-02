@@ -45,6 +45,11 @@ public static class TeamController
         blue2P.PlayerNumber = 2;
         blue2P.SelectedCharacter = CharacterType.Engineer;
         blueTeam.Players.Add(blue2P);
+        PlayerInTeam blue3P = new PlayerInTeam();
+        blue3P.IsCpu = true;
+        blue3P.PlayerNumber = 4;
+        blue3P.SelectedCharacter = CharacterType.Doctor;
+        blueTeam.Players.Add(blue3P);
 
         Teams.Add(blueTeam);
     }

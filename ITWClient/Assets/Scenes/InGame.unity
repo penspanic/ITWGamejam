@@ -830,7 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f051a0f56ba2b4439a80bec7dd4670c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusBoxesParent: {fileID: 1447008110}
+  statusBoxesGroup: {fileID: 1447008111}
 --- !u!114 &288501218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2945,16 +2945,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: -50
-    m_Right: 50
+    m_Left: -60
+    m_Right: 40
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
 --- !u!4 &1467733325 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4264685795505202, guid: c69b8ab9e56d6fa45a63e22888b1a514,
