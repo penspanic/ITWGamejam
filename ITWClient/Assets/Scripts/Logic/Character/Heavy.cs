@@ -57,7 +57,7 @@ public class Heavy : ICharacter
 
         Explosion newExplosion = Instantiate(explosionPrefab).GetComponent<Explosion>();
         newExplosion.SetOwner(this);
-        newExplosion.gameObject.layer = this.gameObject.layer;
+        newExplosion.gameObject.layer = LayerMask.NameToLayer(LayerNames.Team + Player.TeamNumber.ToString());
         newExplosion.transform.position = this.transform.position;
 
         if(State == CharacterState.SkillActivated)

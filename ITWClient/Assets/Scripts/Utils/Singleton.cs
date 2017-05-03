@@ -17,9 +17,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Debug.Log(gameObject.name + " Created.");
-        DontDestroyOnLoad(this.gameObject);
     }
 }

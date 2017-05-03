@@ -482,7 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.7
   launchNeedMp: 100
-  skillNeedMp: 1
+  skillNeedMp: 300
   launchDamage: 1
   launchDistance: 1.75
   launchMoveTime: 0.5

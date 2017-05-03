@@ -314,6 +314,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     private IEnumerator DamageProcess()
     {
+        EffectController.Instance.ShowEffect(EffectType.Hit, transform.position);
         IsInvincible = true;
         animator.Play("hit", 0);
         State = CharacterState.Hitted;

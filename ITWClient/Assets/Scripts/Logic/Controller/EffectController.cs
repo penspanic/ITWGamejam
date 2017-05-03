@@ -7,10 +7,14 @@ public enum EffectType
     Hit,
 }
 
-public class EffectController : MonoBehaviour
+public class EffectController : Singleton<EffectController>
 {
     private Dictionary<EffectType, GameObject> effectPrefabs = new Dictionary<EffectType, GameObject>();
-    private void Awake()
+    protected override void Awake()
+    {
+    }
+
+    public void LoadEffects()
     {
         effectPrefabs.Add(EffectType.Hit, Resources.Load<GameObject>("Prefabs/Effect/Hit"));
     }

@@ -46,6 +46,7 @@ public class UiStageController : MonoBehaviour
 
     private void OnStageEnd()
     {
-
+        noticeBox.gameObject.SetActive(true);
+        StartCoroutine(noticeBox.ShowNoticeBox(NoticeType.Victory));
     }
 }

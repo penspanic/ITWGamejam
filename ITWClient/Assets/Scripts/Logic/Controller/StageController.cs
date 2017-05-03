@@ -31,6 +31,7 @@ public class StageController : MonoBehaviour
         characterManager = GameObject.FindObjectOfType<CharacterManager>();
         uiPlayerController = GameObject.FindObjectOfType<UiPlayerController>();
         cameraController = GameObject.FindObjectOfType<CameraController>();
+        EffectController.Instance.LoadEffects();
 
         IsStageStarted = false;
         RemainElapsedTime = maxStageTime;
