@@ -55,8 +55,9 @@ public class NoticeBox : MonoBehaviour
             yield return readyFight.ChangeToFight();
             yield return new WaitForSeconds(0.5f);
         }
-        yield return transform.DOLocalMoveY(410f, moveTime).SetEase(Ease.InBack).WaitForCompletion();
+        yield return transform.DOLocalMoveY(1000f, moveTime).SetEase(Ease.InBack).WaitForCompletion();
         AllNoticeSetActive(false);
+        transform.gameObject.SetActive(false);
     }
 
     private void AllNoticeSetActive(bool enable)
