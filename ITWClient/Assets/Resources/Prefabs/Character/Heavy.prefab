@@ -494,7 +494,7 @@ MonoBehaviour:
   MaxMp: 1000
   skillMoveTime: 0.7
   skillMoveDistance: 1.75
-  explosionPrefab: {fileID: 1961615638138698, guid: 349f3aa96efe11a4d89caba0beeafde3,
+  explosionPrefab: {fileID: 1859329684462490, guid: 70f17310ad5fa2441bd8ceaf29df9e2c,
     type: 2}
 --- !u!114 &114752953598745088
 MonoBehaviour:

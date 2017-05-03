@@ -43,12 +43,12 @@ public static class TeamController
         PlayerInTeam blue2P = new PlayerInTeam();
         blue2P.IsCpu = false;
         blue2P.PlayerNumber = 2;
-        blue2P.SelectedCharacter = CharacterType.Engineer;
+        blue2P.SelectedCharacter = CharacterType.Heavy;
         blueTeam.Players.Add(blue2P);
         PlayerInTeam blue3P = new PlayerInTeam();
         blue3P.IsCpu = true;
         blue3P.PlayerNumber = 4;
-        blue3P.SelectedCharacter = CharacterType.Heavy;
+        blue3P.SelectedCharacter = CharacterType.Engineer;
         blueTeam.Players.Add(blue3P);
 
         Teams.Add(blueTeam);
