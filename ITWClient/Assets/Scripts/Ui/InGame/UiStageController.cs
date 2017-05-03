@@ -16,6 +16,7 @@ public class UiStageController : MonoBehaviour
         stageController.OnStageStart += OnStageStart;
         stageController.OnStageEnd += OnStageEnd;
 
+        noticeBox.gameObject.SetActive(true);
         noticeBox.InitNoticeBox();
     }
 
