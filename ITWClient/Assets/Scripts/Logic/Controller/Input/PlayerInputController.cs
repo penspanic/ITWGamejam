@@ -20,11 +20,13 @@ public class PlayerInputController : MonoBehaviour
     private Dictionary<PlayerInputType, string> bindedAxes = new Dictionary<PlayerInputType, string>(); //axis의 복수형이 axes라고 함...
 
     private IPlayerController playerController;
+    private StageController stageController;
     private void Awake()
     {
         Initialized = false;
         playerController = GetComponent<IPlayerController>();
-        
+        stageController = GameObject.FindObjectOfType<StageController>();
+        stageController.OnStageStart += OnStageStart;
         foreach(string name in Input.GetJoystickNames())
         {
             Debug.Log(name);
@@ -41,9 +43,14 @@ public class PlayerInputController : MonoBehaviour
         bindedAxes.Add(type, axisName);
     }
 
+    private void OnStageStart()
+    {
+
+    }
+
     private void FixedUpdate()
     {
-        if(Initialized == false)
+        if(Initialized == false || stageController.IsStageStarted == false)
             return;
 
         List<PlayerInputType> pressedKeys = new List<PlayerInputType>();

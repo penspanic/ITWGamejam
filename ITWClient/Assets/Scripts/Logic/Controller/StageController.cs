@@ -55,14 +55,11 @@ public class StageController : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        StartStage();
-    }
-
-    private void StartStage()
-    {
-        IsStageStarted = true;
         StartCoroutine(StageTimeProcess());
         OnStageStart();
+
+        yield return new WaitForSeconds(3f);
+        IsStageStarted = true;
     }
 
     private IEnumerator StageTimeProcess()
