@@ -4,6 +4,8 @@ using System.Collections;
 public static class LayerNames
 {
     public static string Team = "Team";
+    public static string Obstacle = "Obstacle";
+    public static string NonCollidable = "NonCollidable";
 }
 
 public static class TagNames

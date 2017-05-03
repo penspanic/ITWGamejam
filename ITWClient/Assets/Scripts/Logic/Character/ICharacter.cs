@@ -268,6 +268,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
                     break;
                 case CharacterState.Dodge:
                     transform.DOKill();
+                    OnDodgeEnd();
                     break;
                 case CharacterState.Charging:
                     CancelCharge();
@@ -485,14 +486,14 @@ public abstract class ICharacter : MonoBehaviour, IObject
         IsInvincible = true;
         State = CharacterState.Dodge;
         animator.Play("evade", 0);
-        boxCollider.enabled = false;
+        gameObject.layer = LayerMask.NameToLayer(LayerNames.NonCollidable);
         StartCoroutine(DodgeProcess());
     }
 
     protected virtual void OnDodgeEnd()
     {
         IsInvincible = false;
-        boxCollider.enabled = true;
+        gameObject.layer = LayerMask.NameToLayer(LayerNames.Team + Player.TeamNumber.ToString());
         State = CharacterState.Idle;
     }
 

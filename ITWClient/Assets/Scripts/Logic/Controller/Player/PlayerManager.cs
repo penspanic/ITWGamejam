@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour
                     inputControllers.Add(newPlayerObject.GetComponent<PlayerInputController>());
                 }
                 Player newPlayer = newPlayerObject.GetComponent<Player>();
-                newPlayer.SetNumber(playerData.PlayerNumber);
+                newPlayer.SetNumber(team.TeamNumber, playerData.PlayerNumber);
                 Players.Add(newPlayer);
             }
         }

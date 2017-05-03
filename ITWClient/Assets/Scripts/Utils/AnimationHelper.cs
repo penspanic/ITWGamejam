@@ -10,33 +10,13 @@ public static class AnimationHelper
         Vector2 up = new Vector2();
         if(dirVec.x < 0)
         {
-            //up = Quaternion.AngleAxis(90, dirVec).eulerAngles.normalized;
             up = (Quaternion.Euler(0, 0, -90) * dirVec).normalized;
-            //up = Quaternion.AngleAxis(90, dirVec).eulerAngles.normalized;
         }
         else
         {
-            //up = Quaternion.AngleAxis(-90, dirVec).eulerAngles.normalized;
             up = (Quaternion.Euler(0, 0, 90) * dirVec).normalized;
-            //up = Quaternion.AngleAxis(-90, dirVec).eulerAngles.normalized;
         }
 
-        //if(dirVec.x < 0 && dirVec.y > 0)
-        //{
-        //    up = Quaternion.AngleAxis(90, dirVec).eulerAngles.normalized;
-        //}
-        //else if(dirVec.x >= 0 && dirVec.y > 0)
-        //{
-        //    up = Quaternion.AngleAxis(-90, dirVec).eulerAngles.normalized;
-        //}
-        //else if(dirVec.x < 0 && dirVec.y <= 0)
-        //{
-        //    up = Quaternion.AngleAxis(90, dirVec).eulerAngles.normalized;
-        //}
-        //else // dirVec.x >= 0 && dirVec.y <= 0)
-        //{
-        //    up = Quaternion.AngleAxis(-90, dirVec).eulerAngles.normalized;
-        //}
         Debug.Log("dir vec : " + dirVec + " up : " + up);
         Debug.Log(up * added);
         current += up * added;

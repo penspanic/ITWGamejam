@@ -7,6 +7,7 @@ using System.Collections.Generic;
 /// </summary>
 public class Player : MonoBehaviour
 {
+    public int TeamNumber { get; protected set; }
     public int PlayerNumber { get; protected set; }
     public ICharacter TargetCharacter { get; protected set; }
 
@@ -17,9 +18,10 @@ public class Player : MonoBehaviour
 
     // 플레이 중에 동적으로 캐릭터를 바꿀 수 있도록? 도 할 수 있으면 좋을 것 같다.
 
-    public void SetNumber(int num)
+    public void SetNumber(int teamNum, int playerNum)
     {
-        PlayerNumber = num;
+        this.TeamNumber = teamNum;
+        this.PlayerNumber = playerNum;
     }
 
     public void SetCharacter(ICharacter character)
