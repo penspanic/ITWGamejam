@@ -77,7 +77,12 @@ public class StatusBox : MonoBehaviour
     {
         foreach(Image eachHeartImage in heartImages)
         {
-            eachHeartImage.sprite = emptyHeartSprite;
+            eachHeartImage.enabled = false;
+        }
+        for(int i = 0; i < targetPlayer.TargetCharacter.MaxHp; ++i)
+        {
+            heartImages[i].enabled = true;
+            heartImages[i].sprite = emptyHeartSprite;
         }
 
         for(int i = 0; i < targetPlayer.TargetCharacter.Hp; ++i)
