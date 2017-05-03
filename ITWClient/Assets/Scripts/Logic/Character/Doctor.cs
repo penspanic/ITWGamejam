@@ -14,6 +14,8 @@ public class Doctor : ICharacter
     private Vector2 poisonSizeRange;
     [SerializeField]
     private Vector2 poisonPosRange;
+    [SerializeField]
+    private GameObject dodgeEffect;
 
     private float originalMoveSpeed;
 
@@ -52,6 +54,19 @@ public class Doctor : ICharacter
                 return false;
         }
         return true;
+    }
+
+    protected override void Dodge()
+    {
+        base.Dodge();
+        dodgeEffect.SetActive(true);
+        dodgeEffect.GetComponent<Animator>().Play("DoctorEvade", -1, 0f);
+    }
+
+    protected override void OnDodgeEnd()
+    {
+        base.OnDodgeEnd();
+        dodgeEffect.SetActive(false);
     }
 
     protected override void UseSkill()

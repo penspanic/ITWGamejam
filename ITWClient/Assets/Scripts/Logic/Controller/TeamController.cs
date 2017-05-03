@@ -27,7 +27,7 @@ public static class TeamController
         PlayerInTeam red1P = new PlayerInTeam();
         red1P.IsCpu = false;
         red1P.PlayerNumber = 1;
-        red1P.SelectedCharacter = CharacterType.Heavy;
+        red1P.SelectedCharacter = CharacterType.Doctor;
         redTeam.Players.Add(red1P);
         PlayerInTeam redAi = new PlayerInTeam();
         redAi.IsCpu = true;
@@ -43,12 +43,12 @@ public static class TeamController
         PlayerInTeam blue2P = new PlayerInTeam();
         blue2P.IsCpu = false;
         blue2P.PlayerNumber = 2;
-        blue2P.SelectedCharacter = CharacterType.Engineer;
+        blue2P.SelectedCharacter = CharacterType.Heavy;
         blueTeam.Players.Add(blue2P);
         PlayerInTeam blue3P = new PlayerInTeam();
         blue3P.IsCpu = true;
         blue3P.PlayerNumber = 4;
-        blue3P.SelectedCharacter = CharacterType.Doctor;
+        blue3P.SelectedCharacter = CharacterType.Engineer;
         blueTeam.Players.Add(blue3P);
 
         Teams.Add(blueTeam);
