@@ -89,9 +89,9 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222160908468620}
   serializedVersion: 5
-  lengthInSec: 4
+  lengthInSec: 3
   simulationSpeed: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   autoRandomSeed: 1
@@ -137,7 +137,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1810525021
+  randomSeed: -674727508
   InitialModule:
     serializedVersion: 3
     enabled: 1
