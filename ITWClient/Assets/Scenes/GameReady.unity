@@ -274,7 +274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &19220614
 RectTransform:
   m_ObjectHideFlags: 0
@@ -980,7 +980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &261962135
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1287,7 +1287,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &313666812
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1764,7 +1764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &489426647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3533,7 +3533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1293284968
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3954,7 +3954,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterArr:
-  - {fileID: 1293284968}
   - {fileID: 261962135}
   - {fileID: 155775062}
   - {fileID: 1188721657}
@@ -4050,7 +4049,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterArr:
-  - {fileID: 1561120181}
   - {fileID: 489426647}
   - {fileID: 1569646213}
   - {fileID: 1998999682}
@@ -4086,7 +4084,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1561120181
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4311,7 +4309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1595271487
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4379,7 +4377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1657491035
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5538,7 +5536,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterArr:
-  - {fileID: 1595271487}
   - {fileID: 19220614}
   - {fileID: 958687334}
   - {fileID: 988958261}
@@ -5793,7 +5790,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterArr:
-  - {fileID: 1657491035}
   - {fileID: 313666812}
   - {fileID: 1895189069}
   - {fileID: 381784204}

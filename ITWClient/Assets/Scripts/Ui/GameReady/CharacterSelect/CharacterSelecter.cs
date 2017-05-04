@@ -23,27 +23,28 @@ public class CharacterSelecter : MonoBehaviour {
     private float selecterHeight;
     private bool isRotating = false;
 
+    private void Awake()
+    {
+        selecterHeight = GetComponent<RectTransform>().sizeDelta.y;
+        for (int i = 0; i < characterArr.Length; ++i)
+        {
+            characterArr[i].gameObject.SetActive(true);
+            characterArr[i].localPosition = new Vector2(0, selecterHeight);
+        }
+    }
 
     public void InitCharacterSelecter(int startIdx, PlayerType plType) 
     {
-        plType = plType;
+        this.plType = plType;
         if (startIdx == 99)
         {
             // X 처리
             return;
         }
         isRotating = false;
-        selecterHeight = GetComponent<RectTransform>().sizeDelta.y;
         currIdx = startIdx;
-        characterArr[0].localPosition = Vector2.one;
-        for (int i = 1; i < characterArr.Length; ++i)
-        {
-            characterArr[i].gameObject.SetActive(true);
-            characterArr[i].localPosition = new Vector2(0, selecterHeight);
-        }
 
-
-
+        // characterArr[startIdx].localPosition = Vector2.zero;
     }
 
     void Update()
@@ -67,6 +68,11 @@ public class CharacterSelecter : MonoBehaviour {
         if (isSelect == true)
         {            
             selectObjText.text = text;
+            isRotating = true;
+            characterArr[currIdx].DOLocalMoveY(0f, 0.4f).SetEase(Ease.InOutBack).OnComplete(() =>
+            {
+                isRotating = false;
+            });
         }
         else
         {
@@ -101,6 +107,6 @@ public class CharacterSelecter : MonoBehaviour {
     public int DecideCharacter()
     {
         OnSelected(false, "");
-        return currIdx;
+        return currIdx + 1; // 0번은 ICharacterType의 Unkown이라 +1을 해준다.
     }
 }

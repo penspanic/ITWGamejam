@@ -135,7 +135,6 @@ public class GameInfoRaw : MonoBehaviour {
                 // SetCursorByCurrIdx();
                 return true;
             case GameMode.Team:
-                Debug.Log("TEam");
                 UpdateDataByInfoType();
                 UpdateCpuModeCols();
 
@@ -150,7 +149,6 @@ public class GameInfoRaw : MonoBehaviour {
 
     private void UpdateCpuModeCols() 
     {
-        Debug.Log(infoCellList.Count);
         for (int i = 0; i < infoCellList.Count; ++i)
         {
             infoCellList[i].gameObject.SetActive(false);

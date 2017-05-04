@@ -82,9 +82,8 @@ public class UiGameReadyController : MonoBehaviour
 
                 break;
             case GameReadyState.SelectCharacter:
-                MoveToSelectCharacter();
                 SetCursorEnable(false);
-                charReady.InitCharacterReady();
+                StartCoroutine(MoveToSelectCharacter());
                 break;
 
         }
@@ -111,13 +110,15 @@ public class UiGameReadyController : MonoBehaviour
     }
 
 
-    public void MoveToSelectCharacter()
+    public IEnumerator MoveToSelectCharacter()
     {
         gameInfoReady.transform.localPosition = Vector2.zero;
         charReady.transform.localPosition = new Vector2(1280, 60f);
 
         gameInfoReady.transform.DOLocalMoveX(-1280f, 0.5f).SetEase(Ease.OutCirc);
-        charReady.transform.DOLocalMoveX(0f, 0.5f).SetEase(Ease.OutCirc).SetDelay(1f);
+        yield return charReady.transform.DOLocalMoveX(0f, 0.5f).SetEase(Ease.OutCirc).SetDelay(1f).WaitForCompletion();
+        
+        charReady.InitCharacterReady();
     }
 
 

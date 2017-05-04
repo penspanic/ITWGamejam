@@ -53,12 +53,7 @@ public class UiMainMenuController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            isAnimating = true;
-            titleTrs.DOMoveY(-7.2f, 0.7f).SetEase(Ease.InBack).OnComplete(() =>
-                {
-                    isAnimating = false;
-                    canButtonPress = true;
-                });
+            OnPressedTitle();
         }
 
         // pad Control??
@@ -110,7 +105,17 @@ public class UiMainMenuController : MonoBehaviour
 
     public void OnPressedTitle()
     {
+        if (isTitlePressed == true)
+        {
+            return;
+        }
         isTitlePressed = true;
+        isAnimating = true;
+        titleTrs.DOMoveY(-7.2f, 0.7f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            isAnimating = false;
+            canButtonPress = true;
+        });
     }
 
     public void OnPressedStartButton() 
@@ -118,6 +123,7 @@ public class UiMainMenuController : MonoBehaviour
         Debug.Log(canButtonPress);
         if (canButtonPress == false)
         {
+            OnPressedTitle();
             return;
         }
 

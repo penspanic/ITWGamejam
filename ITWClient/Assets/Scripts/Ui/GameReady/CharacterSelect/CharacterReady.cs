@@ -35,8 +35,6 @@ public class CharacterReady : MonoBehaviour {
         plCnt = (int)uiReadyController.howPlayer + 1;
         cpuCnt = uiReadyController.cpuCount;
 
-        Debug.Log(plCnt.ToString());
-        Debug.Log(cpuCnt.ToString());
         selectState = SelectState.PlayerSelect;
 
         var currIdx = 0;
@@ -49,19 +47,17 @@ public class CharacterReady : MonoBehaviour {
         if (plCnt == 2)
         {
             selecters[currIdx].InitCharacterSelecter(0, PlayerType.PL2);
-            Debug.Log(currIdx);
             selecters[currIdx++].OnSelected(true, "P2");
         }
         for (int i = currIdx; i < totalCnt; ++i)
         {
             selecters[i].InitCharacterSelecter(0, PlayerType.CPU);
         }
-        for (int i = totalCnt; i < selecters.Length; ++i)
-        {
-            selecters[i].InitCharacterSelecter(99, PlayerType.None);
-        }
+        //for (int i = totalCnt; i < selecters.Length; ++i)
+        //{
+        //    selecters[i].InitCharacterSelecter(99, PlayerType.None);
+        //}
         isInit = true;
-
     }
 
     public void Update() 
@@ -77,7 +73,6 @@ public class CharacterReady : MonoBehaviour {
                 {
                     if (Input.GetKeyDown(KeyCode.RightArrow))
                     {
-                        Debug.Log("DOWN?");
                         selecters[0].MoveNext();
                     }
                     if (Input.GetKeyDown(KeyCode.Space))
@@ -86,11 +81,15 @@ public class CharacterReady : MonoBehaviour {
                         {
                             return;
                         }
+
+                        if (plCnt == 2 && currCheckPlCnt == 1)
+                        {
+                            return;
+                        }
                         characterTypeList.Add((CharacterType)selecters[0].DecideCharacter());
                         ++currCheckPlCnt;
 
                         ++checkIdx;
-                        Debug.Log("checkIdx:" + checkIdx);
                     }
                 }
 
@@ -224,7 +223,8 @@ public class CharacterReady : MonoBehaviour {
     }
 
     private bool IsCharacterNoneIdx(int idx) {
-        return idx == 0 ? true : false;
+        return false;
+        // return idx == 0 ? true : false;
     }
 
 
