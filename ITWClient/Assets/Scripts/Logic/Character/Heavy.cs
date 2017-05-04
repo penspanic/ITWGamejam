@@ -38,7 +38,7 @@ public class Heavy : ICharacter
         animator.Play("skill", 0);
         IsInvincible = true;
         State = CharacterState.SkillActivated;
-        gameObject.layer = LayerMask.NameToLayer(LayerNames.NonCollidable);
+        SetCollidable(false);
         skillCoroutine = StartCoroutine(SkillProcess());
     }
 
@@ -79,7 +79,7 @@ public class Heavy : ICharacter
             StopCoroutine(skillCoroutine);
             skillCoroutine = null;
         }
-        gameObject.layer = LayerMask.NameToLayer(LayerNames.Team + Player.TeamNumber.ToString());
+        SetCollidable(true);
         animator.enabled = true;
         State = CharacterState.Idle;
         IsInvincible = false;

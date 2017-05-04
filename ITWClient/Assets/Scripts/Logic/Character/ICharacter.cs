@@ -322,9 +322,11 @@ public abstract class ICharacter : MonoBehaviour, IObject
         EffectController.Instance.ShowEffect(EffectType.Hit, new Vector2(0f, 0.1f), transform);
         characterSpriteAnimator.SetColor(new Color(255f / 255f, 109f / 255f, 109f / 255f));
         StartCoroutine(characterSpriteAnimator.Twinkle(invincibleTime, 0.2f));
-        IsInvincible = true;
         animator.Play("hit", 0);
+
+        IsInvincible = true;
         State = CharacterState.Hitted;
+
         Vector2 hitDir = this.transform.position - (attacker as MonoBehaviour).transform.position;
         hitDir.Normalize();
         const float hitMoveDistance = 0.5f;
@@ -332,11 +334,17 @@ public abstract class ICharacter : MonoBehaviour, IObject
         Vector2 endPos = this.transform.position;
         endPos += hitDir * hitMoveDistance;
         transform.DOMove(endPos, hitMoveTime);
+
+        SetCollidable(false);
+
         yield return new WaitForSeconds(invincibleTime);
-        characterSpriteAnimator.SetColor(Color.white);
-        animator.Play("idle", 0);
+
+        SetCollidable(true);
         State = CharacterState.Idle;
         IsInvincible = false;
+
+        characterSpriteAnimator.SetColor(Color.white);
+        animator.Play("idle", 0);
     }
 
     private void OnDeath()
@@ -505,14 +513,14 @@ public abstract class ICharacter : MonoBehaviour, IObject
         IsInvincible = true;
         State = CharacterState.Dodge;
         animator.Play("evade", 0);
-        gameObject.layer = LayerMask.NameToLayer(LayerNames.NonCollidable);
+        SetCollidable(false);
         StartCoroutine(DodgeProcess());
     }
 
     protected virtual void OnDodgeEnd()
     {
         IsInvincible = false;
-        gameObject.layer = LayerMask.NameToLayer(LayerNames.Team + Player.TeamNumber.ToString());
+        SetCollidable(true);
         State = CharacterState.Idle;
     }
 
@@ -532,5 +540,13 @@ public abstract class ICharacter : MonoBehaviour, IObject
         yield return new WaitForSeconds(dodgeCoolTime - dodgeDuration);
 
         IsDodgeCoolTime = false;
+    }
+
+    protected void SetCollidable(bool value)
+    {
+        if(value == true)
+            gameObject.layer = LayerMask.NameToLayer(LayerNames.Team + Player.TeamNumber.ToString());
+        else
+            gameObject.layer = LayerMask.NameToLayer(LayerNames.NonCollidable);
     }
 }
