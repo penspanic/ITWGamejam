@@ -42,12 +42,14 @@ public class CharacterReady : MonoBehaviour {
         if (plCnt >= 1)
         {
             selecters[currIdx].InitCharacterSelecter(0, PlayerType.PL1);
-            selecters[currIdx++].OnSelected(true, "P1");
+            selecters[currIdx].OnSelected(true, "P1", GetTeamColorByPlayerType(PlayerType.PL1, currIdx));
+            ++currIdx;
         }
         if (plCnt == 2)
         {
             selecters[currIdx].InitCharacterSelecter(0, PlayerType.PL2);
-            selecters[currIdx++].OnSelected(true, "P2");
+            selecters[currIdx].OnSelected(true, "P2", GetTeamColorByPlayerType(PlayerType.PL2, currIdx));
+            ++currIdx;
         }
         for (int i = currIdx; i < totalCnt; ++i)
         {
@@ -114,7 +116,12 @@ public class CharacterReady : MonoBehaviour {
 
                 if (currCheckPlCnt >= plCnt)
                 {
-                    selecters[checkIdx].OnSelected(true, "CPU");
+                    if (currCheckCpuCnt >= cpuCnt)
+                    {
+                        StartGame();
+                        return;
+                    }
+                    selecters[checkIdx].OnSelected(true, "CPU", GetTeamColorByPlayerType(PlayerType.CPU, checkIdx));
                     ++selectState;
                 }
                 break;
@@ -122,8 +129,6 @@ public class CharacterReady : MonoBehaviour {
                 //Debug.Log(cpuCnt);
                 if (currCheckCpuCnt >= cpuCnt)
                 {
-                    // 
-                    Debug.Log("gameStart");
                     StartGame();
                     return;
                 }
@@ -141,7 +146,13 @@ public class CharacterReady : MonoBehaviour {
                     ++currCheckCpuCnt;
                     if (checkIdx <= selecters.Length - 2)
                     {
-                        selecters[++checkIdx].OnSelected(true, "CPU");
+                        if (currCheckCpuCnt >= cpuCnt)
+                        {
+                            StartGame();
+                            return;
+                        }
+                        ++checkIdx;
+                        selecters[checkIdx].OnSelected(true, "CPU", GetTeamColorByPlayerType(PlayerType.CPU, checkIdx));
                     }
                 }
 
@@ -225,6 +236,54 @@ public class CharacterReady : MonoBehaviour {
     private bool IsCharacterNoneIdx(int idx) {
         return false;
         // return idx == 0 ? true : false;
+    }
+
+    private Color GetTeamColorByPlayerType(PlayerType pt, int plIdx)
+    {
+        if (uiReadyController.gameMode == GameMode.Personal)
+        {
+            return TeamController.GetTeamColor(plIdx + 1);
+        }
+        else if(uiReadyController.gameMode == GameMode.Team)
+        {
+            switch (pt)
+            {
+                case PlayerType.PL1:
+                    return TeamController.GetTeamColor(1);
+                case PlayerType.PL2:
+                    if (uiReadyController.versusMode == P2TeamMode.PL2vsCP2)
+                        return TeamController.GetTeamColor(1);
+                    else if (uiReadyController.versusMode == P2TeamMode.PLCPvsPLCP)
+                        return TeamController.GetTeamColor(2);
+                    break;
+                case PlayerType.CPU:
+                    if (uiReadyController.versusMode == P2TeamMode.PL2vsCP2)
+                        return TeamController.GetTeamColor(2);
+                    else if (uiReadyController.versusMode == P2TeamMode.PLCPvsPLCP)
+                        return TeamController.GetTeamColor(plIdx - 1);
+                    else // none
+                    {
+                        if (uiReadyController.howPlayer == HowPlayer.P1)
+                        {
+                            if (plIdx < (plCnt + cpuCnt) / 2)
+                            {
+                                return TeamController.GetTeamColor(1);
+                            }
+                            else
+                            { 
+                                return TeamController.GetTeamColor(2);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    throw new UnityException("Wrong PlayerType!");
+            }            
+        }
+
+        Debug.Log("RETURN WHITE?");
+        return Color.white;
+
     }
 
 

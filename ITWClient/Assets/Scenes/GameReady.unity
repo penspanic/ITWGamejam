@@ -124,7 +124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &10428266
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3959,7 +3959,7 @@ MonoBehaviour:
   - {fileID: 1188721657}
   - {fileID: 284785311}
   plType: 0
-  selectObj: {fileID: 621295697}
+  selectObj: {fileID: 621295699}
   selectObjText: {fileID: 1824995804}
   isSelected: 0
 --- !u!1 &1501085270
@@ -4054,7 +4054,7 @@ MonoBehaviour:
   - {fileID: 1998999682}
   - {fileID: 981836820}
   plType: 0
-  selectObj: {fileID: 10428265}
+  selectObj: {fileID: 10428267}
   selectObjText: {fileID: 2136643517}
   isSelected: 0
 --- !u!114 &1501085275
@@ -5541,7 +5541,7 @@ MonoBehaviour:
   - {fileID: 988958261}
   - {fileID: 1343931129}
   plType: 0
-  selectObj: {fileID: 438175381}
+  selectObj: {fileID: 438175383}
   selectObjText: {fileID: 1922007699}
   isSelected: 0
 --- !u!224 &2000592648
@@ -5795,7 +5795,7 @@ MonoBehaviour:
   - {fileID: 381784204}
   - {fileID: 1847002309}
   plType: 0
-  selectObj: {fileID: 1282924698}
+  selectObj: {fileID: 1282924700}
   selectObjText: {fileID: 1188831951}
   isSelected: 0
 --- !u!1 &2070693526

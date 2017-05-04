@@ -15,7 +15,7 @@ public enum PlayerType
 public class CharacterSelecter : MonoBehaviour {
     public Transform[] characterArr;
     public PlayerType plType;
-    public GameObject selectObj;
+    public Image selectObj;
     public Text selectObjText;
     public bool isSelected = false;
 
@@ -60,10 +60,10 @@ public class CharacterSelecter : MonoBehaviour {
         
     }
 
-    public void OnSelected(bool isSelect, string text)
+    public void OnSelected(bool isSelect, string text, Color roundColor = default(Color))
     {
         isSelected = isSelect;
-        selectObj.SetActive(isSelect);
+        selectObj.gameObject.SetActive(isSelect);
 
         if (isSelect == true)
         {            
@@ -73,6 +73,7 @@ public class CharacterSelecter : MonoBehaviour {
             {
                 isRotating = false;
             });
+            selectObj.color = roundColor;
         }
         else
         {
