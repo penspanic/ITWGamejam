@@ -17,8 +17,6 @@ public static class AnimationHelper
             up = (Quaternion.Euler(0, 0, 90) * dirVec).normalized;
         }
 
-        Debug.Log("dir vec : " + dirVec + " up : " + up);
-        Debug.Log(up * added);
         current += up * added;
         return current;
     }

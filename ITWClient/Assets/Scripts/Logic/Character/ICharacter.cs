@@ -75,10 +75,12 @@ public abstract class ICharacter : MonoBehaviour, IObject
     protected Rigidbody2D rigidBody;
     protected Vector2 prevDirection;
     protected Vector2 prevMovedDirection;
+    protected GameObject chargeEffect = null;
 
+    private List<GameObject> triggeredPoisons = new List<GameObject>();
     private Coroutine chargeCoroutine = null;
     private Coroutine poisoningCoroutine = null;
-    private List<GameObject> triggeredPoisons = new List<GameObject>();
+
     protected virtual void Awake()
     {
         characterManager = GameObject.FindObjectOfType<CharacterManager>();
@@ -409,6 +411,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     {
         animator.Play("charge", 0);
         State = CharacterState.Charging;
+        chargeEffect = EffectController.Instance.ShowEffect(EffectType.Charge, new Vector2(0, 0.1f), transform);
         chargeCoroutine = StartCoroutine(ChargeProcess());
     }
 
@@ -438,6 +441,8 @@ public abstract class ICharacter : MonoBehaviour, IObject
         {
             StopCoroutine(chargeCoroutine);
             IsCharging = false;
+            Destroy(chargeEffect);
+            chargeEffect = null;
         }
     }
 

@@ -26,6 +26,12 @@ public class Heavy : ICharacter
         }
         return base.CanMove();
     }
+
+    protected override void Charge()
+    {
+        base.Charge();
+        chargeEffect.transform.localScale *= 1.5f;
+    }
     protected override void UseSkill()
     {
         base.UseSkill();
