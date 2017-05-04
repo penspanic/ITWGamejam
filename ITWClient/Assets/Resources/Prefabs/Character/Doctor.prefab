@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 4942113349510060}
   - component: {fileID: 95724084859973470}
   - component: {fileID: 114084206289293798}
+  - component: {fileID: 114661377165283544}
   - component: {fileID: 210930645463242314}
   - component: {fileID: 61325986395479906}
   - component: {fileID: 50570796330698978}
@@ -514,6 +515,29 @@ MonoBehaviour:
   poisonSizeRange: {x: 0.5, y: 1}
   poisonPosRange: {x: -0.1, y: 0.1}
   dodgeEffect: {fileID: 1711957625422226}
+--- !u!114 &114661377165283544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1277216865118276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f735930c2759944a6533a2d59ac892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetRenderers:
+  - {fileID: 212525078539880986}
+  - {fileID: 212785286198152992}
+  - {fileID: 212794588829411666}
+  - {fileID: 212296002474009908}
+  - {fileID: 212618854275564166}
+  - {fileID: 212051733535174510}
+  - {fileID: 212207126781897206}
+  - {fileID: 212197221489729880}
+  - {fileID: 212140309791859098}
+  - {fileID: 212418486255146958}
+  - {fileID: 212066351549152326}
 --- !u!210 &210930645463242314
 SortingGroup:
   m_ObjectHideFlags: 1

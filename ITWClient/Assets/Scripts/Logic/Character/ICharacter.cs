@@ -76,17 +76,19 @@ public abstract class ICharacter : MonoBehaviour, IObject
     protected Vector2 prevDirection;
     protected Vector2 prevMovedDirection;
     protected GameObject chargeEffect = null;
+    protected SpriteAnimator characterSpriteAnimator;
 
-    private List<GameObject> triggeredPoisons = new List<GameObject>();
+    private List<Poison> triggeredPoisons = new List<Poison>();
     private Coroutine chargeCoroutine = null;
     private Coroutine poisoningCoroutine = null;
-
+    
     protected virtual void Awake()
     {
         characterManager = GameObject.FindObjectOfType<CharacterManager>();
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         rigidBody = GetComponent<Rigidbody2D>();
+        characterSpriteAnimator = GetComponent<SpriteAnimator>();
         Hp = MaxHp;
         Mp = MaxMp;
     }
@@ -310,17 +312,28 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
         else
         {
-            StartCoroutine(DamageProcess());
+            StartCoroutine(DamageProcess(attacker));
         }
     }
 
-    private IEnumerator DamageProcess()
+    private IEnumerator DamageProcess(IObject attacker)
     {
-        EffectController.Instance.ShowEffect(EffectType.Hit, transform.position);
+        const float invincibleTime = 1f;
+        EffectController.Instance.ShowEffect(EffectType.Hit, new Vector2(0f, 0.1f), transform);
+        characterSpriteAnimator.SetColor(new Color(255f / 255f, 109f / 255f, 109f / 255f));
+        StartCoroutine(characterSpriteAnimator.Twinkle(invincibleTime, 0.2f));
         IsInvincible = true;
         animator.Play("hit", 0);
         State = CharacterState.Hitted;
-        yield return new WaitForSeconds(1f);
+        Vector2 hitDir = this.transform.position - (attacker as MonoBehaviour).transform.position;
+        hitDir.Normalize();
+        const float hitMoveDistance = 0.5f;
+        const float hitMoveTime = 0.3f;
+        Vector2 endPos = this.transform.position;
+        endPos += hitDir * hitMoveDistance;
+        transform.DOMove(endPos, hitMoveTime);
+        yield return new WaitForSeconds(invincibleTime);
+        characterSpriteAnimator.SetColor(Color.white);
         animator.Play("idle", 0);
         State = CharacterState.Idle;
         IsInvincible = false;
@@ -344,7 +357,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
         if(other.CompareTag(TagNames.Poison) == true)
         {
-            OnPoisoned(other.gameObject);
+            OnPoisoned(other.gameObject.GetComponent<Poison>());
         }
     }
 
@@ -352,7 +365,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     {
         if(other.CompareTag(TagNames.Poison) == true)
         {
-            triggeredPoisons.Remove(other.gameObject);
+            triggeredPoisons.Remove(other.gameObject.GetComponent<Poison>());
             if(triggeredPoisons.Count == 0)
             {
                 StopCoroutine(poisoningCoroutine);
@@ -361,24 +374,24 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
     }
 
-    private void OnPoisoned(GameObject poisonObject)
+    private void OnPoisoned(Poison poison)
     {
-        triggeredPoisons.Add(poisonObject);
+        triggeredPoisons.Add(poison);
         if(poisoningCoroutine == null)
         {
-            poisoningCoroutine = StartCoroutine(PoisonedProcess());
+            poisoningCoroutine = StartCoroutine(PoisonedProcess(poison));
         }
     }
 
-    private IEnumerator PoisonedProcess()
+    private IEnumerator PoisonedProcess(Poison poison)
     {
         while(true)
         {
             yield return new WaitForSeconds(1.3f);
-            triggeredPoisons.RemoveAll((GameObject obj) => { return obj == null; });
+            triggeredPoisons.RemoveAll((Poison eachPoison) => { return eachPoison == null; });
             if(triggeredPoisons.Count > 0)
             {
-                OnHit(this, 1);
+                OnHit(poison as IObject, 1);
             }
         }
     }
@@ -411,7 +424,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     {
         animator.Play("charge", 0);
         State = CharacterState.Charging;
-        chargeEffect = EffectController.Instance.ShowEffect(EffectType.Charge, new Vector2(0, 0.1f), transform);
+        chargeEffect = EffectController.Instance.ShowEffect(EffectType.Charge, new Vector2(0f, 0.2f), transform);
         chargeCoroutine = StartCoroutine(ChargeProcess());
     }
 
