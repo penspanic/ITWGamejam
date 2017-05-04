@@ -41,9 +41,16 @@ public class CharacterManager : MonoBehaviour
         Create(player, characterType);
     }
 
+    private void Update()
+    {
+        for(int i = 0; i < Characters.Count; ++i)
+        {
+
+        }
+    }
+
     public void OnCharacterDeath(IObject character)
     {
         ICharacter deadCharacter = character as ICharacter;
-        // TODO : 죽은 캐릭터 가장 뒤에 보이도록 해야 함.
     }
 }

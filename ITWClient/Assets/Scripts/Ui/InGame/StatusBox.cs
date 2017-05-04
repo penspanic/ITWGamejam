@@ -46,7 +46,13 @@ public class StatusBox : MonoBehaviour
 
     public void SetPlayer(Player player)
     {
+        if(this.targetPlayer != null)
+        {
+            this.targetPlayer.TargetCharacter.OnDestroyed -= OnCharacterDeath;
+        }
+
         this.targetPlayer = player;
+        this.targetPlayer.TargetCharacter.OnDestroyed += OnCharacterDeath;
         SetPortrait();
         Refresh();
     }
@@ -57,6 +63,11 @@ public class StatusBox : MonoBehaviour
         int playerNumber = targetPlayer.PlayerNumber;
         int teamNumber = TeamController.GetTeam(playerNumber).TeamNumber;
         portraitImage.transform.FindChild("Team Color").GetComponent<Image>().color = TeamController.GetTeamColor(teamNumber);
+    }
+
+    private void OnCharacterDeath(IObject character)
+    {
+        portraitImage.color = new Color(0.25f, 0.25f, 0.25f);
     }
 
     private void Update()
