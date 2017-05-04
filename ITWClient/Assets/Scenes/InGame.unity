@@ -3306,7 +3306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
-  minOrthoSize: 1.3
+  orthoSizeRange: {x: 1.3, y: 3.6}
 --- !u!1 &1562831586
 GameObject:
   m_ObjectHideFlags: 0
