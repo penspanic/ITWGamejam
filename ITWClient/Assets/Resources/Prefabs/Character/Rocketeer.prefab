@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4215257652812876}
   - component: {fileID: 95397957338980564}
   - component: {fileID: 114028053512016780}
+  - component: {fileID: 114306855005365400}
   - component: {fileID: 210960637207640368}
   - component: {fileID: 61873863622620034}
   - component: {fileID: 50534790307692584}
@@ -399,6 +400,27 @@ MonoBehaviour:
   dodgeDuration: 0.5
   MaxHp: 3
   MaxMp: 1000
+--- !u!114 &114306855005365400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214193649992988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f735930c2759944a6533a2d59ac892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetRenderers:
+  - {fileID: 212092885603665664}
+  - {fileID: 212672032018585894}
+  - {fileID: 212542187695461018}
+  - {fileID: 212385534730113838}
+  - {fileID: 212068498575096692}
+  - {fileID: 212567668900330892}
+  - {fileID: 212483652729450130}
+  - {fileID: 212114524492488490}
+  - {fileID: 212836860444710082}
 --- !u!210 &210960637207640368
 SortingGroup:
   m_ObjectHideFlags: 1
