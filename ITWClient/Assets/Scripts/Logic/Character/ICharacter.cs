@@ -247,7 +247,10 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual void OnLaunchEnd()
     {
-        StartCoroutine(LandingProcess());
+        if(State == CharacterState.Flying)
+        {
+            StartCoroutine(LandingProcess());
+        }
     }
 
     private IEnumerator LandingProcess()

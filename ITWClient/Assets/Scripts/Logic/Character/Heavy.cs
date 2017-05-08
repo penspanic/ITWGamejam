@@ -85,9 +85,15 @@ public class Heavy : ICharacter
         IsInvincible = false;
     }
 
+    protected override void Dodge()
+    {
+        base.Dodge();
+        SetCollidable(true);
+    }
     protected override IEnumerator DodgeProcess()
     {
         IsDodgeCoolTime = true;
+        EffectController.Instance.ShowEffect(EffectType.Heavy_Evade, new Vector2(0f, 0.1f), this.transform);
         yield return new WaitForSeconds(dodgeDuration);
 
         if(State == CharacterState.Dodge)
@@ -108,6 +114,7 @@ public class Heavy : ICharacter
             if(otherCharacter.State == CharacterState.Flying
                 && this.State == CharacterState.Dodge)
             {
+                EffectController.Instance.ShowEffect(EffectType.Heavy_Counter, Vector2.zero, this.transform);
                 otherCharacter.OnHit(this, 1, true);
                 return;
             }
