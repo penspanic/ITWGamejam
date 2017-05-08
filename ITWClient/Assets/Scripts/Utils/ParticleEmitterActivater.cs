@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ParticleEmitterActivater : MonoBehaviour
 {
@@ -7,27 +8,33 @@ public class ParticleEmitterActivater : MonoBehaviour
     [SerializeField]
     private ParticleSystem[] particleSystems;
 
+    private ParticleSystem.EmissionModule[] ems;
+
     private void Awake()
     {
-
-    }
-
-    public void SetEmitterEnable()
-    {
+        List<ParticleSystem.EmissionModule> emList = new List<ParticleSystem.EmissionModule>();
         foreach(ParticleSystem system in particleSystems)
         {
-            ParticleSystem.EmissionModule module = system.emission;
-            module.enabled = true;
+            emList.Add(system.emission);
         }
+        ems = emList.ToArray();
     }
 
-    public void SetEmitterDisable()
+    public void SetEmitterEnable(float duration)
     {
-        foreach(ParticleSystem system in particleSystems)
+        for(int i = 0; i < ems.Length; ++i)
         {
-            ParticleSystem.EmissionModule module = system.emission;
-            module.enabled = false;
-            system.Clear();
+            ems[i].enabled = true;
+        }
+
+        Invoke("SetEmitterDisable", duration);
+    }
+
+    private void SetEmitterDisable()
+    {
+        for(int i = 0; i < ems.Length; ++i)
+        {
+            ems[i].enabled = false;
         }
     }
 }
