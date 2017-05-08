@@ -490,7 +490,7 @@ MonoBehaviour:
   dodgeNeedMp: 300
   dodgeDistance: 0
   dodgeCoolTime: 1
-  dodgeDuration: 1
+  dodgeDuration: 0.5
   MaxHp: 5
   MaxMp: 1000
   skillMoveTime: 0.7
@@ -588,7 +588,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1947445581
+  randomSeed: 552692657
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3490,7 +3490,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 407638407
+  randomSeed: -2083686771
   InitialModule:
     serializedVersion: 3
     enabled: 1

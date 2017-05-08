@@ -247,7 +247,10 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual void OnLaunchEnd()
     {
-        StartCoroutine(LandingProcess());
+        if(State == CharacterState.Flying)
+        {
+            StartCoroutine(LandingProcess());
+        }
     }
 
     private IEnumerator LandingProcess()
@@ -299,12 +302,29 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
     }
 
+    protected virtual void CallEndEventWhenHit()
+    {
+        switch(State)
+        {
+            case CharacterState.Flying:
+                transform.DOKill();
+                OnDodgeEnd();
+                break;
+            case CharacterState.Charging:
+                CancelCharge();
+                break;
+            default:
+                break;
+        }
+    }
+
     public virtual void OnHit(IObject attacker, int damage, bool forced = false)
     {
         if(IsInvincible == true && forced == false)
         {
             return;
         }
+        CallEndEventWhenHit();
         Hp -= damage;
         if(Hp <= 0)
         {
@@ -352,7 +372,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         IsDead = true;
         GetComponent<Collider2D>().enabled = false;
         animator.Play("death", 0);
-
+        EffectController.Instance.ShowEffect(EffectType.Die, Vector2.zero, this.transform);
         OnDestroyed(this);
     }
 
