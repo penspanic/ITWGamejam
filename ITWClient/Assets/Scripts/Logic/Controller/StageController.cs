@@ -8,7 +8,7 @@ public class StageController : MonoBehaviour
     private float maxStageTime;
     public bool IsStageStarted { get; set; }
     public float RemainElapsedTime { get; set; }
-
+    public static bool IsEditMode = true;
     #region Event
     public event System.Action OnStageStart;
     public event System.Action OnStageEnd;
@@ -54,6 +54,14 @@ public class StageController : MonoBehaviour
         uiPlayerController.SetPlayers(playerManager.Players.ToArray());
         cameraController.SetTargets(characterObjects.ToArray());
 
+        if(IsEditMode == true)
+        {
+            StartCoroutine(StageTimeProcess());
+            OnStageStart();
+            IsStageStarted = true;
+            yield break;
+        }
+
         yield return new WaitForSeconds(3f);
 
         StartCoroutine(StageTimeProcess());
@@ -65,10 +73,14 @@ public class StageController : MonoBehaviour
 
     private IEnumerator StageTimeProcess()
     {
-        while(IsStageStarted == true)
+        while(true)
         {
             yield return null;
-            RemainElapsedTime -= Time.deltaTime;
+
+            if(IsStageStarted == true)
+            {
+                RemainElapsedTime -= Time.deltaTime;
+            }
         }
     }
 
