@@ -21,6 +21,7 @@ public class EffectController : Singleton<EffectController>
     {
         effectPrefabs.Add(EffectType.Hit, Resources.Load<GameObject>("Prefabs/Effect/Hit"));
         effectPrefabs.Add(EffectType.Charge, Resources.Load<GameObject>("Prefabs/Effect/Charge"));
+        effectPrefabs.Add(EffectType.Die, Resources.Load<GameObject>("Prefabs/Effect/Die"));
         effectPrefabs.Add(EffectType.Die_Portrait, Resources.Load<GameObject>("Prefabs/Effect/Die_Portrait"));
     }
 

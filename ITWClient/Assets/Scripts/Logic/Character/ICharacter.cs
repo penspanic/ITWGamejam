@@ -352,7 +352,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         IsDead = true;
         GetComponent<Collider2D>().enabled = false;
         animator.Play("death", 0);
-
+        EffectController.Instance.ShowEffect(EffectType.Die, Vector2.zero, this.transform);
         OnDestroyed(this);
     }
 
