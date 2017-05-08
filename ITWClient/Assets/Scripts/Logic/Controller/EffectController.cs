@@ -6,6 +6,8 @@ public enum EffectType
 {
     Hit,
     Charge,
+    Die,
+    Die_Portrait,
 }
 
 public class EffectController : Singleton<EffectController>
@@ -19,6 +21,7 @@ public class EffectController : Singleton<EffectController>
     {
         effectPrefabs.Add(EffectType.Hit, Resources.Load<GameObject>("Prefabs/Effect/Hit"));
         effectPrefabs.Add(EffectType.Charge, Resources.Load<GameObject>("Prefabs/Effect/Charge"));
+        effectPrefabs.Add(EffectType.Die_Portrait, Resources.Load<GameObject>("Prefabs/Effect/Die_Portrait"));
     }
 
     public GameObject ShowEffect(EffectType type, Vector2 pos, Transform parent = null)
