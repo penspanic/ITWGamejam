@@ -37,7 +37,10 @@ public class StageController : MonoBehaviour
         RemainElapsedTime = maxStageTime;
         int obstacleCount = Random.Range(5, 10);
         //mapController.CreateObstacles(obstacleCount);
+    }
 
+    private void Start()
+    {
         StartCoroutine(StageStartProcess());
     }
 
@@ -60,8 +63,8 @@ public class StageController : MonoBehaviour
         if(IsEditMode == true)
         {
             StartCoroutine(StageTimeProcess());
-            OnStageStart();
             IsStageStarted = true;
+            OnStageStart();
             yield break;
         }
 
