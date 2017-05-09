@@ -31,6 +31,8 @@ public class CharacterManager : MonoBehaviour
         if(player.GetComponent<PlayerInputController>() != null)
             player.GetComponent<PlayerInputController>().Initialized = true;
 
+        newCharacter.GetComponentInChildren<CharacterFloatingUi>().Initialize(player);
+
         SortingLayerController.Instance.AddTarget(newCharacter);
     }
 
