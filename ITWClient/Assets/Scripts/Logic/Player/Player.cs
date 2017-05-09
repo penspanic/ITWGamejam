@@ -7,9 +7,10 @@ using System.Collections.Generic;
 /// </summary>
 public class Player : MonoBehaviour
 {
-    public int TeamNumber { get; protected set; }
-    public int PlayerNumber { get; protected set; }
-    public ICharacter TargetCharacter { get; protected set; }
+    public bool IsCpu { get; set; }
+    public int TeamNumber { get; private set; }
+    public int PlayerNumber { get; private set; }
+    public ICharacter TargetCharacter { get; private set; }
 
     private void Awake()
     {

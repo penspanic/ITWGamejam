@@ -63,6 +63,18 @@ public class StatusBox : MonoBehaviour
         int playerNumber = targetPlayer.PlayerNumber;
         int teamNumber = TeamController.GetTeam(playerNumber).TeamNumber;
         portraitImage.transform.FindChild("Team Color").GetComponent<Image>().color = TeamController.GetTeamColor(teamNumber);
+        Text teamText = portraitImage.transform.FindChild("Team Text").GetComponent<Text>();
+        teamText.color = TeamController.GetTeamColor(teamNumber);
+        string teamTextStr = string.Empty;
+        if(targetPlayer.IsCpu == true)
+        {
+            teamTextStr = "CPU";
+        }
+        else
+        {
+            teamTextStr = playerNumber.ToString() + "P";
+        }
+        teamText.text = teamTextStr;
     }
 
     private void OnCharacterDeath(IObject character)

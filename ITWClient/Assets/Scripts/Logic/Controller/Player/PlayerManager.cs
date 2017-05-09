@@ -30,6 +30,7 @@ public class PlayerManager : MonoBehaviour
                     inputControllers.Add(inputController);
                 }
                 Player newPlayer = newPlayerObject.GetComponent<Player>();
+                newPlayer.IsCpu = playerData.IsCpu;
                 newPlayer.SetNumber(team.TeamNumber, playerData.PlayerNumber);
                 Players.Add(newPlayer);
             }
