@@ -45,11 +45,14 @@ public class StageController : MonoBehaviour
     {
         playerManager.CreatePlayers();
         List<GameObject> characterObjects = new List<GameObject>();
-        foreach(Player eachPlayer in playerManager.Players)
+        Vector2[] createPositions = TeamController.GetCharacterCreatePos(playerManager.Players.Count);
+        for(int i = 0; i < playerManager.Players.Count;++i)
         {
-            characterManager.Create(eachPlayer, TeamController.GetCharacterType(eachPlayer.PlayerNumber));
-            characterObjects.Add(eachPlayer.TargetCharacter.gameObject);
-            eachPlayer.TargetCharacter.OnDestroyed += OnCharacterDeath;
+            Player currPlayer = playerManager.Players[i];
+            characterManager.Create(currPlayer, TeamController.GetCharacterType(currPlayer.PlayerNumber));
+            characterObjects.Add(currPlayer.TargetCharacter.gameObject);
+            currPlayer.TargetCharacter.OnDestroyed += OnCharacterDeath;
+            currPlayer.TargetCharacter.transform.position = createPositions[i];
         }
         uiPlayerController.SetPlayers(playerManager.Players.ToArray());
         cameraController.SetTargets(characterObjects.ToArray());

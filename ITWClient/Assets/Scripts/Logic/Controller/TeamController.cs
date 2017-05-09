@@ -156,4 +156,22 @@ public static class TeamController
         }
         throw new UnityException("playerNum not found.");
     }
+
+    public static Vector2[] GetCharacterCreatePos(int playerCount)
+    {
+        if(playerCount == 2)
+        {
+            return new Vector2[2] { new Vector2(-2f, 0f), new Vector2(2f, 0f) };
+        }
+        else if(playerCount == 3)
+        {
+            return new Vector2[3] { new Vector2(0f, 1.42f), new Vector2(-1.27f, -1.12f), new Vector2(1.27f, -1.12f) };
+        }
+        else if(playerCount == 4)
+        {
+            return new Vector2[4] { new Vector2(1.25f, 1.1f), new Vector2(-1.25f, 1.1f), new Vector2(1.25f, -1.1f), new Vector2(-1.25f, -1.1f) };
+        }
+
+        throw new UnityException("Invalid player count : " + playerCount);
+    }
 }
