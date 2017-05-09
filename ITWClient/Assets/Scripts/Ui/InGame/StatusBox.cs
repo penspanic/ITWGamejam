@@ -81,7 +81,8 @@ public class StatusBox : MonoBehaviour
     private void OnCharacterDeath(IObject character)
     {
         portraitImage.color = new Color(0.25f, 0.25f, 0.25f);
-        EffectController.Instance.ShowEffect(EffectType.Die_Portrait, new Vector2(-48f, 0f), this.transform);
+        GameObject effect = EffectController.Instance.ShowEffect(EffectType.Die_Portrait, new Vector2(-48f, 0f), this.transform);
+        effect.transform.localScale = new Vector3(100f, 100f, 100f);
     }
 
     private void Update()
