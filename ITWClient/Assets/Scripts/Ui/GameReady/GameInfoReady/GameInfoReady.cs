@@ -92,6 +92,7 @@ public class GameInfoReady : MonoBehaviour
                 if (selectCheck.GetCurrIdx() == 0)
                 {
                     //back
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
                     return;
                 }
 
@@ -160,12 +161,14 @@ public class GameInfoReady : MonoBehaviour
                     selectCheck.SetSelected(true, true, 1);
                     isAllCheck = true;
                     isDoneRaw = true;
+                    uiGameReady.SetCursorEnable(false);
                     break;
                 case GameInfoState.AllSelectDone:
                     var idx = selectCheck.GetCurrIdx();
                     if (idx == 0)
                     {
                         // back
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
                     }
                     else if (idx == 1)
                     {
@@ -188,6 +191,7 @@ public class GameInfoReady : MonoBehaviour
         {
             if (gameInfoState != GameInfoState.AllSelectDone)
             {
+                uiGameReady.SetCursorEnable(false);
                 isDoneRaw = true;
                 selectDic[gameInfoState].SetSelected(false);
                 selectCheck.SetSelected(true, true);
@@ -199,6 +203,7 @@ public class GameInfoReady : MonoBehaviour
 
             if (gameInfoState != GameInfoState.AllSelectDone)
             {
+                uiGameReady.SetCursorEnable(true);
                 selectCheck.BackRawSelectByCurrIdx(true);
                 selectDic[gameInfoState].SetSelected(true);
                 selectCheck.SetSelected(false);

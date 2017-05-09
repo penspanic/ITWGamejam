@@ -84,13 +84,20 @@ public class CharacterReady : MonoBehaviour {
                             return;
                         }
 
-                        if (plCnt == 2 && currCheckPlCnt == 1)
+                        if (plCnt == 2 && currCheckPlCnt == 2)
                         {
                             return;
                         }
-                        characterTypeList.Add((CharacterType)selecters[0].DecideCharacter());
-                        ++currCheckPlCnt;
 
+                        if (characterTypeList.Count == 0)
+                        {
+                            characterTypeList.Add((CharacterType)selecters[0].DecideCharacter());
+                        }
+                        else
+                        {
+                            characterTypeList.Insert(0, (CharacterType)selecters[0].DecideCharacter());
+                        }
+                        ++currCheckPlCnt;
                         ++checkIdx;
                     }
                 }
