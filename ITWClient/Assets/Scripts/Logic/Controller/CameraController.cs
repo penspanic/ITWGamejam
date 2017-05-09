@@ -49,7 +49,7 @@ public class CameraController : MonoBehaviour
             if(targetRect.height > targetRect.width)
             {
                 size = targetRect.height;
-                size += 0.3f; // 하단 StatusBox 땜에
+                size += 0.7f; // 하단 StatusBox 땜에
             }
             else
             {
@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour
                 size /= 1.777777777777f;
             }
 
-            float orthoSize = size / 2f + 0.3f;
+            float orthoSize = size / 2f + 0.5f;
             orthoSize = Mathf.Lerp(Camera.main.orthographicSize, orthoSize, Time.deltaTime * 2f);
             if(orthoSize < orthoSizeRange.x)
                 orthoSize = orthoSizeRange.x;
