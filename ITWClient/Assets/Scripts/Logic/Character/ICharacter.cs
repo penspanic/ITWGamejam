@@ -81,6 +81,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     private List<Poison> triggeredPoisons = new List<Poison>();
     private Coroutine chargeCoroutine = null;
     private Coroutine poisoningCoroutine = null;
+    private ParticleSystem.EmissionModule runningDustEmission;
     
     protected virtual void Awake()
     {
@@ -91,11 +92,13 @@ public abstract class ICharacter : MonoBehaviour, IObject
         characterSpriteAnimator = GetComponent<SpriteAnimator>();
         Hp = MaxHp;
         Mp = MaxMp;
+
+        runningDustEmission = transform.FindChild("Running_dust").GetComponent<ParticleSystem>().emission;
     }
 
     protected virtual void Update()
     {
-
+        runningDustEmission.enabled = State == CharacterState.Moving;
     }
 
     public void Initialize(Player player)
