@@ -181,15 +181,14 @@ public class CharacterReady : MonoBehaviour {
 
         TeamController.Teams.Clear();
 
-        var plNum = (int)uiReadyController.howPlayer;
-        var totalCnt = plNum + 1 + cpuCnt;
+        var totalCnt = plCnt + cpuCnt;
 
         switch (uiReadyController.gameMode)
         {
             case GameMode.Personal:
                 for (int i = 0; i < totalCnt; ++i)
                 {
-                    TeamController.AddPlayerInTeam(i + 1, ((i + 1 <= plNum) ? false : true), i+1, characterTypeList[i]);
+                    TeamController.AddPlayerInTeam(i + 1, ((i + 1 <= plCnt) ? false : true), i+1, characterTypeList[i]);
                 }
                 break;
             case GameMode.Team:
