@@ -30,8 +30,8 @@ public class BgmManager : Singleton<BgmManager>
 
     public void LoadClips()
     {
-        bgmClips.Add(BgmType.Main,      Resources.Load<AudioClip>("Sounds/Bgm/BGM_Select_1"));
-        bgmClips.Add(BgmType.Select,    Resources.Load<AudioClip>("Sounds/Bgm/BGM_MainMenu"));
+        bgmClips.Add(BgmType.Main,      Resources.Load<AudioClip>("Sounds/Bgm/BGM_MainMenu"));
+        bgmClips.Add(BgmType.Select,    Resources.Load<AudioClip>("Sounds/Bgm/BGM_Select_1"));
         bgmClips.Add(BgmType.InGame1,   Resources.Load<AudioClip>("Sounds/Bgm/BGM_InGame_1"));
         bgmClips.Add(BgmType.InGame2,   Resources.Load<AudioClip>("Sounds/Bgm/BGM_InGame_2"));
         bgmClips.Add(BgmType.GameOver,  Resources.Load<AudioClip>("Sounds/Bgm/BGM_GameOver"));
