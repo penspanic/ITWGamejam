@@ -64,7 +64,7 @@ public class UiMainMenuController : MonoBehaviour
         // pad Control??
 
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(UIGameKey.LeftArrow_1P))
         {
             if (currIdx <= 0)
             {
@@ -74,7 +74,7 @@ public class UiMainMenuController : MonoBehaviour
             --currIdx;
             buttons[currIdx].OnSelected(true);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(UIGameKey.RightArrow_1P))
         {
             if (currIdx >= buttons.Length - 1)
             {
@@ -84,9 +84,8 @@ public class UiMainMenuController : MonoBehaviour
             ++currIdx;
             buttons[currIdx].OnSelected(true);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(UIGameKey.Select_1P))
         {
-            Debug.Log(currIdx);
             switch (currIdx)
             {
                 case 0: // option
@@ -125,7 +124,6 @@ public class UiMainMenuController : MonoBehaviour
 
     public void OnPressedStartButton() 
     {
-        Debug.Log(canButtonPress);
         if (canButtonPress == false)
         {
             OnPressedTitle();

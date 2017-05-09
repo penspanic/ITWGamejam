@@ -26,6 +26,8 @@ public class CharacterReady : MonoBehaviour {
     private int checkIdx = 0;
 
     private bool isStart = false;
+    private bool isPlReady = false;
+    private bool isP2Ready = false;
 
     public void InitCharacterReady() 
     {
@@ -60,6 +62,8 @@ public class CharacterReady : MonoBehaviour {
         //    selecters[i].InitCharacterSelecter(99, PlayerType.None);
         //}
         isInit = true;
+        isPlReady = false;
+        isP2Ready = false;
     }
 
     public void Update() 
@@ -73,18 +77,22 @@ public class CharacterReady : MonoBehaviour {
             case SelectState.PlayerSelect:
                 if (plCnt >= 1)
                 {
-                    if (Input.GetKeyDown(KeyCode.RightArrow))
+                    if (Input.GetKeyDown(UIGameKey.UpArrow_1P))
                     {
-                        selecters[0].MoveNext();
+                        selecters[0].MoveNext(false);
                     }
-                    if (Input.GetKeyDown(KeyCode.Space))
+                    if (Input.GetKeyDown(UIGameKey.DownArrow_1P))
+                    {
+                        selecters[0].MoveNext(true);
+                    }
+                    if (Input.GetKeyDown(UIGameKey.Select_1P))
                     {
                         if (IsCharacterNoneIdx(selecters[0].currIdx))
                         {
                             return;
                         }
 
-                        if (plCnt == 2 && currCheckPlCnt == 2)
+                        if (isPlReady == true)
                         {
                             return;
                         }
@@ -99,25 +107,38 @@ public class CharacterReady : MonoBehaviour {
                         }
                         ++currCheckPlCnt;
                         ++checkIdx;
+                        isPlReady = true;
                     }
                 }
 
                 if (plCnt == 2)
                 {
-                    if (Input.GetKeyDown(KeyCode.D))
+                    if (Input.GetKeyDown(UIGameKey.UpArrow_2P))
                     {
-                        selecters[1].MoveNext();
+                        selecters[1].MoveNext(false);
                     }
-                    if (Input.GetKeyDown(KeyCode.F))
+                    if (Input.GetKeyDown(UIGameKey.DownArrow_2P))
+                    {
+                        selecters[1].MoveNext(true);
+                    }
+
+                    if (Input.GetKeyDown(UIGameKey.Select_2P))
                     {
                         if (IsCharacterNoneIdx(selecters[1].currIdx))
                         {
                             return;
                         }
+                        if (isP2Ready == true)
+                        {
+                            return;
+                        }
+
+
                         characterTypeList.Add((CharacterType)selecters[1].DecideCharacter());
                         ++currCheckPlCnt;
                         // selecters[1].OnSelected(true);
                         ++checkIdx;
+                        isP2Ready = true;
                     }
                 }
 
@@ -139,11 +160,15 @@ public class CharacterReady : MonoBehaviour {
                     StartGame();
                     return;
                 }
-                if (Input.GetKeyDown(KeyCode.RightArrow))
+                if (Input.GetKeyDown(UIGameKey.UpArrow_1P))
                 {
                     selecters[checkIdx].MoveNext();
                 }
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(UIGameKey.DownArrow_1P))
+                {
+                    selecters[checkIdx].MoveNext();
+                }
+                if (Input.GetKeyDown(UIGameKey.Select_1P))
                 {
                     if (IsCharacterNoneIdx(selecters[checkIdx].currIdx))
                     {

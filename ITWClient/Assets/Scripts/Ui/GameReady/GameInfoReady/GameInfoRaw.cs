@@ -171,7 +171,7 @@ public class GameInfoRaw : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(UIGameKey.LeftArrow_1P))
         {
             if (currIdx <= 0)
             {
@@ -180,7 +180,7 @@ public class GameInfoRaw : MonoBehaviour {
             --currIdx;
             SetCursorByCurrIdx();
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(UIGameKey.RightArrow_1P))
         {
             if (currIdx >= infoCellList.Count - 1)
             {

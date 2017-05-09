@@ -85,7 +85,7 @@ public class GameInfoReady : MonoBehaviour
         {
             // Back.
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(UIGameKey.Select_1P))
         {
             if (isDoneRaw == true)
             {
@@ -187,7 +187,7 @@ public class GameInfoReady : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(UIGameKey.DownArrow_1P))
         {
             if (gameInfoState != GameInfoState.AllSelectDone)
             {
@@ -198,9 +198,8 @@ public class GameInfoReady : MonoBehaviour
             }
 
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(UIGameKey.UpArrow_1P))
         {
-
             if (gameInfoState != GameInfoState.AllSelectDone)
             {
                 uiGameReady.SetCursorEnable(true);

@@ -82,22 +82,27 @@ public class CharacterSelecter : MonoBehaviour {
         }
     }
 
-    public void MoveNext()
+    public void MoveNext(bool moveNext = true)
     {
         if (isSelected == false || isRotating == true)
         {
             return;
         }
 
-        var prevIdx = currIdx++;
+        var prevIdx = moveNext ? currIdx-- : currIdx++;
         if (currIdx >= characterArr.Length)
         {
             currIdx = 0;
         }
-        characterArr[currIdx].localPosition = new Vector2(0, selecterHeight);
+        else if (currIdx < 0)
+        {
+            currIdx = characterArr.Length - 1;
+        }
+
+        characterArr[currIdx].localPosition = new Vector2(0, moveNext ? -selecterHeight : selecterHeight);
 
         isRotating = true;
-        characterArr[prevIdx].DOLocalMoveY(-selecterHeight, 0.4f).SetEase(Ease.InOutBack);
+        characterArr[prevIdx].DOLocalMoveY(moveNext ? selecterHeight : -selecterHeight, 0.4f).SetEase(Ease.InOutBack);
         characterArr[currIdx].DOLocalMoveY(0f, 0.4f).SetEase(Ease.InOutBack).OnComplete(() =>
             {
                 isRotating = false;
