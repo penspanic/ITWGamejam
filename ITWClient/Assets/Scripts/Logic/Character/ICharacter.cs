@@ -67,6 +67,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     #region Event
     public event OnObjectDestroyed OnDestroyed;
+    public event System.Action<int/*prevHp*/, int/*currHp*/> OnDamaged;
     #endregion
 
     protected CharacterManager characterManager;
@@ -328,8 +329,15 @@ public abstract class ICharacter : MonoBehaviour, IObject
             return;
         }
         CallEndEventWhenHit();
+        int prevHp = Hp;
         Hp -= damage;
         if(Hp <= 0)
+            Hp = 0;
+
+        if(OnDamaged != null)
+            OnDamaged(prevHp, Hp);
+
+        if(Hp == 0)
         {
             OnDeath();
         }
@@ -376,7 +384,8 @@ public abstract class ICharacter : MonoBehaviour, IObject
         GetComponent<Collider2D>().enabled = false;
         animator.Play("death", 0);
         EffectController.Instance.ShowEffect(EffectType.Die, Vector2.zero, this.transform);
-        OnDestroyed(this);
+        if(OnDestroyed != null)
+            OnDestroyed(this);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)

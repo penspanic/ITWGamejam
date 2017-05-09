@@ -13,7 +13,7 @@ public class StatusBox : MonoBehaviour
 
     private Player targetPlayer;
     private Image portraitImage;
-    private Image[] heartImages;
+    private List<Image> heartImages = new List<Image>();
     private Image mpGaugeImage;
 
     private static Sprite filledHeartSprite;
@@ -35,13 +35,12 @@ public class StatusBox : MonoBehaviour
         portraitImage = transform.FindChild("Portrait").GetComponent<Image>();
         mpGaugeImage = transform.FindChild("Right").FindChild("Mp").FindChild("Mp Value").GetComponent<Image>();
 
-        List<Image> heartList = new List<Image>();
         Transform heartsParent = transform.FindChild("Right").FindChild("Heart");
         for(int i = 0; i < heartsParent.childCount; ++i)
         {
-            heartList.Add(heartsParent.GetChild(i).GetComponent<Image>());
+            heartImages.Add(heartsParent.GetChild(i).GetComponent<Image>());
+            heartImages[i].enabled = false;
         }
-        heartImages = heartList.ToArray();
     }
 
     public void SetPlayer(Player player)
@@ -51,10 +50,12 @@ public class StatusBox : MonoBehaviour
             this.targetPlayer.TargetCharacter.OnDestroyed -= OnCharacterDeath;
         }
 
-        this.targetPlayer = player;
-        this.targetPlayer.TargetCharacter.OnDestroyed += OnCharacterDeath;
+        targetPlayer = player;
+        targetPlayer.TargetCharacter.OnDestroyed += OnCharacterDeath;
+        targetPlayer.TargetCharacter.OnDamaged += OnCharacterDamaged;
+
         SetPortrait();
-        Refresh();
+        heartImages.RemoveRange(targetPlayer.TargetCharacter.MaxHp, heartImages.Count - targetPlayer.TargetCharacter.MaxHp);
     }
 
     private void SetPortrait()
@@ -91,6 +92,11 @@ public class StatusBox : MonoBehaviour
         }
     }
 
+
+    private void OnCharacterDamaged(int prevHp, int currHp)
+    {
+    }
+
     public void Refresh()
     {
         SetHearts();
@@ -99,10 +105,6 @@ public class StatusBox : MonoBehaviour
 
     private void SetHearts()
     {
-        foreach(Image eachHeartImage in heartImages)
-        {
-            eachHeartImage.enabled = false;
-        }
         for(int i = 0; i < targetPlayer.TargetCharacter.MaxHp; ++i)
         {
             heartImages[i].enabled = true;
