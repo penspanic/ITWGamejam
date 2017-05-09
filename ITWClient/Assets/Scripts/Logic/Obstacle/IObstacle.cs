@@ -25,6 +25,7 @@ public abstract class IObstacle : MonoBehaviour, IObject
         if(Hp <= 0)
         {
             OnDestroyed(this);
+            Destroy(this.gameObject);
         }
     }
 }

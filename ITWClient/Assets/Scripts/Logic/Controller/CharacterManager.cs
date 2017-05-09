@@ -7,11 +7,13 @@ public class CharacterManager : MonoBehaviour
     [SerializeField]
     private CharacterFactory characterFactory = null;
     public Dictionary<Player, ICharacter> Characters { get; private set; }
+
     public CharacterManager()
     {
         Characters = new Dictionary<Player, ICharacter>();
     }
 
+    // 현재 Create 이후에 호출되고 있음.
     private void Awake()
     {
     }
@@ -28,6 +30,8 @@ public class CharacterManager : MonoBehaviour
 
         if(player.GetComponent<PlayerInputController>() != null)
             player.GetComponent<PlayerInputController>().Initialized = true;
+
+        SortingLayerController.Instance.AddTarget(newCharacter);
     }
 
     public void ChangeCharacter(Player player, CharacterType characterType)
@@ -37,6 +41,7 @@ public class CharacterManager : MonoBehaviour
             throw new UnityException("Can not change character before create character, " + player.name);
         }
 
+        // TODO : List안에서 지우는 것말고 GameObject Destroy 시키는 것도 해야 할 듯
         Characters.Remove(player);
         Create(player, characterType);
     }

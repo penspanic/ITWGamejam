@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 212483911464922526}
   - component: {fileID: 95128665788916306}
   - component: {fileID: 61429090723407070}
-  m_Layer: 0
-  m_Name: Obstacle
-  m_TagString: Untagged
+  m_Layer: 12
+  m_Name: Obstacle0
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,7 +54,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0031974837, y: -0.0031974316}
+  m_Offset: {x: 0.0031974912, y: -0.14505643}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -65,7 +65,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.39526027, y: 0.6196558}
+  m_Size: {x: 0.39526027, y: 0.3359378}
   m_EdgeRadius: 0
 --- !u!95 &95128665788916306
 Animator:

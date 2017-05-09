@@ -4,11 +4,13 @@ using System.Collections.Generic;
 
 public class MapController : MonoBehaviour
 {
-    public int tileSizeX;
-    public int tileSizeY;
-
-    private IObstacle[] obstaclePrefabs;
+    private GameObject[] obstaclePrefabs = null;
     private List<IObstacle> obstacles = new List<IObstacle>();
+
+    private void Awake()
+    {
+        obstaclePrefabs = Resources.LoadAll<GameObject>("Prefabs/Obstacle");
+    }
 
     public Vector2 GetRandomMapPos()
     {
@@ -30,9 +32,11 @@ public class MapController : MonoBehaviour
         for(int i = 0; i < count; ++i)
         {
             
-            IObstacle obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
-            IObstacle newObstacle = Instantiate<IObstacle>(obstaclePrefab);
+            GameObject obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+            IObstacle newObstacle = Instantiate(obstaclePrefab).GetComponent<IObstacle>();
             obstacles.Add(newObstacle);
+
+            SortingLayerController.Instance.AddTarget(newObstacle);
         }
     }
 }
