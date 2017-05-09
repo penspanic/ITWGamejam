@@ -56,6 +56,6 @@ public class CharacterManager : MonoBehaviour
 
     public void OnCharacterDeath(IObject character)
     {
-        ICharacter deadCharacter = character as ICharacter;
+        //ICharacter deadCharacter = character as ICharacter;
     }
 }

@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviour
                 if(playerData.IsCpu == false)
                 {
                     PlayerInputController inputController = newPlayerObject.AddComponent<PlayerInputController>();
-                    inputControllers.Add(newPlayerObject.GetComponent<PlayerInputController>());
+                    inputControllers.Add(inputController);
                 }
                 Player newPlayer = newPlayerObject.GetComponent<Player>();
                 newPlayer.SetNumber(team.TeamNumber, playerData.PlayerNumber);

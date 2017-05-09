@@ -68,6 +68,11 @@ public class UiGameReadyController : MonoBehaviour
     void Awake()
     {
         SetGameReadyState(GameReadyState.SelectInfo);
+        if(BgmManager.Instance.Initialized == false)
+        {
+            BgmManager.Instance.LoadClips();
+        }
+        BgmManager.Instance.Play(BgmType.Select);
     }
 
     public void SetGameReadyState(GameReadyState readyState)

@@ -7,7 +7,7 @@ using System.Linq;
 public class SortingLayerController : Singleton<SortingLayerController>
 {
     private Dictionary<IObject, SortingGroup> targets = new Dictionary<IObject, SortingGroup>();
-    private void Awake()
+    protected override void Awake()
     {
 
     }

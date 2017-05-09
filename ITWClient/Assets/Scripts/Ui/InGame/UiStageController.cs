@@ -16,6 +16,11 @@ public class UiStageController : MonoBehaviour
         stageController.OnStageStart += OnStageStart;
         stageController.OnStageEnd += OnStageEnd;
 
+        if(BgmManager.Instance.Initialized == false)
+        {
+            BgmManager.Instance.LoadClips();
+        }
+
         noticeBox.gameObject.SetActive(true);
         noticeBox.InitNoticeBox();
     }
@@ -27,6 +32,7 @@ public class UiStageController : MonoBehaviour
 
     private void OnStageStart()
     {
+        BgmManager.Instance.Play(BgmType.InGame1);
         StartCoroutine(ReadyStartProcess());
     }
 
@@ -46,6 +52,7 @@ public class UiStageController : MonoBehaviour
 
     private void OnStageEnd()
     {
+        BgmManager.Instance.Play(BgmType.GameOver);
         noticeBox.gameObject.SetActive(true);
         StartCoroutine(noticeBox.ShowNoticeBox(NoticeType.Victory));
     }

@@ -30,6 +30,11 @@ public class UiMainMenuController : MonoBehaviour
         buttons[2].OnSelected(true);
         currIdx = 2;
         StartTitleAnimation();
+        if(BgmManager.Instance.Initialized == false)
+        {
+            BgmManager.Instance.LoadClips();
+        }
+        BgmManager.Instance.Play(BgmType.Main);
     }
 
     private void StartTitleAnimation() {

@@ -13,7 +13,13 @@ public static class SoundManager
         set
         {
             _masterVolume = value;
-            OnMasterVolumeChanged(_masterVolume);
+            
+            if(OnMasterVolumeChanged != null)
+                OnMasterVolumeChanged(_masterVolume);
+            if(OnBgmVolumeChanged != null)
+                OnBgmVolumeChanged(_masterVolume * _bgmVolume);
+            if(OnSfxVolumeChanged != null)
+                OnSfxVolumeChanged(_masterVolume * _sfxVolume);
         }
     }
     private static float _masterVolume;
@@ -27,7 +33,8 @@ public static class SoundManager
         set
         {
             _bgmVolume = value;
-            OnBgmVolumeChanged(_bgmVolume);
+            if(OnBgmVolumeChanged != null)
+                OnBgmVolumeChanged(_masterVolume * _bgmVolume);
         }
     }
     private static float _bgmVolume;
@@ -41,7 +48,8 @@ public static class SoundManager
         set
         {
             _sfxVolume = value;
-            OnSfxVolumeChanged(_sfxVolume);
+            if(OnSfxVolumeChanged != null)
+                OnSfxVolumeChanged(_masterVolume * _sfxVolume);
         }
     }
     private static float _sfxVolume;
