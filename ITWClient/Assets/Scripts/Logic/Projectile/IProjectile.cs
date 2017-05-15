@@ -16,7 +16,8 @@ public abstract class IProjectile : MonoBehaviour, IObject
 
     protected virtual void Start()
     {
-        OnCreated(this);
+        if(OnCreated != null)
+            OnCreated(this);
     }
 
     public void SetOwner(IObject owner)

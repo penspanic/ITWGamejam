@@ -340,7 +340,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
         if(OnDamaged != null)
             OnDamaged(prevHp, Hp);
-
+        Ai.AttackListener.Instance.OnDamaged(attacker, this, damage);
         if(Hp == 0)
         {
             OnDeath();

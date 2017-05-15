@@ -16,12 +16,23 @@ public class AiPlayer : Player
 
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        if(characterAi != null)
+        {
+            characterAi.Process();
+        }
+    }
     public override void SetCharacter(ICharacter character)
     {
         base.SetCharacter(character);
 
         if (characterAi != null)
+        {
             Destroy(characterAi);
+            characterAi = null;
+        }
 
         switch(character.CharacterType)
         {
@@ -39,7 +50,9 @@ public class AiPlayer : Player
                 break;
             default:
                 Debug.LogErrorFormat("Create CharcterAi failed, CharacterType : {0} name : {1}", character.CharacterType, character.name);
-                break;
+                return;
         }
+
+        characterAi.AiPlayer = this;
     }
 }
