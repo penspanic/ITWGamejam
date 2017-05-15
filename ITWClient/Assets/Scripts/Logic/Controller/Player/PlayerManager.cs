@@ -24,8 +24,13 @@ public class PlayerManager : MonoBehaviour
                 GameObject newPlayerObject = Instantiate(playerPrefab);
                 newPlayerObject.name = "Player" + playerData.PlayerNumber.ToString();
                 newPlayerObject.transform.SetParent(playersParent.transform);
-                if(playerData.IsCpu == false)
+                if(playerData.IsCpu == true)
                 {
+                    newPlayerObject.AddComponent<AiPlayer>();
+                }
+                else
+                {
+                    newPlayerObject.AddComponent<Player>();
                     PlayerInputController inputController = newPlayerObject.AddComponent<PlayerInputController>();
                     inputControllers.Add(inputController);
                 }

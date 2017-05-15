@@ -19,12 +19,12 @@ public class PlayerInputController : MonoBehaviour
     private Dictionary<PlayerInputType, string> bindedKeys = new Dictionary<PlayerInputType, string>();
     private Dictionary<PlayerInputType, string> bindedAxes = new Dictionary<PlayerInputType, string>(); //axis의 복수형이 axes라고 함...
 
-    private IPlayerController playerController;
+    private PlayerController playerController;
     private StageController stageController;
     private void Awake()
     {
         Initialized = false;
-        playerController = GetComponent<IPlayerController>();
+        playerController = GetComponent<PlayerController>();
         stageController = GameObject.FindObjectOfType<StageController>();
         stageController.OnStageStart += OnStageStart;
         foreach(string name in Input.GetJoystickNames())

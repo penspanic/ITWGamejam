@@ -6,11 +6,17 @@ public abstract class IProjectile : MonoBehaviour, IObject
     public int Hp { get; set; }
     public IObject owner { get; set; }
 
-    public event OnObjectDestroyed OnDestroyed;
+    public event System.Action<IObject> OnCreated;
+    public event System.Action<IObject> OnDestroyed;
 
     protected virtual void Awake()
     {
 
+    }
+
+    protected virtual void Start()
+    {
+        OnCreated(this);
     }
 
     public void SetOwner(IObject owner)

@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public int PlayerNumber { get; private set; }
     public ICharacter TargetCharacter { get; private set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
 
     }
@@ -25,12 +25,12 @@ public class Player : MonoBehaviour
         this.PlayerNumber = playerNum;
     }
 
-    public void SetCharacter(ICharacter character)
+    public virtual void SetCharacter(ICharacter character)
     {
         this.TargetCharacter = character;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
 
     }

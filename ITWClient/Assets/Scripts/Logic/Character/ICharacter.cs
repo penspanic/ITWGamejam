@@ -25,7 +25,8 @@ public enum CharacterState
 }
 
 /// <summary>
-/// 각 캐릭터 마다의 상세 구현(스킬 등)을 담당.
+/// 기본적인 캐릭터의 구현을 담당.
+// 변경이 필요할 경우 이 클래스를 상속받은 구체 클래스들이 구현한다.
 /// </summary>
 public abstract class ICharacter : MonoBehaviour, IObject
 {
@@ -66,7 +67,8 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public Player Player { get; protected set; }
 
     #region Event
-    public event OnObjectDestroyed OnDestroyed;
+    public event System.Action<IObject> OnCreated;
+    public event System.Action<IObject> OnDestroyed;
     public event System.Action<int/*prevHp*/, int/*currHp*/> OnDamaged;
     #endregion
 
@@ -105,6 +107,8 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public void Initialize(Player player)
     {
         this.Player = player;
+        if (OnCreated != null)
+            OnCreated(this);
     }
 
     public virtual void ProcessKeystate(List<PlayerInputType> pressedKeys)

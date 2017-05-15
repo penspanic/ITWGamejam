@@ -8,10 +8,17 @@ public abstract class IObstacle : MonoBehaviour, IObject
 
     public int Hp { get; protected set; }
 
-    public event OnObjectDestroyed OnDestroyed;
+    public event System.Action<IObject> OnCreated;
+    public event System.Action<IObject> OnDestroyed;
+
     private void Awake()
     {
+    }
 
+    private void Start()
+    {
+        if (OnCreated != null)
+            OnCreated(this);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
