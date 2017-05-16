@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MapController : MonoBehaviour
+public class MapController : Singleton<MapController>
 {
     private GameObject[] obstaclePrefabs = null;
     private List<IObstacle> obstacles = new List<IObstacle>();
 
-    private void Awake()
+    protected override void Awake()
     {
         obstaclePrefabs = Resources.LoadAll<GameObject>("Prefabs/Obstacle");
     }

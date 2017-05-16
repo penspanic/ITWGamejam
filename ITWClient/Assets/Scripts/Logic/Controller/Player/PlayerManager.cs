@@ -21,9 +21,10 @@ public class PlayerManager : MonoBehaviour
         {
             foreach(PlayerInTeam playerData in team.Players)
             {
-                GameObject newPlayerObject = Instantiate(playerPrefab);
-                newPlayerObject.name = "Player" + playerData.PlayerNumber.ToString();
+                GameObject newPlayerObject = new GameObject("Player" + playerData.PlayerNumber.ToString());
                 newPlayerObject.transform.SetParent(playersParent.transform);
+                PlayerController playerController = newPlayerObject.AddComponent<PlayerController>();
+
                 if(playerData.IsCpu == true)
                 {
                     newPlayerObject.AddComponent<AiPlayer>();
@@ -33,8 +34,11 @@ public class PlayerManager : MonoBehaviour
                     newPlayerObject.AddComponent<Player>();
                     PlayerInputController inputController = newPlayerObject.AddComponent<PlayerInputController>();
                     inputControllers.Add(inputController);
+                    inputController.PlayerController = playerController;
                 }
+
                 Player newPlayer = newPlayerObject.GetComponent<Player>();
+                playerController.TargetPlayer = newPlayer;
                 newPlayer.IsCpu = playerData.IsCpu;
                 newPlayer.SetNumber(team.TeamNumber, playerData.PlayerNumber);
                 Players.Add(newPlayer);

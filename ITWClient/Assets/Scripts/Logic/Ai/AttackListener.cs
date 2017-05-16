@@ -27,7 +27,7 @@ namespace Ai
         }
 
         // 가장 많은 데미지를 준 오브젝트 리턴.
-        public IObject GetHighestPriorityEnemy(IObject target)
+        public IObject GetHighestAttackEnemy(IObject target)
         {
             if(damagedData.ContainsKey(target) == false || damagedData[target].Count == 0)
             {

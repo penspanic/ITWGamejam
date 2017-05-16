@@ -7,10 +7,9 @@ using System.Collections.Generic;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    public Player TargetPlayer { get; protected set; }
+    public Player TargetPlayer { get; set; }
     protected virtual void Awake()
     {
-        TargetPlayer = GetComponent<Player>();
     }
 
     protected virtual void Update()

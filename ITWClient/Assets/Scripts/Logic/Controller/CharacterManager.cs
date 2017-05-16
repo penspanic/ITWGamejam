@@ -2,10 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterManager : Singleton<CharacterManager>
 {
-    [SerializeField]
-    private CharacterFactory characterFactory = null;
     public Dictionary<Player, ICharacter> Characters { get; private set; }
 
     public CharacterManager()
@@ -20,7 +18,7 @@ public class CharacterManager : MonoBehaviour
 
     public void Create(Player player, CharacterType characterType)
     {
-        ICharacter newCharacter = characterFactory.Create(characterType);
+        ICharacter newCharacter = CharacterFactory.Instance.Create(characterType);
         player.SetCharacter(newCharacter);
         newCharacter.Initialize(player);
         int layer = LayerMask.NameToLayer("Team" + TeamController.GetTeam(player.PlayerNumber).TeamNumber.ToString());

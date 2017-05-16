@@ -13,24 +13,17 @@ public enum PlayerInputType
 
 public class PlayerInputController : MonoBehaviour
 {
-    public int PlayerNumber { get { return playerController.TargetPlayer.PlayerNumber; } }
+    public PlayerController PlayerController { get; set; }
+    public int PlayerNumber { get { return PlayerController.TargetPlayer.PlayerNumber; } }
     public bool Initialized { get; set; }
 
     private Dictionary<PlayerInputType, string> bindedKeys = new Dictionary<PlayerInputType, string>();
     private Dictionary<PlayerInputType, string> bindedAxes = new Dictionary<PlayerInputType, string>(); //axis의 복수형이 axes라고 함...
 
-    private PlayerController playerController;
-    private StageController stageController;
     private void Awake()
     {
         Initialized = false;
-        playerController = GetComponent<PlayerController>();
-        stageController = GameObject.FindObjectOfType<StageController>();
-        stageController.OnStageStart += OnStageStart;
-        foreach(string name in Input.GetJoystickNames())
-        {
-            Debug.Log(name);
-        }
+        StageController.Instance.OnStageStart += OnStageStart;
     }
     
     public void BindKey(PlayerInputType type, string keyName)
@@ -50,7 +43,7 @@ public class PlayerInputController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(Initialized == false || stageController.IsStageStarted == false)
+        if(Initialized == false || StageController.Instance.IsStageStarted == false)
             return;
 
         List<PlayerInputType> pressedKeys = new List<PlayerInputType>();
@@ -68,17 +61,17 @@ public class PlayerInputController : MonoBehaviour
                 pressedKeys.Add(keyPair.Key);
             }
         }
-        playerController.ProcessKeyState(pressedKeys);
+        PlayerController.ProcessKeyState(pressedKeys);
 
         foreach(var keyPair in bindedKeys)
         {
             if(Input.GetButtonDown(keyPair.Value) == true)
             {
-                playerController.ProcessKeyDown(keyPair.Key);
+                PlayerController.ProcessKeyDown(keyPair.Key);
             }
             if(Input.GetButtonUp(keyPair.Value) == true)
             {
-                playerController.ProcessKeyUp(keyPair.Key);
+                PlayerController.ProcessKeyUp(keyPair.Key);
             }
         }
 
@@ -87,10 +80,10 @@ public class PlayerInputController : MonoBehaviour
         Vector2 direction = new Vector2(horizontal, -vertical);
         if(direction.magnitude < 0.3f)
         {
-            playerController.ProcessMove(Vector2.zero);
+            PlayerController.ProcessMove(Vector2.zero);
             return;
         }
-        playerController.ProcessMove(direction.normalized);
+        PlayerController.ProcessMove(direction.normalized);
     }
 
     // 네트워크 상에서 상대 플레이어의 Input을 처리할 때?

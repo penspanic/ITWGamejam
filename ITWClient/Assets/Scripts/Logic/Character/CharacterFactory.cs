@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterFactory : MonoBehaviour
+public class CharacterFactory : Singleton<CharacterFactory>
 {
     private void Awake()
     {

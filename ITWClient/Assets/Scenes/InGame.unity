@@ -1770,7 +1770,6 @@ GameObject:
   m_Component:
   - component: {fileID: 695275724}
   - component: {fileID: 695275723}
-  - component: {fileID: 695275725}
   - component: {fileID: 695275726}
   m_Layer: 0
   m_Name: Controllers
@@ -1804,17 +1803,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &695275725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 695275722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5074a8cc608d5394ab036969abaa309b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &695275726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3084,7 +3072,6 @@ GameObject:
   - component: {fileID: 1491811097}
   - component: {fileID: 1491811096}
   - component: {fileID: 1491811098}
-  - component: {fileID: 1491811099}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -3127,18 +3114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa52dda932367545b0a59c5fe0b71a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1491811099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1491811095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2c64fedee30b39458bef1076d0f0320, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterFactory: {fileID: 1093960829}
 --- !u!1 &1495726550
 GameObject:
   m_ObjectHideFlags: 0

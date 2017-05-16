@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class StageController : MonoBehaviour
+public class StageController : Singleton<StageController>
 {
     [SerializeField]
     private float maxStageTime;
@@ -15,20 +15,16 @@ public class StageController : MonoBehaviour
     #endregion
 
     private ItemController itemController;
-    private MapController mapController;
     private CharacterFactory characterFactory;
     private PlayerManager playerManager;
-    private CharacterManager characterManager;
     private UiPlayerController uiPlayerController;
     private CameraController cameraController;
 
-    private void Awake()
+    protected override void Awake()
     {
         itemController = GameObject.FindObjectOfType<ItemController>();
-        mapController = GameObject.FindObjectOfType<MapController>();
         characterFactory = GameObject.FindObjectOfType<CharacterFactory>();
         playerManager = GameObject.FindObjectOfType<PlayerManager>();
-        characterManager = GameObject.FindObjectOfType<CharacterManager>();
         uiPlayerController = GameObject.FindObjectOfType<UiPlayerController>();
         cameraController = GameObject.FindObjectOfType<CameraController>();
         EffectController.Instance.LoadEffects();
@@ -52,7 +48,7 @@ public class StageController : MonoBehaviour
         for(int i = 0; i < playerManager.Players.Count;++i)
         {
             Player currPlayer = playerManager.Players[i];
-            characterManager.Create(currPlayer, TeamController.GetCharacterType(currPlayer.PlayerNumber));
+            CharacterManager.Instance.Create(currPlayer, TeamController.GetCharacterType(currPlayer.PlayerNumber));
             characterObjects.Add(currPlayer.TargetCharacter.gameObject);
             currPlayer.TargetCharacter.OnDestroyed += OnCharacterDeath;
             currPlayer.TargetCharacter.transform.position = createPositions[i];
@@ -94,7 +90,7 @@ public class StageController : MonoBehaviour
     {
         ICharacter deadCharacter = target as ICharacter;
         HashSet<int> aliveTeams = new HashSet<int>(); // 중복 값 제거 위해.
-        foreach(var pair in characterManager.Characters)
+        foreach(var pair in CharacterManager.Instance.Characters)
         {
             int teamNumber = TeamController.GetTeam(pair.Key.PlayerNumber).TeamNumber;
             if(pair.Value.IsDead == false)

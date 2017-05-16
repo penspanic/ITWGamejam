@@ -9,6 +9,10 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        foreach (string name in Input.GetJoystickNames())
+        {
+            Debug.Log(name);
+        }
     }
 
     public void SetPlayers(PlayerInputController[] inputControllers)
