@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DoctorAi : ICharacterAi
+namespace Ai
 {
+    public class DoctorAi : ICharacterAi
+    {
 
+    }
 }

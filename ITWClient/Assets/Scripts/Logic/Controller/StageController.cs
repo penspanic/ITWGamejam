@@ -8,7 +8,7 @@ public class StageController : Singleton<StageController>
     private float maxStageTime;
     public bool IsStageStarted { get; set; }
     public float RemainElapsedTime { get; set; }
-    public static bool IsEditMode = true;
+    public static bool IsEditMode = false;
     #region Event
     public event System.Action OnStageStart;
     public event System.Action OnStageEnd;
@@ -28,6 +28,7 @@ public class StageController : Singleton<StageController>
         uiPlayerController = GameObject.FindObjectOfType<UiPlayerController>();
         cameraController = GameObject.FindObjectOfType<CameraController>();
         EffectController.Instance.LoadEffects();
+        Ai.AiDifficultyController.Instance.Initialize();
 
         IsStageStarted = false;
         RemainElapsedTime = maxStageTime;
@@ -59,8 +60,8 @@ public class StageController : Singleton<StageController>
         if(IsEditMode == true)
         {
             StartCoroutine(StageTimeProcess());
-            IsStageStarted = true;
             OnStageStart();
+            IsStageStarted = true;
             yield break;
         }
 

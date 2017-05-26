@@ -11,8 +11,7 @@ public class CharacterManager : Singleton<CharacterManager>
         Characters = new Dictionary<Player, ICharacter>();
     }
 
-    // 현재 Create 이후에 호출되고 있음.
-    private void Awake()
+    protected override void Awake()
     {
     }
 
@@ -46,16 +45,42 @@ public class CharacterManager : Singleton<CharacterManager>
         Create(player, characterType);
     }
 
-    private void Update()
-    {
-        for(int i = 0; i < Characters.Count; ++i)
-        {
-
-        }
-    }
-
     public void OnCharacterDeath(IObject character)
     {
-        //ICharacter deadCharacter = character as ICharacter;
+    }
+
+    public ICharacter[] GetEmemys(ICharacter target)
+    {
+        int targetTeamNumber = target.Player.TeamNumber;
+
+        List<ICharacter> ememys = new List<ICharacter>();
+        foreach(var eachCharacter in Characters)
+        {
+            if(eachCharacter.Key.TeamNumber != targetTeamNumber)
+            {
+                ememys.Add(eachCharacter.Value);
+            }
+        }
+
+        return ememys.ToArray();
+    }
+
+    public ICharacter GetNearestEnemy(ICharacter target)
+    {
+        ICharacter[] enemys = GetEmemys(target);
+
+        float nearestDistance = float.MaxValue;
+        ICharacter nearestEnemy = null;
+        for(int i = 0; i < enemys.Length; ++i)
+        {
+            float distance = (enemys[i].transform.position - target.transform.position).magnitude;
+            if(distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestEnemy = enemys[i];
+            }
+        }
+
+        return nearestEnemy;
     }
 }

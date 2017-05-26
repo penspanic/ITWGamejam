@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviour
 
                 if(playerData.IsCpu == true)
                 {
-                    newPlayerObject.AddComponent<AiPlayer>();
+                    newPlayerObject.AddComponent<Ai.AiPlayer>();
                 }
                 else
                 {
@@ -45,6 +45,6 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        GameObject.FindObjectOfType<InputManager>().SetPlayers(inputControllers.ToArray());
+        InputManager.Instance.SetPlayers(inputControllers.ToArray());
     }
 }

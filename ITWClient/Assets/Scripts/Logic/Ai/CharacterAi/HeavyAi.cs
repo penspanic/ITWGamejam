@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HeavyAi : ICharacterAi
+namespace Ai
 {
+    public class HeavyAi : ICharacterAi
+    {
 
+    }
 }

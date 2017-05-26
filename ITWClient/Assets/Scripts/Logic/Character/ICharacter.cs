@@ -22,6 +22,7 @@ public enum CharacterState
     Dodge,
     Charging,
     Poisoned,
+    Dead,
 }
 
 /// <summary>
@@ -62,6 +63,18 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public bool IsDodgeCoolTime { get; protected set; }
     public bool IsCharging { get; protected set; }
     public bool IsFacingRight { get; protected set; }
+    public int SkillNeedMp { get { return skillNeedMp; } }
+    public bool IsSkillMpEnough { get { return Mp > SkillNeedMp; } }
+    public int LaunchNeedMp { get { return launchNeedMp; } }
+    public bool IsLaunchMpEnough { get { return Mp > launchNeedMp; } }
+    public int DodgeNeedMp { get { return dodgeNeedMp; } }
+    public bool IsDodgeMpEnough { get { return Mp > dodgeNeedMp; } }
+    public float LaunchDistance { get { return launchDistance; } }
+    public Vector2 FacingDirection // 스킬이나 런치, 닷지등 할 때 향하는 방향 | 일단 이렇게 땜빵해놓긴 하는데.. 나중에 문제 없을지 모르겠다.
+    {
+        get { return prevMovedDirection; }
+        set { prevMovedDirection = value; }
+    }
     public CharacterState State { get; protected set; }
     public CharacterType CharacterType { get; protected set; }
     public Player Player { get; protected set; }
@@ -384,6 +397,8 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     private void OnDeath()
     {
+        Debug.Log(this.name + " Dead.");
+        State = CharacterState.Dead;
         IsDead = true;
         GetComponent<Collider2D>().enabled = false;
         animator.Play("death", 0);

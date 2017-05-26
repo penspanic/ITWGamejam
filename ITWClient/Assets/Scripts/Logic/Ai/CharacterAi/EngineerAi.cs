@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EngineerAi : ICharacterAi
+namespace Ai
 {
+    public class EngineerAi : ICharacterAi
+    {
+    }
 }

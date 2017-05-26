@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-/// <summary>
-/// 오브젝트간의 상호 공격 내용을 저장.
-/// 만든 이유 : Ai의 공격 우선순위 결정할 때 "가장 많이 데미지를 준 캐릭터를 우선으로 한다" 이런 것 구현하기 위해.
-/// </summary>
 namespace Ai
 {
-
+    /// <summary>
+    /// 오브젝트간의 상호 공격 내용을 저장.
+    /// 만든 이유 : Ai의 공격 우선순위 결정할 때 "가장 많이 데미지를 준 캐릭터를 우선으로 한다" 이런 것 구현하기 위해.
+    /// </summary>
     public class AttackListener : Singleton<AttackListener>
     {
         private Dictionary<IObject/*Target*/, Dictionary<IObject/*Attacker*/, int/*Damage*/>> damagedData = new Dictionary<IObject, Dictionary<IObject, int>>();
