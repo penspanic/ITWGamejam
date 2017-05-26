@@ -21,11 +21,19 @@ namespace Ai
         protected override void Update()
         {
             base.Update();
-            if(characterAi != null && StageController.Instance.IsStageStarted == true)
+            // 원래 여기서 FixedUpdate에서 하던 일을 했는데, Update문에서 velocity 관련해서 처리하면 
+            // 물리 처리가 이상해지는게 있어서(AiCharacter Move가 vector대로 이동을 안함) FixedUpdate로 옮겼다.
+            // RigidBody2D.velocity를 직접 수정하지 말라는 unity answer들이 많긴 한데 일단 시간이 없으니 이렇게 처리...
+        }
+
+        private void FixedUpdate()
+        {
+            if (characterAi != null && StageController.Instance.IsStageStarted == true)
             {
                 characterAi.Process();
             }
         }
+
         public override void SetCharacter(ICharacter character)
         {
             base.SetCharacter(character);

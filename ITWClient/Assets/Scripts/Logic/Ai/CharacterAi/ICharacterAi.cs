@@ -209,7 +209,6 @@ namespace Ai
         protected virtual void Chase()
         {
             Vector2 targetDir = ((attackTarget as MonoBehaviour).transform.position - CharacterPosition).normalized;
-            Debug.Log(AiPlayer.TargetCharacter.name + " targetDir : " + targetDir);
             AiPlayer.Move(targetDir);
         }
 
