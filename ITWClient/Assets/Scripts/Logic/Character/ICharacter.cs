@@ -73,8 +73,9 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public Vector2 FacingDirection // 스킬이나 런치, 닷지등 할 때 향하는 방향 | 일단 이렇게 땜빵해놓긴 하는데.. 나중에 문제 없을지 모르겠다.
     {
         get { return prevMovedDirection; }
-        set { prevMovedDirection = value; }
+        set { prevMovedDirection = value; RotateByFacingDirection(prevMovedDirection); }
     }
+    public virtual bool IsHighThreat { get { return State == CharacterState.Flying || State == CharacterState.SkillActivated; } } // 이 캐릭터가 위협적인 상태인지 여부.
     public CharacterState State { get; protected set; }
     public CharacterType CharacterType { get; protected set; }
     public Player Player { get; protected set; }
@@ -171,12 +172,9 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
         else
         {
-            IsFacingRight = normalizedDirection.x > 0f;
-            Vector3 rotation = transform.rotation.eulerAngles;
-            rotation.y = IsFacingRight == true ? 180 : 0;
-            transform.rotation = Quaternion.Euler(rotation);
-
-            rigidBody.velocity = normalizedDirection * moveSpeed;
+            RotateByFacingDirection(normalizedDirection);
+            Vector2 velocity = normalizedDirection * moveSpeed;
+            rigidBody.velocity = velocity;
             animator.Play("walk", 0);
             State = CharacterState.Moving;
             prevMovedDirection = normalizedDirection;
@@ -185,10 +183,15 @@ public abstract class ICharacter : MonoBehaviour, IObject
         prevDirection = normalizedDirection;
     }
 
-    /*
-    CanUse~()는 구체 클래스에서 재구현 할 수 있도록 virtual
-    */
-    
+    private void RotateByFacingDirection(Vector2 facingDirection)
+    {
+        IsFacingRight = facingDirection.x > 0f;
+        Vector3 rotation = transform.rotation.eulerAngles;
+        rotation.y = IsFacingRight == true ? 180 : 0;
+        transform.rotation = Quaternion.Euler(rotation);
+    }
+
+
     public void DoUseSkill()
     {
         if(CanUseSkill() == true)

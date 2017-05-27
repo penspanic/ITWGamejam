@@ -28,10 +28,16 @@ namespace Ai
 
         private void FixedUpdate()
         {
-            if (characterAi != null && StageController.Instance.IsStageStarted == true)
+            if(characterAi == null || TargetCharacter == null)
+            {
+                return;
+            }
+            if (TargetCharacter.IsDead == false && StageController.Instance.IsStageStarted == true)
             {
                 characterAi.Process();
             }
+
+            AiDebugRenderer.Instance.UpdateString(string.Format("State : {0} AiState : {1}", TargetCharacter.State, characterAi.AiState), PlayerNumber);
         }
 
         public override void SetCharacter(ICharacter character)

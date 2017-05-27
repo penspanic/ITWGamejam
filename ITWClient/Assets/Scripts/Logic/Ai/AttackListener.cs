@@ -14,6 +14,11 @@ namespace Ai
 
         public void OnDamaged(IObject attacker, IObject target, int damage)
         {
+            if(attacker is IProjectile)
+            {
+                return;
+            }
+
             if(damagedData.ContainsKey(target) == false)
             {
                 damagedData.Add(target, new Dictionary<IObject, int>());

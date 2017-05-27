@@ -47,6 +47,18 @@ public class CharacterManager : Singleton<CharacterManager>
 
     public void OnCharacterDeath(IObject character)
     {
+        Player key = null;
+        foreach(var characterPair in Characters)
+        {
+            if(characterPair.Value == character as ICharacter)
+            {
+                key = characterPair.Key;
+            }
+        }
+        if(key != null)
+        {
+            Characters.Remove(key);
+        }
     }
 
     public ICharacter[] GetEmemys(ICharacter target)

@@ -14,6 +14,7 @@ namespace Ai
     {
         public const string HeavyDodgeDetectWhenLaunch = "HeavyDodgeDetectWhenLaunch";
         public const string LaunchRandomDirectionValue = "LaunchRandomDirectionValue"; // 런치할 때 랜덤하게 이상한 위치를 향하도록 하는 값.
+        public const string DodgeDangerProbability = "DodgeDangerProbability";
     }
 
     public struct RandomProbability
@@ -64,6 +65,7 @@ namespace Ai
             if(Difficulty == AiDifficulty.Easy)
             {
                 Probabilities.Add(AiStatusIds.HeavyDodgeDetectWhenLaunch, 0.2f);
+                Probabilities.Add(AiStatusIds.DodgeDangerProbability, 0.5f);
 
                 RandomValues.Add(AiStatusIds.LaunchRandomDirectionValue, 0.5f);
             }
