@@ -144,15 +144,17 @@ namespace Ai
         }
 
         // 별 의미 없는 움직임. Chasing 하고 다름.
-        private Vector2 endPos;
+        private Vector2 moveEndPos;
         private bool isMoving = false;
         protected virtual void Move()
         {
             // 첫 움직임 시작일 때 완료 목표 지점 설정
             if(isMoving == false)
             {
+                // Not Implemented
                 isMoving = true;
-                endPos = new Vector2(0, 0);
+                moveEndPos = new Vector2(0, 0);
+                AiPlayer.TargetCharacter.transform.position = moveEndPos;
             }
         }
 

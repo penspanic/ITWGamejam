@@ -14,16 +14,12 @@ public class StageController : Singleton<StageController>
     public event System.Action OnStageEnd;
     #endregion
 
-    private ItemController itemController;
-    private CharacterFactory characterFactory;
     private PlayerManager playerManager;
     private UiPlayerController uiPlayerController;
     private CameraController cameraController;
 
     protected override void Awake()
     {
-        itemController = GameObject.FindObjectOfType<ItemController>();
-        characterFactory = GameObject.FindObjectOfType<CharacterFactory>();
         playerManager = GameObject.FindObjectOfType<PlayerManager>();
         uiPlayerController = GameObject.FindObjectOfType<UiPlayerController>();
         cameraController = GameObject.FindObjectOfType<CameraController>();
@@ -32,7 +28,7 @@ public class StageController : Singleton<StageController>
 
         IsStageStarted = false;
         RemainElapsedTime = maxStageTime;
-        int obstacleCount = Random.Range(5, 10);
+        //int obstacleCount = Random.Range(5, 10);
         //mapController.CreateObstacles(obstacleCount);
     }
 
@@ -89,7 +85,6 @@ public class StageController : Singleton<StageController>
 
     public void OnCharacterDeath(IObject target)
     {
-        ICharacter deadCharacter = target as ICharacter;
         HashSet<int> aliveTeams = new HashSet<int>(); // 중복 값 제거 위해.
         foreach(var pair in CharacterManager.Instance.Characters)
         {

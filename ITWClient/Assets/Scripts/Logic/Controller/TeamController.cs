@@ -107,7 +107,6 @@ public static class TeamController
     }
 
     public static void AddPlayerInTeam(int teamNum, bool isCPU, int plNum, CharacterType charType) {
-        bool existTeam = false;
         int teamIdx = 0;
 
         foreach (var eachTeam in Teams)

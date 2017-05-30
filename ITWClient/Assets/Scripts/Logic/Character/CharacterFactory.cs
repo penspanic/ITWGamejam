@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CharacterFactory : Singleton<CharacterFactory>
 {
-    private void Awake()
+    protected override void Awake()
     {
 
     }

@@ -15,7 +15,6 @@ public class PlayerManager : MonoBehaviour
         Players = new List<Player>();
 
         Transform playersParent = GameObject.Find("Players").transform;
-        GameObject playerPrefab = Resources.Load<GameObject>("Prefabs/Player");
         List<PlayerInputController> inputControllers = new List<PlayerInputController>();
         foreach(TeamData team in TeamController.Teams)
         {
