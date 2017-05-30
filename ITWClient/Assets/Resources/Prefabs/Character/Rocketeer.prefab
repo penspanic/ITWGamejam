@@ -480,8 +480,8 @@ MonoBehaviour:
   launchDamage: 1
   launchDistance: 1.3
   launchMoveTime: 0.4
-  dodgeNeedMp: 0
-  dodgeDistance: 0
+  dodgeNeedMp: 50
+  dodgeDistance: 0.8
   dodgeCoolTime: 1.5
   dodgeDuration: 0.5
   MaxHp: 3

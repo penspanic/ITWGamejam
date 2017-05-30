@@ -588,7 +588,7 @@ MonoBehaviour:
   launchDamage: 1
   launchDistance: 2
   launchMoveTime: 0.7
-  dodgeNeedMp: 0
+  dodgeNeedMp: 50
   dodgeDistance: 0.7
   dodgeCoolTime: 1.5
   dodgeDuration: 0.25
