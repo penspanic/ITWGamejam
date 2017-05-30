@@ -13,7 +13,6 @@ public class UiStageController : MonoBehaviour
     private void Awake()
     {
         stageController = GameObject.FindObjectOfType<StageController>();
-        stageController.OnStageStart += OnStageStart;
         stageController.OnStageEnd += OnStageEnd;
 
         if(BgmManager.Instance.Initialized == false)
@@ -30,9 +29,8 @@ public class UiStageController : MonoBehaviour
         remainTimeText.text = ((int)stageController.RemainElapsedTime).ToString();
     }
 
-    private void OnStageStart()
+    public void ShowReadyStart()
     {
-        BgmManager.Instance.Play(BgmType.InGame1);
         StartCoroutine(ReadyStartProcess());
     }
 

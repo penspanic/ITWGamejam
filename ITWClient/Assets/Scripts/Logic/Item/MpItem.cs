@@ -13,6 +13,7 @@ public class MpItem : IItem
 
     public override void UseItem(ICharacter owner)
     {
+        SfxManager.Instance.Play(SfxType.Item_GetMp);
         owner.Mp += chargeValue;
         if(owner.Mp > owner.MaxMp)
         {

@@ -6,8 +6,11 @@ public class StageController : Singleton<StageController>
 {
     [SerializeField]
     private float maxStageTime;
+    [SerializeField]
+    private bool isDisableAi;
     public bool IsStageStarted { get; set; }
     public float RemainElapsedTime { get; set; }
+    public bool IsDisableAi { get { return isDisableAi; } }
     public static bool IsEditMode = false;
     #region Event
     public event System.Action OnStageStart;
@@ -15,15 +18,19 @@ public class StageController : Singleton<StageController>
     #endregion
 
     private PlayerManager playerManager;
-    private UiPlayerController uiPlayerController;
     private CameraController cameraController;
+    private UiPlayerController uiPlayerController;
+    private UiStageController uiStageController;
 
     protected override void Awake()
     {
         playerManager = GameObject.FindObjectOfType<PlayerManager>();
-        uiPlayerController = GameObject.FindObjectOfType<UiPlayerController>();
         cameraController = GameObject.FindObjectOfType<CameraController>();
+        uiPlayerController = GameObject.FindObjectOfType<UiPlayerController>();
+        uiStageController = GameObject.FindObjectOfType<UiStageController>();
+
         EffectController.Instance.LoadEffects();
+        SfxManager.Instance.Initialize();
         Ai.AiDifficultyController.Instance.Initialize();
 
         IsStageStarted = false;
@@ -53,21 +60,22 @@ public class StageController : Singleton<StageController>
         uiPlayerController.SetPlayers(playerManager.Players.ToArray());
         cameraController.SetTargets(characterObjects.ToArray());
 
-        if(IsEditMode == true)
+        if(IsEditMode == false)
         {
-            StartCoroutine(StageTimeProcess());
-            OnStageStart();
-            IsStageStarted = true;
-            yield break;
+            yield return new WaitForSeconds(3f);
         }
 
-        yield return new WaitForSeconds(3f);
-
         StartCoroutine(StageTimeProcess());
-        OnStageStart();
+        BgmManager.Instance.Play(BgmType.InGame1);
+        uiStageController.ShowReadyStart();
+        
+        if(IsEditMode == false)
+        {
+            yield return new WaitForSeconds(3f);
+        }
 
-        yield return new WaitForSeconds(3f);
         IsStageStarted = true;
+        OnStageStart();
     }
 
     private IEnumerator StageTimeProcess()

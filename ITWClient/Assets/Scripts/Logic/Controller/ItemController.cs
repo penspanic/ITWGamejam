@@ -39,6 +39,7 @@ public class ItemController : MonoBehaviour
                 nextCreateInterval = nextStepDecreaseInterval;
             yield return new WaitForSeconds(nextCreateInterval);
             itemFactory.CreateItem(GetNewItemType());
+            SfxManager.Instance.Play(SfxType.Item_Create);
             elapsedTime += Time.deltaTime;
 
         }

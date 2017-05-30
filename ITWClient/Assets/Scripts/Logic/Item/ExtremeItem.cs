@@ -25,6 +25,7 @@ public class ExtremeItem : IItem
 
     private IEnumerator ItemEffectProcess()
     {
+        SfxManager.Instance.Play(SfxType.Item_GetExtreme);
         user.IsExtremeMp = true;
         float elapsedTime = 0.0f;
         while(elapsedTime < duration)

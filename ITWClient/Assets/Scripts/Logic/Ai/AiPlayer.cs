@@ -50,6 +50,11 @@ namespace Ai
                 characterAi = null;
             }
 
+            if(StageController.Instance.IsDisableAi == true)
+            {
+                return;
+            }
+
             switch(character.CharacterType)
             {
                 case CharacterType.Rocketeer:

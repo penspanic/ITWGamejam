@@ -14,6 +14,7 @@ public class HpItem : IItem
 
     public override void UseItem(ICharacter owner)
     {
+        SfxManager.Instance.Play(SfxType.Item_GetHp);
         owner.Hp += HealValue;
         if(owner.Hp > owner.MaxHp)
         {
