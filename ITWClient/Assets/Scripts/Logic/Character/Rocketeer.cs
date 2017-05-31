@@ -24,12 +24,16 @@ public class Rocketeer : ICharacter
     protected override void Dodge()
     {
         base.Dodge();
+        SfxManager.Instance.Play(SfxType.Rocketeer_Evade);
     }
 
     protected override void UseSkill()
     {
         base.UseSkill();
         State = CharacterState.Flying;
+
+        SfxManager.Instance.Play(SfxType.Rocketeer_Skill);
+
         Vector2 endPos = transform.position;
         endPos += prevMovedDirection * 2.5f;
         boxCollider.size *= 2f;
@@ -62,5 +66,17 @@ public class Rocketeer : ICharacter
     protected override void OnCollisionEnter2D(Collision2D other)
     {
         base.OnCollisionEnter2D(other);
+    }
+
+    protected override void Launch()
+    {
+        base.Launch();
+        SfxManager.Instance.Play(SfxType.Rocketeer_Fly);
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        SfxManager.Instance.Play(SfxType.Rocketeer_Dead);
     }
 }

@@ -18,6 +18,8 @@ public class Engineer : ICharacter
         animator.Play("skill", 0);
         State = CharacterState.SkillActivated;
 
+        SfxManager.Instance.Play(SfxType.Engineer_Skill);
+
         SteamShot newSteamShot = Instantiate(steamShotPrefab).GetComponent<SteamShot>();
         newSteamShot.SetOwner(this);
         newSteamShot.gameObject.layer = this.gameObject.layer;
@@ -46,5 +48,23 @@ public class Engineer : ICharacter
     {
         State = CharacterState.Idle;
         animator.Play("idle", 0);
+    }
+
+    protected override void Dodge()
+    {
+        base.Dodge();
+        SfxManager.Instance.Play(SfxType.Engineer_Evade);
+    }
+
+    protected override void Launch()
+    {
+        base.Launch();
+        SfxManager.Instance.Play(SfxType.Engineer_Fly);
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        SfxManager.Instance.Play(SfxType.Engineer_Dead);
     }
 }

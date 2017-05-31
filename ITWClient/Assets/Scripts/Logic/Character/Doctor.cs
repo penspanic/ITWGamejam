@@ -59,6 +59,7 @@ public class Doctor : ICharacter
     protected override void Dodge()
     {
         base.Dodge();
+        SfxManager.Instance.Play(SfxType.Doctor_Evade);
         dodgeEffect.SetActive(true);
         dodgeEffect.GetComponent<Animator>().Play("DoctorEvade", -1, 0f);
     }
@@ -92,6 +93,8 @@ public class Doctor : ICharacter
             elapsedTime += Time.deltaTime;
             if(elapsedTime > poisonCreateIntervalSecond)
             {
+                SfxManager.Instance.Play(SfxType.Doctor_Skill);
+
                 elapsedTime -= poisonCreateIntervalSecond;
                 Poison newPoison = Instantiate(poisonPrefab).GetComponent<Poison>();
                 newPoison.SetOwner(this);
@@ -135,5 +138,17 @@ public class Doctor : ICharacter
             skillCoroutine = null;
         }
         moveSpeed = originalMoveSpeed;
+    }
+
+    protected override void Launch()
+    {
+        base.Launch();
+        SfxManager.Instance.Play(SfxType.Doctor_Fly);
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        SfxManager.Instance.Play(SfxType.Doctor_Dead);
     }
 }

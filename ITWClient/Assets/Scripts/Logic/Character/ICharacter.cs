@@ -258,7 +258,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         return Mp >= launchNeedMp;
     }
 
-    protected void Launch()
+    protected virtual void Launch()
     {
         Mp -= launchNeedMp;
         animator.Play("flying", 0);
@@ -280,6 +280,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     private IEnumerator LandingProcess()
     {
         animator.Play("landing", 0);
+        SfxManager.Instance.Play(SfxType.Character_Landing);
         yield return new WaitForSeconds(0.12f);
         State = CharacterState.Idle;
         IsInvincible = false;
@@ -363,6 +364,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
         else
         {
+            SfxManager.Instance.Play(SfxType.Character_Hit);
             StartCoroutine(DamageProcess(attacker));
         }
     }
@@ -398,7 +400,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         animator.Play("idle", 0);
     }
 
-    private void OnDeath()
+    protected virtual void OnDeath()
     {
         Debug.Log(this.name + " Dead.");
         State = CharacterState.Dead;
@@ -494,6 +496,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     {
         IsCharging = true;
         float elapsedTime = 0f;
+        SfxManager.Instance.PlayLoop(SfxType.Character_Charge);
         while(true)
         {
             yield return null;
@@ -514,6 +517,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     {
         if(IsCharging == true)
         {
+            SfxManager.Instance.StopLoop(SfxType.Character_Charge);
             StopCoroutine(chargeCoroutine);
             IsCharging = false;
             Destroy(chargeEffect);

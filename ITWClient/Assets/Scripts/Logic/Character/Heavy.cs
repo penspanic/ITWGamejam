@@ -47,7 +47,8 @@ public class Heavy : ICharacter
         float elapsedTime = 0f;
         Vector2 startPos = transform.position;
         Vector2 endPos = startPos + (prevMovedDirection * skillMoveDistance);
-        
+
+        bool sfxPlayed = false;
         while(elapsedTime < skillMoveTime)
         {
             yield return null;
@@ -58,6 +59,11 @@ public class Heavy : ICharacter
             {
                 animator.enabled = true;
             }
+            if(elapsedTime / skillMoveTime > 0.6f && sfxPlayed == false)
+            {
+                sfxPlayed = true;
+                SfxManager.Instance.Play(SfxType.Heavy_Skill);
+            }
         }
         transform.position = endPos;
 
@@ -65,6 +71,7 @@ public class Heavy : ICharacter
         newExplosion.SetOwner(this);
         newExplosion.gameObject.layer = LayerMask.NameToLayer(LayerNames.Team + Player.TeamNumber.ToString());
         newExplosion.transform.position = this.transform.position;
+
 
         if(State == CharacterState.SkillActivated)
         {
@@ -115,6 +122,7 @@ public class Heavy : ICharacter
                 && this.State == CharacterState.Dodge)
             {
                 EffectController.Instance.ShowEffect(EffectType.Heavy_Counter, Vector2.zero, this.transform);
+                SfxManager.Instance.Play(SfxType.Heavy_Counter);
                 otherCharacter.OnHit(this, 1, true);
                 return;
             }
@@ -132,5 +140,17 @@ public class Heavy : ICharacter
     protected override void OnTriggerEnter2D(Collider2D other)
     {
         base.OnTriggerEnter2D(other);
+    }
+
+    protected override void Launch()
+    {
+        base.Launch();
+        SfxManager.Instance.Play(SfxType.Heavy_Fly);
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        SfxManager.Instance.Play(SfxType.Heavy_Dead);
     }
 }
