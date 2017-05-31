@@ -58,7 +58,7 @@ public class GameInfoReady : MonoBehaviour
 
         MoveRightToCenter(selectPlayer);
         selectPlayer.UpdateDataByInfoType();
-        selectCheck.UpdateDataByInfoType();
+        
     }
 
     private void MoveRightToCenter(GameInfoRaw target)
@@ -120,6 +120,7 @@ public class GameInfoReady : MonoBehaviour
                     if (IsSoloTeam(uiGameReady.gameMode, uiGameReady.howPlayer))
                     {
                         gameInfoState = GameInfoState.AllSelectDone;
+                        selectCheck.UpdateDataByInfoType();
                         uiGameReady.cpuCount = 3;
                         selectCheck.SetSelected(true, true, 1);
                         isDoneRaw = true;
@@ -157,11 +158,13 @@ public class GameInfoReady : MonoBehaviour
                         }
                     }
                     ++gameInfoState;
+                    selectCheck.UpdateDataByInfoType();
                     selectCPU.SetSelected(false);
                     selectCheck.SetSelected(true, true, 1);
                     isAllCheck = true;
                     isDoneRaw = true;
                     uiGameReady.SetCursorEnable(false);
+                    
                     break;
                 case GameInfoState.AllSelectDone:
                     var idx = selectCheck.GetCurrIdx();

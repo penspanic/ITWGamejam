@@ -35,6 +35,11 @@ public class GameInfoRaw : MonoBehaviour {
         {
             gameObject.SetActive(false);
         }
+
+        if (infoType == GameInfoState.AllSelectDone)
+        {
+            InitSelectDoneCells();
+        }
     }
 
     private void InitByInfoType()
@@ -67,7 +72,7 @@ public class GameInfoRaw : MonoBehaviour {
             case GameInfoState.SelectCPU:
                 break;
             case GameInfoState.AllSelectDone:
-                currIdx = 1;
+                currIdx = 0;
                 break;
             default:
                 break;
@@ -77,6 +82,7 @@ public class GameInfoRaw : MonoBehaviour {
         {
             infoCells[i].gameObject.SetActive(false);
         }
+        infoCellList.Clear();
         if (infoCnt == 99)
         {
             infoCellList.AddRange(infoCells);
@@ -94,6 +100,17 @@ public class GameInfoRaw : MonoBehaviour {
             infoCellList[i].gameObject.SetActive(true);
         }
 
+    }
+
+    private void InitSelectDoneCells()
+    {
+        for (int i = 0; i < infoCells.Length; ++i)
+        {
+            infoCells[i].gameObject.SetActive(false);
+        }
+        infoCellList.Clear();
+        infoCellList.Add(infoCells[0]);
+        infoCellList[0].gameObject.SetActive(true);
     }
 
 
@@ -218,7 +235,8 @@ public class GameInfoRaw : MonoBehaviour {
         uiController.SetCursor(infoCellList[currIdx].transform.position);
     }
 
-    public void BackRawSelectByCurrIdx(bool reset = false) {
+    public void BackRawSelectByCurrIdx(bool reset = false)
+    {
         for (int i = 0; i < infoCellList.Count; ++i)
         {
             if (currIdx == i && reset == false)

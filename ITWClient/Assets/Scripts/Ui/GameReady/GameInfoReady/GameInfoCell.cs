@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameInfoCell : MonoBehaviour {
     private GameObject selectedObj;
 
-    void Start() 
+    void Awake()
     {
         selectedObj = transform.FindChild("Select").gameObject;
     }
