@@ -3,7 +3,17 @@ using System.Collections;
 
 public static class SoundManager
 {
-
+    /* 볼륨 크기
+     * 
+     * UI           = 1
+     * Object       = 0.85
+     * BGM(!InGame) = 0.8
+     * Character    = 0.75 
+     * BGM(InGame)  = 0.6
+     * 
+     * 적용 후 변동사항 생기면 여기에 적어둘께. -요한
+     * 
+     */
     public static float MasterVolume
     {
         get
