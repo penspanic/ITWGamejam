@@ -234,7 +234,7 @@ namespace Ai
             // 헤비가 반격대기 중인지 검사
             if (attackTargetCharacter != null && attackTargetCharacter.CharacterType == CharacterType.Heavy &&
                 attackTargetCharacter.State == CharacterState.Dodge &&
-                AiDifficultyController.Instance.IsRandomActivated(AiStatusIds.HeavyDodgeDetectWhenLaunch) == true)
+                AiDifficultyController.Instance.IsRandomActivated(AiConstants.HeavyDodgeDetectWhenLaunch) == true)
             {
                 return 0;
             }
@@ -247,7 +247,7 @@ namespace Ai
         {
             // Launch 할 때 난이도에 따라 랜덤한 방향으로 하자.
             Vector2 dir = ((attackTarget as MonoBehaviour).transform.position - CharacterPosition).normalized;
-            float randomValue = AiDifficultyController.Instance.GetRandomValue(AiStatusIds.LaunchRandomDirectionValue);
+            float randomValue = AiDifficultyController.Instance.GetRandomValue(AiConstants.LaunchRandomDirection);
 
             float randomX = Random.Range(-randomValue, randomValue);
             float randomY = Random.Range(-randomValue, randomValue);

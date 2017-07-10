@@ -10,13 +10,6 @@ namespace Ai
         Hard,
     }
 
-    public static class AiStatusIds
-    {
-        public const string HeavyDodgeDetectWhenLaunch = "HeavyDodgeDetectWhenLaunch";
-        public const string LaunchRandomDirectionValue = "LaunchRandomDirectionValue"; // 런치할 때 랜덤하게 이상한 위치를 향하도록 하는 값.
-        public const string DodgeDangerProbability = "DodgeDangerProbability";
-    }
-
     public struct RandomProbability
     {
         public RandomProbability(float min, float max)
@@ -39,7 +32,8 @@ namespace Ai
         public Dictionary<string, float> Probabilities { get; private set; }
         public Dictionary<string, float> RandomValues { get; private set; }
         
-        private AiDifficulty Difficulty;
+        private AiDifficulty difficulty;
+        private Data.AiDifficultyData difficultyData;
 
         AiDifficultyController()
         {
@@ -59,23 +53,18 @@ namespace Ai
                 return;
             }
             // 일단 임시로 Difficulty Easy로 설정
-            Difficulty = AiDifficulty.Easy;
+            difficulty = AiDifficulty.Easy;
 
-            // TODO : json이나 xml 파일로 데이터 빼기
-            if(Difficulty == AiDifficulty.Easy)
-            {
-                Probabilities.Add(AiStatusIds.HeavyDodgeDetectWhenLaunch, 0.2f);
-                Probabilities.Add(AiStatusIds.DodgeDangerProbability, 0.5f);
-
-                RandomValues.Add(AiStatusIds.LaunchRandomDirectionValue, 0.5f);
-            }
+            difficultyData = Resources.Load<Data.AiDifficultyData>("Data/Ai/AiDifficultyData_" + difficulty.ToString());
+            difficultyData.Probabilities.GetDatas(Probabilities);
+            difficultyData.RandomValues.GetDatas(RandomValues);
         }
 
         public float GetRawRandomValue(string statusId)
         {
             if (RandomValues.ContainsKey(statusId) == false)
             {
-                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, Difficulty.ToString()));
+                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, difficulty.ToString()));
                 return 0f;
             }
 
@@ -86,7 +75,7 @@ namespace Ai
         {
             if (Probabilities.ContainsKey(statusId) == false)
             {
-                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, Difficulty.ToString()));
+                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, difficulty.ToString()));
                 return 0f;
             }
 
@@ -96,7 +85,7 @@ namespace Ai
         {
             if(Probabilities.ContainsKey(statusId) == false)
             {
-                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, Difficulty.ToString()));
+                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, difficulty.ToString()));
                 return false;
             }
 
@@ -107,7 +96,7 @@ namespace Ai
         {
             if(RandomValues.ContainsKey(statusId) == false)
             {
-                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, Difficulty.ToString()));
+                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, difficulty.ToString()));
                 return 0f;
             }
 
