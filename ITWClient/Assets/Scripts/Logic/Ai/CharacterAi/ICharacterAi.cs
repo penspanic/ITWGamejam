@@ -24,10 +24,12 @@ namespace Ai
         public Vector3 CharacterPosition { get { return AiPlayer.TargetCharacter.transform.position; } }
         public int FearPoint { get; private set; }
 
+
         // 지금은 공격 대상이 캐릭터일 때만 구현하지만, 
         // 나중에 장애물 혹은 NPC등을 공격 대상으로 삼을 수도 있으니 IObject Type으로.
         protected IObject attackTarget = null;
         protected IObject escapeTarget = null;
+        protected IObject dodgeTarget = null;
 
         public void Initialize(AiPlayer player)
         {
@@ -40,6 +42,8 @@ namespace Ai
 
         public void Process()
         {
+            ProcessDangerDetact();
+
             // 캐릭터를 제어할 수 없는 상태에는 그냥 return 해버리기~
             if(CanProcessAi(AiPlayer.TargetCharacter.State) == false)
             {
@@ -265,13 +269,7 @@ namespace Ai
 
         protected virtual int GetDodgeBehaviourPoint()
         {
-            // 이게 매 프레임마다 검사하는거라서 확률을 좀 다르게 설정하거나 방식을 바꿔야 할 듯..
-            //if (AiDifficultyController.Instance.IsRandomActivated(AiStatusIds.DodgeDangerProbability) == true)
-            //{
-            //    return 0;
-            //}
-
-            if(GetDodgeTargetEnemys().Count > 0)
+            if(dodgeTarget != null)
             {
                 return 200;
             }
@@ -280,11 +278,10 @@ namespace Ai
         }
 
 
-        private List<ICharacter> GetDodgeTargetEnemys()
+        // TODO : 캐릭터 이외의 위험상황도 감지할 필요가 있을듯.
+        private ICharacter GetDodgeTargetEnemy()
         {
             ICharacter[] enemys = CharacterManager.Instance.GetEmemys(AiPlayer.TargetCharacter);
-            List<ICharacter> threatningEnemys = new List<ICharacter>();
-            const float activateDistance = 0.5f; // Dodge 발동할 적과 나 사이의 최대 거리.
             for (int i = 0; i < enemys.Length; ++i)
             {
                 if (enemys[i].IsHighThreat == false)
@@ -292,25 +289,31 @@ namespace Ai
                     continue;
                 }
 
-                if ((enemys[i].transform.position - CharacterPosition).magnitude < activateDistance)
+                if ((enemys[i].transform.position - CharacterPosition).magnitude < AiDifficultyController.Instance.GetStatusValue(AiConstants.DangerDetactDistance))
                 {
-                    threatningEnemys.Add(enemys[i]);
+                    return enemys[i];
                 }
             }
 
-            return threatningEnemys;
+            return null;
         }
 
         protected virtual void Dodge()
         {
-            List<ICharacter> dodgeTargetEnemys = GetDodgeTargetEnemys();
-            if(dodgeTargetEnemys.Count == 0)
+            if(dodgeTarget == null)
             {
                 return;
             }
 
-            ICharacter dodgeTarget = dodgeTargetEnemys[Random.Range(0, dodgeTargetEnemys.Count)];
-            Vector2 dodgeDirection = dodgeTarget.FacingDirection;
+            Vector2 dodgeDirection = Vector2.zero;
+            if(dodgeTarget is ICharacter)
+            {
+                dodgeDirection = (dodgeTarget as ICharacter).FacingDirection;
+            }
+            else
+            {
+                dodgeDirection = (CharacterPosition - (dodgeTarget as MonoBehaviour).transform.position).normalized;
+            }
 
             AiPlayer.TargetCharacter.FacingDirection = dodgeDirection;
             AiPlayer.TargetCharacter.DoDodge();
@@ -379,6 +382,34 @@ namespace Ai
                 }
 
                 yield return new WaitForSeconds(duration);
+            }
+        }
+
+        #endregion
+
+        #region DangerDetact
+
+        private float dangerDetactElapsedTime = 0f;
+        private void ProcessDangerDetact()
+        {
+            dangerDetactElapsedTime += Time.deltaTime;
+            if(dangerDetactElapsedTime < AiDifficultyController.Instance.GetStatusValue(AiConstants.DangerDetactInterval))
+            {
+                return;
+            }
+
+            // dodgeTarget이 없을 경우엔 시간초기화 하지 않는다.
+            dodgeTarget = GetDodgeTargetEnemy();
+            if(dodgeTarget == null)
+            {
+                return;
+            }
+
+            dangerDetactElapsedTime = 0f;
+            if(AiDifficultyController.Instance.IsRandomActivated(AiConstants.DangerDetactProbability) == false)
+            {
+                dodgeTarget = null;
+                return;
             }
         }
 

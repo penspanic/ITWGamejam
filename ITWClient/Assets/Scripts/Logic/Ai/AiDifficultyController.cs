@@ -91,7 +91,7 @@ namespace Ai
                 return false;
             }
 
-            return Probabilities[statusId] < Random.Range(0f, 1f);
+            return Probabilities[statusId] > Random.Range(0f, 0.9999f); // 1f로 하면 1f도 나올 수 있음 : min [inclusive] and max [inclusive]
         }
 
         public float GetRandomRangeValue(string statusId)

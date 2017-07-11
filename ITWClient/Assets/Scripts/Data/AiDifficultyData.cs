@@ -9,6 +9,7 @@ public static class AiConstants
     #region AiProbabilities
     public const string AvoidDangerByDodge = "AvoidDangerByDodge";
     public const string HeavyDodgeDetectWhenLaunch = "HeavyDodgeDetectWhenLaunch";
+    public const string DangerDetactProbability = "DangerDetactProbability";
     #endregion
 
     #region AiRandomRanges
@@ -17,6 +18,7 @@ public static class AiConstants
 
     #region AiStatusValues
     public const string DangerDetactDistance = "DangerDetactDistance";
+    public const string DangerDetactInterval = "DangerDetactInterval";
     #endregion
 }
 
@@ -30,11 +32,14 @@ namespace Data
         public float AvoidDangerByDodge;
         [Range(0f, 1f)]
         public float HeavyDodgeDetectWhenLaunch;
+        [Range(0f, 1f)]
+        public float DangerDetactProbability;
 
         public void GetDatas(Dictionary<string, float> dic)
         {
             dic.Add(AiConstants.AvoidDangerByDodge, AvoidDangerByDodge);
             dic.Add(AiConstants.HeavyDodgeDetectWhenLaunch, HeavyDodgeDetectWhenLaunch);
+            dic.Add(AiConstants.DangerDetactProbability, DangerDetactProbability);
         }
     }
 
@@ -53,10 +58,11 @@ namespace Data
     public struct AiStatusValues
     {
         public float DangerDetactDistance;
-
+        public float DangerDetactInterval;
         public void GetDatas(Dictionary<string, float> dic)
         {
             dic.Add(AiConstants.DangerDetactDistance, DangerDetactDistance);
+            dic.Add(AiConstants.DangerDetactInterval, DangerDetactInterval);
         }
     }
 
