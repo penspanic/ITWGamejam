@@ -18,6 +18,8 @@ public struct PlayerInTeam
 public static class TeamController
 {
     public static List<TeamData> Teams = new List<TeamData>();
+    public static Ai.AiDifficulty AiDifficulty = Ai.AiDifficulty.Easy;
+
     static TeamController()
     {
         // dummy data

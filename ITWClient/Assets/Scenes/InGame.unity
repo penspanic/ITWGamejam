@@ -1791,7 +1791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxStageTime: 120
-  isDisableAi: 1
+  isDisableAi: 0
 --- !u!4 &695275724
 Transform:
   m_ObjectHideFlags: 0

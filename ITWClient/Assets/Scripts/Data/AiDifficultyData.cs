@@ -6,9 +6,18 @@ using UnityEngine;
 
 public static class AiConstants
 {
+    #region AiProbabilities
+    public const string AvoidDangerByDodge = "AvoidDangerByDodge";
     public const string HeavyDodgeDetectWhenLaunch = "HeavyDodgeDetectWhenLaunch";
+    #endregion
+
+    #region AiRandomRanges
     public const string LaunchRandomDirection = "LaunchRandomDirection";
-    public const string DodgeDanger = "DodgeDanger";
+    #endregion
+
+    #region AiStatusValues
+    public const string DangerDetactDistance = "DangerDetactDistance";
+    #endregion
 }
 
 namespace Data
@@ -17,26 +26,37 @@ namespace Data
     [System.Serializable]
     public struct AiProbabilities
     {
-        [Range(0f,1f)]
-        public float DodgeDanger;
+        [Range(0f, 1f)]
+        public float AvoidDangerByDodge;
         [Range(0f, 1f)]
         public float HeavyDodgeDetectWhenLaunch;
 
         public void GetDatas(Dictionary<string, float> dic)
         {
-            dic.Add(AiConstants.DodgeDanger, DodgeDanger);
+            dic.Add(AiConstants.AvoidDangerByDodge, AvoidDangerByDodge);
             dic.Add(AiConstants.HeavyDodgeDetectWhenLaunch, HeavyDodgeDetectWhenLaunch);
         }
     }
 
     [System.Serializable]
-    public struct AiRandomValues
+    public struct AiRandomRanges
     {
-        public float LaunchRandomDirection;
+        public Vector2 LaunchRandomDirection;
+
+        public void GetDatas(Dictionary<string, Vector2> dic)
+        {
+            dic.Add(AiConstants.LaunchRandomDirection, LaunchRandomDirection);
+        }
+    }
+
+    [System.Serializable]
+    public struct AiStatusValues
+    {
+        public float DangerDetactDistance;
 
         public void GetDatas(Dictionary<string, float> dic)
         {
-            dic.Add(AiConstants.LaunchRandomDirection, LaunchRandomDirection);
+            dic.Add(AiConstants.DangerDetactDistance, DangerDetactDistance);
         }
     }
 
@@ -44,6 +64,7 @@ namespace Data
     public class AiDifficultyData : ScriptableObject
     {
         public AiProbabilities Probabilities;
-        public AiRandomValues RandomValues;
+        public AiRandomRanges RandomRanges;
+        public AiStatusValues StatusValues;
     }
 }

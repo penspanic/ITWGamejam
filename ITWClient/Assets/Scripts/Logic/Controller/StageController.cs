@@ -11,7 +11,7 @@ public class StageController : Singleton<StageController>
     public bool IsStageStarted { get; set; }
     public float RemainElapsedTime { get; set; }
     public bool IsDisableAi { get { return isDisableAi; } }
-    public static bool IsEditMode = false;
+    public static bool IsEditMode = true;
     #region Event
     public event System.Action OnStageStart;
     public event System.Action OnStageEnd;

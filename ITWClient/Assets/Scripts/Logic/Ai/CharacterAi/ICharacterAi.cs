@@ -22,6 +22,7 @@ namespace Ai
         public AiState PrevAiState { get; protected set; }
         public CharacterState CharacterState { get { return AiPlayer.TargetCharacter.State; } }
         public Vector3 CharacterPosition { get { return AiPlayer.TargetCharacter.transform.position; } }
+        public int FearPoint { get; private set; }
 
         // 지금은 공격 대상이 캐릭터일 때만 구현하지만, 
         // 나중에 장애물 혹은 NPC등을 공격 대상으로 삼을 수도 있으니 IObject Type으로.
@@ -247,7 +248,7 @@ namespace Ai
         {
             // Launch 할 때 난이도에 따라 랜덤한 방향으로 하자.
             Vector2 dir = ((attackTarget as MonoBehaviour).transform.position - CharacterPosition).normalized;
-            float randomValue = AiDifficultyController.Instance.GetRandomValue(AiConstants.LaunchRandomDirection);
+            float randomValue = AiDifficultyController.Instance.GetRandomRangeValue(AiConstants.LaunchRandomDirection);
 
             float randomX = Random.Range(-randomValue, randomValue);
             float randomY = Random.Range(-randomValue, randomValue);

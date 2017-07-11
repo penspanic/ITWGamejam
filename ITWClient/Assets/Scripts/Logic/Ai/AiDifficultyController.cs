@@ -30,7 +30,8 @@ namespace Ai
     {
         public bool IsInitialized { get; protected set; }
         public Dictionary<string, float> Probabilities { get; private set; }
-        public Dictionary<string, float> RandomValues { get; private set; }
+        public Dictionary<string, Vector2> RandomRanges { get; private set; }
+        public Dictionary<string, float> StatusValues { get; private set; }
         
         private AiDifficulty difficulty;
         private Data.AiDifficultyData difficultyData;
@@ -38,7 +39,8 @@ namespace Ai
         AiDifficultyController()
         {
             Probabilities = new Dictionary<string, float>();
-            RandomValues = new Dictionary<string, float>();
+            RandomRanges = new Dictionary<string, Vector2>();
+            StatusValues = new Dictionary<string, float>();
         }
 
         protected override void Awake()
@@ -52,23 +54,23 @@ namespace Ai
             {
                 return;
             }
-            // 일단 임시로 Difficulty Easy로 설정
-            difficulty = AiDifficulty.Easy;
+            difficulty = TeamController.AiDifficulty;
 
             difficultyData = Resources.Load<Data.AiDifficultyData>("Data/Ai/AiDifficultyData_" + difficulty.ToString());
             difficultyData.Probabilities.GetDatas(Probabilities);
-            difficultyData.RandomValues.GetDatas(RandomValues);
+            difficultyData.RandomRanges.GetDatas(RandomRanges);
+            difficultyData.StatusValues.GetDatas(StatusValues);
         }
 
-        public float GetRawRandomValue(string statusId)
+        public Vector2 GetRawRandomValue(string statusId)
         {
-            if (RandomValues.ContainsKey(statusId) == false)
+            if (RandomRanges.ContainsKey(statusId) == false)
             {
                 Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, difficulty.ToString()));
-                return 0f;
+                return Vector2.zero;
             }
 
-            return RandomValues[statusId];
+            return RandomRanges[statusId];
         }
         
         public float GetRawProbability(string statusId)
@@ -92,15 +94,26 @@ namespace Ai
             return Probabilities[statusId] < Random.Range(0f, 1f);
         }
 
-        public float GetRandomValue(string statusId)
+        public float GetRandomRangeValue(string statusId)
         {
-            if(RandomValues.ContainsKey(statusId) == false)
+            if(RandomRanges.ContainsKey(statusId) == false)
             {
                 Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, difficulty.ToString()));
                 return 0f;
             }
 
-            return Random.Range(0f, RandomValues[statusId]);
+            return Random.Range(RandomRanges[statusId].x, RandomRanges[statusId].y);
+        }
+
+        public float GetStatusValue(string statusId)
+        {
+            if(StatusValues.ContainsKey(statusId) == false)
+            {
+                Debug.LogError(string.Format("{0} status not found. Difficulty : {1}", statusId, difficulty.ToString()));
+                return 0f;
+            }
+
+            return StatusValues[statusId];
         }
     }
 }
