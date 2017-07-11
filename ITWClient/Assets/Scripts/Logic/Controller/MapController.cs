@@ -2,14 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+public enum MapType
+{
+    FourGimmick,
+    BigGimmick,
+    PipeLine,
+}
+
 public class MapController : Singleton<MapController>
 {
+    [SerializeField]
+    private Transform background;
+
+    private Dictionary<MapType, IMap> mapDic;
     private GameObject[] obstaclePrefabs = null;
     private List<IObstacle> obstacles = new List<IObstacle>();
+
+    private IMap currMap = null;
 
     protected override void Awake()
     {
         obstaclePrefabs = Resources.LoadAll<GameObject>("Prefabs/Obstacle");
+
+        mapDic = new Dictionary<MapType, IMap>();
+        mapDic.Add(MapType.FourGimmick, Resources.Load<IMap>("Prefabs/Map/FourGimmick"));
     }
 
     public Vector2 GetRandomMapPos()
@@ -27,6 +44,18 @@ public class MapController : Singleton<MapController>
 
         return new Vector2(fX, fY);
     }
+
+    public void CreateMap(MapType mapType)
+    {
+        currMap = Instantiate<IMap>(mapDic[mapType], background);
+
+        if (currMap == null)
+            throw new UnityException("Map Load Fail!!, MapType: " + mapType.ToString());
+
+        currMap.InitMap();
+    }
+
+
     public void CreateObstacles(int count)
     {
         for(int i = 0; i < count; ++i)

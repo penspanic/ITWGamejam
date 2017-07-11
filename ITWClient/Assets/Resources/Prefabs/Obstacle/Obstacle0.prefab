@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212483911464922526}
   - component: {fileID: 95128665788916306}
   - component: {fileID: 61429090723407070}
+  - component: {fileID: 114102221299046178}
   m_Layer: 12
   m_Name: Obstacle0
   m_TagString: Obstacle
@@ -84,6 +85,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114102221299046178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1494087930916672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2125c4c88d0e81c4fbe57246c68cef2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 100
+  isInvincible: 1
 --- !u!212 &212483911464922526
 SpriteRenderer:
   m_ObjectHideFlags: 1

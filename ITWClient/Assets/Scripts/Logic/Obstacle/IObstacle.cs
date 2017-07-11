@@ -5,6 +5,8 @@ public abstract class IObstacle : MonoBehaviour, IObject
 {
     [SerializeField]
     private int MaxHp;
+    [SerializeField]
+    private bool isInvincible;
 
     public int Hp { get; protected set; }
 
@@ -26,8 +28,17 @@ public abstract class IObstacle : MonoBehaviour, IObject
 
     }
 
+    public virtual void InitObstacle()
+    {
+
+    }
+
+
     public virtual void OnHit(IObject attacker, int damage, bool forced = false)
     {
+        if (isInvincible)
+            return;
+
         Hp -= damage;
         if(Hp <= 0)
         {

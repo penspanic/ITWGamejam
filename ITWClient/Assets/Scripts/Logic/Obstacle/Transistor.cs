@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Transistor : MonoBehaviour
+public class Transistor : IObstacle
 {
+    [SerializeField]
+    private float attackRange;
+    [SerializeField]
+    private float attackIntaval;
+    [SerializeField]
+    private float attackDamage;
 
-    // Use this for initialization
-    void Start()
+    public override void InitObstacle()
     {
+        base.InitObstacle();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        
     }
 }
