@@ -94,6 +94,12 @@ public class ItemController : Singleton<ItemController>
             return null;
         }
 
-        return items[itemType].OrderBy((item) => (item.transform.position - position).magnitude).First();
+        var sortedItems = items[itemType].OrderBy((item) => (item.transform.position - position).magnitude);
+        if (sortedItems.Count() > 0)
+        {
+            return sortedItems.First();
+        }
+
+        return null;
     }
 }
