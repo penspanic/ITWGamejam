@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 95327693984716974}
   - component: {fileID: 61860904665688198}
   - component: {fileID: 114643430852144384}
+  - component: {fileID: 210610830058514570}
   m_Layer: 12
   m_Name: Obstacle0 (3)
   m_TagString: Obstacle
@@ -58,6 +59,7 @@ GameObject:
   - component: {fileID: 95943948925015198}
   - component: {fileID: 61816048532630014}
   - component: {fileID: 114039379201413490}
+  - component: {fileID: 210385580148866530}
   m_Layer: 12
   m_Name: Obstacle0 (1)
   m_TagString: Obstacle
@@ -77,6 +79,7 @@ GameObject:
   - component: {fileID: 95877523381331500}
   - component: {fileID: 61120923221322010}
   - component: {fileID: 114031257884531888}
+  - component: {fileID: 210432220988066596}
   m_Layer: 12
   m_Name: Obstacle0 (2)
   m_TagString: Obstacle
@@ -96,6 +99,7 @@ GameObject:
   - component: {fileID: 95261769599435666}
   - component: {fileID: 61737372974420906}
   - component: {fileID: 114846383491717636}
+  - component: {fileID: 210563455000862678}
   m_Layer: 12
   m_Name: Obstacle0
   m_TagString: Obstacle
@@ -415,6 +419,46 @@ MonoBehaviour:
   attackRange: 0
   attackIntaval: 0
   attackDamage: 0
+--- !u!210 &210385580148866530
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351089309232424}
+  m_Enabled: 1
+  m_SortingLayerID: 146398115
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+--- !u!210 &210432220988066596
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1732217103565144}
+  m_Enabled: 1
+  m_SortingLayerID: 146398115
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+--- !u!210 &210563455000862678
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1803577746047592}
+  m_Enabled: 1
+  m_SortingLayerID: 146398115
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+--- !u!210 &210610830058514570
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1121995854534398}
+  m_Enabled: 1
+  m_SortingLayerID: 146398115
+  m_SortingLayer: 2
+  m_SortingOrder: 0
 --- !u!212 &212046248497967260
 SpriteRenderer:
   m_ObjectHideFlags: 1
