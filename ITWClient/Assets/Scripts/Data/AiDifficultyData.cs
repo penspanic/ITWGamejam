@@ -7,9 +7,8 @@ using UnityEngine;
 public static class AiConstants
 {
     #region AiProbabilities
-    public const string AvoidDangerByDodge = "AvoidDangerByDodge";
-    public const string HeavyDodgeDetectWhenLaunch = "HeavyDodgeDetectWhenLaunch";
     public const string DangerDetactProbability = "DangerDetactProbability";
+    public const string HeavyDodgeDetectWhenLaunch = "HeavyDodgeDetectWhenLaunch";
     #endregion
 
     #region AiRandomRanges
@@ -29,17 +28,14 @@ namespace Data
     public struct AiProbabilities
     {
         [Range(0f, 1f)]
-        public float AvoidDangerByDodge;
-        [Range(0f, 1f)]
         public float HeavyDodgeDetectWhenLaunch;
         [Range(0f, 1f)]
         public float DangerDetactProbability;
 
         public void GetDatas(Dictionary<string, float> dic)
         {
-            dic.Add(AiConstants.AvoidDangerByDodge, AvoidDangerByDodge);
-            dic.Add(AiConstants.HeavyDodgeDetectWhenLaunch, HeavyDodgeDetectWhenLaunch);
             dic.Add(AiConstants.DangerDetactProbability, DangerDetactProbability);
+            dic.Add(AiConstants.HeavyDodgeDetectWhenLaunch, HeavyDodgeDetectWhenLaunch);
         }
     }
 
