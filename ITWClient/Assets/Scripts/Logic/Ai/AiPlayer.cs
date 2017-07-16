@@ -11,6 +11,8 @@ namespace Ai
     /// </summary>
     public class AiPlayer : Player
     {
+        [SerializeField]
+        private bool isDisabled = false;
         private ICharacterAi characterAi = null;
 
         protected override void Awake()
@@ -28,7 +30,7 @@ namespace Ai
 
         private void FixedUpdate()
         {
-            if(characterAi == null || TargetCharacter == null)
+            if(isDisabled == true || characterAi == null || TargetCharacter == null)
             {
                 return;
             }

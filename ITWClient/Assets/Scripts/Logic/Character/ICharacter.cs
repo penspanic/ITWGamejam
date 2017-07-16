@@ -56,8 +56,34 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public int MaxMp;
 
     public bool IsDead { get; set; }
-    public int Hp { get; set; }
-    public int Mp { get; set; }
+    private int _hp;
+    public int Hp
+    {
+        get
+        {
+            return _hp;
+        }
+        set
+        {
+            if (OnHpChanged != null)
+                OnHpChanged(_hp, value);
+            _hp = value;
+        }
+    }
+    private int _mp;
+    public int Mp
+    {
+        get
+        {
+            return _mp;
+        }
+        set
+        {
+            if (OnMpChanged != null)
+                OnMpChanged(_mp, value);
+            _mp = value;
+        }
+    }
     public bool IsExtremeMp { get; set; }
     public bool IsInvincible { get; protected set; }
     public bool IsDodgeCoolTime { get; protected set; }
@@ -84,6 +110,9 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public event System.Action<IObject> OnCreated;
     public event System.Action<IObject> OnDestroyed;
     public event System.Action<int/*prevHp*/, int/*currHp*/> OnDamaged;
+    public event System.Action<Collision2D/*other*/> OnCollisionEnter;
+    public event System.Action<int/*prevHp*/, int/*currHp*/> OnHpChanged;
+    public event System.Action<int/*prevMp*/, int/*currMp*/> OnMpChanged;
     #endregion
 
     protected CharacterManager characterManager;
@@ -288,6 +317,9 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual void OnCollisionEnter2D(Collision2D other)
     {
+        if (OnCollisionEnter != null)
+            OnCollisionEnter(other);
+
         if(other.gameObject.CompareTag(TagNames.Character) == true)
         {
             ICharacter otherCharacter = other.gameObject.GetComponent<ICharacter>();

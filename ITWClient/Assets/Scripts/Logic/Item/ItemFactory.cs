@@ -16,7 +16,7 @@ public class ItemFactory : MonoBehaviour
         IItem newItem = Instantiate(itemPrefabs[type]).GetComponent<IItem>();
         //newItem.TilePos = mapController.GetEmptyTilePos();
         //mapController.SetTile(newItem);
-        newItem.transform.position = MapController.Instance.GetRandomMapPos();
+        newItem.transform.position = MapController.GetRandomMapPos();
         return newItem;
     }
 }

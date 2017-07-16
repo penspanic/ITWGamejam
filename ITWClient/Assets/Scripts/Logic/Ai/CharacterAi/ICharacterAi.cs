@@ -37,6 +37,10 @@ namespace Ai
             AiState = AiState.Sleep;
             PrevAiState = AiState.Sleep;
 
+            player.TargetCharacter.OnCollisionEnter += OnCharacterCollisionEnter;
+            player.TargetCharacter.OnHpChanged += OnCharacterHpChanged;
+            player.TargetCharacter.OnMpChanged += OnCharacterMpChanged;
+
             StartCoroutine(TargetSettingProcess());
         }
 
@@ -97,7 +101,7 @@ namespace Ai
                     }
                     break;
                 case AiState.Escape:
-                    escapeTarget = null;
+                    //escapeTarget = null; -> 이거 내가 왜 해놨더라... ㅠ
                     break;
                 default:
                     break;
@@ -143,9 +147,14 @@ namespace Ai
         }
 
         #region Move
+        // 무조건 움직임을 취소해야 하는 상황엔 isMoving을 false로 바꿔버리자.
         protected virtual int GetMoveBehaviourPoint()
         {
-            return 0;
+            if(isMoving == true)
+            {
+                return 60;
+            }
+            return 70; // 임시
         }
 
         // 별 의미 없는 움직임. Chasing 하고 다름.
@@ -156,10 +165,19 @@ namespace Ai
             // 첫 움직임 시작일 때 완료 목표 지점 설정
             if(isMoving == false)
             {
-                // Not Implemented
                 isMoving = true;
-                moveEndPos = new Vector2(0, 0);
-                AiPlayer.TargetCharacter.transform.position = moveEndPos;
+                moveEndPos = MapController.GetRandomMapPos();
+                Debug.Log("MoveStart : " + AiPlayer.name + ", EndPos : " + moveEndPos);
+                return;
+            }
+
+            Vector2 moveDir = (moveEndPos - new Vector2(CharacterPosition.x, CharacterPosition.y)).normalized;
+            AiPlayer.TargetCharacter.DoMove(moveDir);
+
+            float remainDistance = (new Vector2(CharacterPosition.x, CharacterPosition.y) - moveEndPos).magnitude;
+            if(remainDistance < 0.05f)
+            {
+                isMoving = false;
             }
         }
 
@@ -168,13 +186,14 @@ namespace Ai
         #region Chase
         protected virtual int GetChaseBehaviourPoint()
         {
-            // 적 쫓아가는 것 먼저 구현을 위해 일단 최고 우선순위로 설정.
+            // TODO : FearPoint가 높으면 낮은 Point를 return하도록 해야 함.
             return 80;
         }
 
         protected virtual void Chase()
         {
             Vector2 targetDir = ((attackTarget as MonoBehaviour).transform.position - CharacterPosition).normalized;
+            // TODO : 너무 적을 최단거리로 쫓아가면 이상하니 자연스럽도록 개선해야 함.
             AiPlayer.Move(targetDir);
         }
 
@@ -334,6 +353,7 @@ namespace Ai
             return 0;
         }
 
+        private bool isEscaping = false;
         protected virtual void Escape()
         {
             // Launch나 Heavy 스킬등으로 안전한 위치를 향해 사용하면 될 것 같은데..
@@ -341,21 +361,28 @@ namespace Ai
             // 마나가 없는 경우엔 가장 가까이 있는 적의 반대편으로 움직이자.
             // HP 아이템이 있으면 먹으러 가자.
 
+            // 1. escapeTarget을 찾는다.
+            // 2. escapeTarget이 null인 경우, hpPotion을 찾는다.
+            // 3. 그것도 없는 경우, 최대한 가까운 적으로부터 반대방향으로 도망간다...
+            
         }
 
         #endregion
 
         #region TargetSetting
 
+        Coroutine targetSettingCoroutine;
         private void OnTargetDeath(IObject character)
         {
-            StopCoroutine(TargetSettingProcess());
-            StartCoroutine(TargetSettingProcess());
+            attackTarget.OnDestroyed -= OnTargetDeath;
+            if (targetSettingCoroutine != null)
+                StopCoroutine(targetSettingCoroutine);
+
+            targetSettingCoroutine = StartCoroutine(TargetSettingProcess());
         }
 
         private IEnumerator TargetSettingProcess()
         {
-        
             while(true)
             {
                 const float minDuration = 5f;
@@ -413,6 +440,32 @@ namespace Ai
             }
         }
 
+        #endregion
+
+        #region Event listeners
+
+        // ICharacter의 OnCollisionEnter Event listener 함수.
+        private void OnCharacterCollisionEnter(Collision2D other)
+        {
+            if(isMoving == true)
+            {
+                // 또 다른 처리할게 필요할까?
+                isMoving = false;
+            }
+        }
+
+        private void OnCharacterHpChanged(int prevHp, int currHp)
+        {
+            if(prevHp == 1 && currHp > 1)
+            {
+                isEscaping = false;
+            }
+        }
+
+        private void OnCharacterMpChanged(int prevMp, int currMp)
+        {
+
+        }
         #endregion
     }
 }

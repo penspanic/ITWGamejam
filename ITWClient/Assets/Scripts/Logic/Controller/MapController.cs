@@ -12,7 +12,7 @@ public class MapController : Singleton<MapController>
         obstaclePrefabs = Resources.LoadAll<GameObject>("Prefabs/Obstacle");
     }
 
-    public Vector2 GetRandomMapPos()
+    public static Vector2 GetRandomMapPos()
     {
         const float widthRadius = 3.78f;
         const float heightRadius = 2.9f;
