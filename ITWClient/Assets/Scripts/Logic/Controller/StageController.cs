@@ -46,6 +46,9 @@ public class StageController : Singleton<StageController>
 
     private IEnumerator StageStartProcess()
     {
+        // Create Map
+        MapController.Instance.CreateMap(MapType.FourGimmick);
+
         playerManager.CreatePlayers();
         List<GameObject> characterObjects = new List<GameObject>();
         Vector2[] createPositions = TeamController.GetCharacterCreatePos(playerManager.Players.Count);
