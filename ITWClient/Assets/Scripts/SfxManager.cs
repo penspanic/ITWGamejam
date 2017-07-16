@@ -176,4 +176,15 @@ public class SfxManager : Singleton<SfxManager>
             loopSourcesPool.Add(endedSource);
         }
     }
+
+    public void StopAll()
+    {
+        for(int i = 0; i < loopingSources.Count; ++i)
+        {
+            loopingSources[i].Value.Stop();
+            loopingSources[i].Value.clip = null;
+            loopSourcesPool.Add(loopingSources[i].Value);
+        }
+        loopingSources.Clear();
+    }
 }

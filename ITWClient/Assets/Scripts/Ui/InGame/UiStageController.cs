@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class UiStageController : MonoBehaviour
@@ -46,6 +47,14 @@ public class UiStageController : MonoBehaviour
         {
             remainTimeText.text = ((int)stageController.RemainElapsedTime).ToString();
         }
+        else if(isSceneChanging == false)
+        {
+            if(Input.GetKeyDown(KeyCode.Return) == true || Input.GetButtonDown("Submit") == true)
+            {
+                //StartCoroutine(ChangeSceneProcess());
+                SceneUtil.LoadScene("MainMenu");
+            }
+        }
     }
 
     private void OnStageEnd()
@@ -54,4 +63,10 @@ public class UiStageController : MonoBehaviour
         noticeBox.gameObject.SetActive(true);
         StartCoroutine(noticeBox.ShowNoticeBox(NoticeType.Victory));
     }
+
+    private bool isSceneChanging = false;
+    //private IEnumerator ChangeSceneProcess()
+    //{
+
+    //}
 }

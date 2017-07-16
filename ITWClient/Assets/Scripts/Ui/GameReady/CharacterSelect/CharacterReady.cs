@@ -260,7 +260,7 @@ public class CharacterReady : MonoBehaviour {
 
         }
 
-        SceneManager.LoadScene("InGame");
+        SceneUtil.LoadScene("InGame");
 
     }
 

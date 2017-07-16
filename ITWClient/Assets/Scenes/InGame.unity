@@ -1791,7 +1791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxStageTime: 120
-  isDisableAi: 1
+  isDisableAi: 0
 --- !u!4 &695275724
 Transform:
   m_ObjectHideFlags: 0
@@ -4672,6 +4672,26 @@ Prefab:
     - target: {fileID: 1197352086056206, guid: 6639b228ba94daf40b07e3794c5bde3b, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199634013108686198, guid: 6639b228ba94daf40b07e3794c5bde3b,
+        type: 2}
+      propertyPath: m_SortingLayerID
+      value: 12629095
+      objectReference: {fileID: 0}
+    - target: {fileID: 199634013108686198, guid: 6639b228ba94daf40b07e3794c5bde3b,
+        type: 2}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 199310324382681904, guid: 6639b228ba94daf40b07e3794c5bde3b,
+        type: 2}
+      propertyPath: m_SortingLayerID
+      value: 12629095
+      objectReference: {fileID: 0}
+    - target: {fileID: 199310324382681904, guid: 6639b228ba94daf40b07e3794c5bde3b,
+        type: 2}
+      propertyPath: m_SortingLayer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6639b228ba94daf40b07e3794c5bde3b, type: 2}

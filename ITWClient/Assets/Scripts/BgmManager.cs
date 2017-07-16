@@ -24,8 +24,8 @@ public class BgmManager : Singleton<BgmManager>
         bgmSource.loop = true;
 
         SoundManager.OnBgmVolumeChanged += OnBgmVolumeChanged;
-        SoundManager.MasterVolume = 1; // 임시
-        SoundManager.BgmVolume = 0; // 임시
+        SoundManager.MasterVolume = 1;
+        SoundManager.BgmVolume = 1;
     }
 
     public void LoadClips()

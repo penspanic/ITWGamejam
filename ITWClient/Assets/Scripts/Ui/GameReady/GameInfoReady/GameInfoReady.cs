@@ -92,7 +92,7 @@ public class GameInfoReady : MonoBehaviour
                 if (selectCheck.GetCurrIdx() == 0)
                 {
                     //back
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+                    SceneUtil.LoadScene("MainMenu");
                     return;
                 }
 
@@ -171,7 +171,7 @@ public class GameInfoReady : MonoBehaviour
                     if (idx == 0)
                     {
                         // back
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+                        SceneUtil.LoadScene("MainMenu");
                     }
                     else if (idx == 1)
                     {

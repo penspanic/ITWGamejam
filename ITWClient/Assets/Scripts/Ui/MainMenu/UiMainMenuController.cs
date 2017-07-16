@@ -130,7 +130,7 @@ public class UiMainMenuController : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene("GameReady");
+        SceneUtil.LoadScene("GameReady");
     }
 
     public void OnPressedCreditButton() 
