@@ -1,0 +1,13 @@
+public const string HeavyDodgeDetectWhenLaunch = "HeavyDodgeDetectWhenLaunch";
+1.  해비 반격을 쓸 확률(상대가 런치할때)
+
+    public const string LaunchRandomDirection = "LaunchRandomDirection";
+2. 상대방에게 런치할때 약간 다른 방향으로 움직이게 하는 값
+
+    public const string DodgeDanger = "DodgeDanger";
+3. 위험한 상황에 처했을때(스킬이나 런치등) 그걸 닷지로 피할 확률
+
+
+====================================================================
+
+1. 분류(확률인지, 범위인지), 2. StatusId, 3. 설명
