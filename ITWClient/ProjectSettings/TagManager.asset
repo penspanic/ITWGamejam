@@ -46,14 +46,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UnderCharacter
+  - name: UnderObject
     uniqueID: 4048979677
     locked: 0
-  - name: Character
+  - name: Object
     uniqueID: 146398115
-    locked: 0
-  - name: Obstacle
-    uniqueID: 3078784311
     locked: 0
   - name: Effect
     uniqueID: 12629095
