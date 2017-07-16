@@ -107,8 +107,8 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public Player Player { get; protected set; }
 
     #region Event
-    public event System.Action<IObject> OnCreated;
-    public event System.Action<IObject> OnDestroyed;
+    public event System.Action<IObject> OnCreated; // IObject interface implementation
+    public event System.Action<IObject> OnDestroyed; // IObject interface implementation
     public event System.Action<int/*prevHp*/, int/*currHp*/> OnDamaged;
     public event System.Action<Collision2D/*other*/> OnCollisionEnter;
     public event System.Action<int/*prevHp*/, int/*currHp*/> OnHpChanged;
@@ -375,6 +375,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
     }
 
+    // IObject interface implementation
     public virtual void OnHit(IObject attacker, int damage, bool forced = false)
     {
         if(IsInvincible == true && forced == false)
@@ -432,6 +433,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         animator.Play("idle", 0);
     }
 
+
     protected virtual void OnDeath()
     {
         Debug.Log(this.name + " Dead.");
@@ -442,6 +444,23 @@ public abstract class ICharacter : MonoBehaviour, IObject
         EffectController.Instance.ShowEffect(EffectType.Die, new Vector2(0f, 0.1f), this.transform);
         if(OnDestroyed != null)
             OnDestroyed(this);
+
+        StartCoroutine(DisappearProcess());
+    }
+
+    private IEnumerator DisappearProcess()
+    {
+        yield return new WaitForSeconds(1f);
+
+        const float ALPHA_TIME = 0.5f;
+        float elapsedTime = 0f;
+        while(elapsedTime < ALPHA_TIME)
+        {
+            elapsedTime += Time.deltaTime;
+            characterSpriteAnimator.SetColor(new Color(1, 1, 1, 1 - elapsedTime / ALPHA_TIME));
+            yield return null;
+        }
+        Destroy(this.gameObject);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)

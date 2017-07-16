@@ -18,6 +18,7 @@ public class SortingLayerController : Singleton<SortingLayerController>
         if(target as ICharacter != null || target as IObstacle != null)
         {
             targets.Add(target, (target as MonoBehaviour).GetComponent<SortingGroup>());
+            target.OnDestroyed += OnDestroyed;
         }
     }
 

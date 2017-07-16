@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// 인게임에서 플레이어들의 위치에 따라 줌인아웃
@@ -7,7 +8,7 @@ using System.Collections;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] targets;
+    private List<GameObject> targets;
     [SerializeField]
     private Vector2 orthoSizeRange;
     private void Awake()
@@ -17,7 +18,8 @@ public class CameraController : MonoBehaviour
 
     public void SetTargets(GameObject[] targets)
     {
-        this.targets = targets;
+        this.targets.Clear();
+        this.targets.AddRange(targets);
         StartAnimating();
     }
 
@@ -33,6 +35,8 @@ public class CameraController : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
             Rect targetRect = new Rect();
+
+            targets.RemoveAll((target) => target == null);
             foreach(GameObject target in targets)
             {
                 Vector3 pos = target.transform.position;
