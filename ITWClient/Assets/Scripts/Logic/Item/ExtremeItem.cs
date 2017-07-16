@@ -32,9 +32,16 @@ public class ExtremeItem : IItem
         {
             yield return null;
             elapsedTime += Time.deltaTime;
-            user.Mp = user.MaxMp;
+            if(user != null)
+            {
+                user.Mp = user.MaxMp;
+            }
         }
-        user.IsExtremeMp = false;
+        if(user != null)
+        {
+            user.IsExtremeMp = false;
+        }
+
         Destroy();
     }
 }

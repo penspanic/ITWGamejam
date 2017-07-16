@@ -92,6 +92,11 @@ namespace Ai
 
         protected virtual void CancelPrevState()
         {
+            if(AiState == PrevAiState)
+            {
+                return;
+            }
+
             switch(PrevAiState)
             {
                 case AiState.Charge: // 차징 취소
@@ -101,7 +106,7 @@ namespace Ai
                     }
                     break;
                 case AiState.Escape:
-                    //escapeTarget = null; -> 이거 내가 왜 해놨더라... ㅠ
+                    isEscaping = false;
                     break;
                 default:
                     break;
@@ -167,7 +172,7 @@ namespace Ai
             {
                 isMoving = true;
                 moveEndPos = MapController.GetRandomMapPos();
-                Debug.Log("MoveStart : " + AiPlayer.name + ", EndPos : " + moveEndPos);
+                LogAi("MoveStart, EndPos : " + moveEndPos);
                 return;
             }
 
@@ -361,13 +366,40 @@ namespace Ai
             // 마나가 없는 경우엔 가장 가까이 있는 적의 반대편으로 움직이자.
             // HP 아이템이 있으면 먹으러 가자.
 
-            // 1. escapeTarget을 찾는다.
-            // 2. escapeTarget이 null인 경우, hpPotion을 찾는다.
-            // 3. 그것도 없는 경우, 최대한 가까운 적으로부터 반대방향으로 도망간다...
-            
+            isEscaping = true;
+            escapeTarget = CharacterManager.Instance.GetNearestEnemy(AiPlayer.TargetCharacter);
+
+            float targetDistance = float.MaxValue;
+            if(escapeTarget != null)
+            {
+                targetDistance = ((escapeTarget as ICharacter).transform.position - CharacterPosition).magnitude;
+            }
+
+            // 일정 범위 안에 있을 경우, 도망친다.
+            const float TOLERABLE_ENEMY_DISTANCE = 1f;
+            if(targetDistance < TOLERABLE_ENEMY_DISTANCE) // 이것도 난이도마다 다르게 설정할 필요가 있을려나...
+            {
+                LogAi(string.Format("(Escape) Escaping from {0}, distance : {1}", (escapeTarget as MonoBehaviour).name, targetDistance));
+            }
+            else // 일정 범위 밖에 있을 경우, HP 포션을 먹으러 간다.
+            {
+                LogAi(string.Format("(Escape) Try get HpPotion"));
+                TryGetItem(ItemType.HpPotion);
+            }
         }
 
         #endregion
+        private void TryGetItem(ItemType itemType)
+        {
+            IItem item = ItemController.Instance.GetNearestItem(itemType, CharacterPosition);
+            if(item == null)
+            {
+                return;
+            }
+
+            Vector2 moveDir = (item.transform.position - CharacterPosition).normalized;
+            AiPlayer.TargetCharacter.DoMove(moveDir);
+        }
 
         #region TargetSetting
 
@@ -466,6 +498,15 @@ namespace Ai
         {
 
         }
+        #endregion
+
+        #region helpers
+        void LogAi(string message)
+        {
+            //[Player + N][CharcterType] message
+            Debug.Log(string.Format("[Player{0}][{1}] {2}", AiPlayer.PlayerNumber, AiPlayer.TargetCharacter.CharacterType, message));
+        }
+
         #endregion
     }
 }

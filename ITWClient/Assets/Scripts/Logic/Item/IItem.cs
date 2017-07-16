@@ -9,7 +9,8 @@ public enum ItemType
 
 public abstract class IItem : MonoBehaviour
 {
-    public ItemType Type { get; set; }
+    public ItemType ItemType { get; set; }
+    public event System.Action<IItem> OnDestroy;
 
     protected virtual void Awake()
     {
@@ -19,6 +20,11 @@ public abstract class IItem : MonoBehaviour
 
     protected void Destroy()
     {
+        if(OnDestroy != null)
+        {
+            OnDestroy(this);
+        }
+
         Destroy(this.gameObject);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// 스태이지 내에서 아이템 생성하고, 플레이어에게 지급하는 로직 처리.
 /// </summary>
-public class ItemController : MonoBehaviour
+public class ItemController : Singleton<ItemController>
 {
 
     [SerializeField]
@@ -14,12 +16,11 @@ public class ItemController : MonoBehaviour
     [SerializeField]
     float nextStepDecreaseInterval;
 
-    private StageController stageController;
     private ItemFactory itemFactory;
+    private Dictionary<ItemType, List<IItem>> items = new Dictionary<ItemType, List<IItem>>();
     private void Awake()
     {
-        stageController = GameObject.FindObjectOfType<StageController>();
-        stageController.OnStageStart += OnStageStart;
+        StageController.Instance.OnStageStart += OnStageStart;
         itemFactory = gameObject.AddComponent<ItemFactory>();
     }
 
@@ -32,17 +33,31 @@ public class ItemController : MonoBehaviour
     {
         // 스테이지 플레이한 시간 지날 수록 아이템이 나올 확률이 올라가도록.
         float elapsedTime = 0f;
-        while(stageController.IsStageStarted == true)
+        while(StageController.Instance.IsStageStarted == true)
         {
             float nextCreateInterval = basicCreateInterval;
             if(elapsedTime > nextStepElapsedTime)
                 nextCreateInterval = nextStepDecreaseInterval;
             yield return new WaitForSeconds(nextCreateInterval);
-            itemFactory.CreateItem(GetNewItemType());
+            ItemType newItemType = GetNewItemType();
+            IItem newItem = itemFactory.CreateItem(newItemType);
+            newItem.OnDestroy += OnItemDestroy;
+            if(items.ContainsKey(newItemType) == false)
+            {
+                items.Add(newItemType, new List<IItem>());
+            }
+            items[newItemType].Add(newItem);
+
             SfxManager.Instance.Play(SfxType.Item_Create);
             elapsedTime += Time.deltaTime;
 
         }
+    }
+    
+    private void OnItemDestroy(IItem item)
+    {
+        items[item.ItemType].Remove(item);
+        item.OnDestroy -= OnItemDestroy;
     }
 
     private ItemType GetNewItemType()
@@ -60,5 +75,25 @@ public class ItemController : MonoBehaviour
         {
             return ItemType.ExtremePotion;
         }
+    }
+
+    public IItem[] GetItems(ItemType itemType)
+    {
+        if(items.ContainsKey(itemType) == false)
+        {
+            return null;
+        }
+
+        return items[itemType].ToArray();
+    }
+
+    public IItem GetNearestItem(ItemType itemType, Vector3 position)
+    {
+        if(items.ContainsKey(itemType) == false)
+        {
+            return null;
+        }
+
+        return items[itemType].OrderBy((item) => (item.transform.position - position).magnitude).First();
     }
 }
