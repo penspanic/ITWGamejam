@@ -9,12 +9,12 @@ public class UiStageController : MonoBehaviour
     private Text remainTimeText;
     [SerializeField]
     private NoticeBox noticeBox;
+    [SerializeField]
+    private InGameOption option;
 
-    private StageController stageController;
     private void Awake()
     {
-        stageController = GameObject.FindObjectOfType<StageController>();
-        stageController.OnStageEnd += OnStageEnd;
+        StageController.Instance.OnStageEnd += OnStageEnd;
 
         if(BgmManager.Instance.Initialized == false)
         {
@@ -27,7 +27,7 @@ public class UiStageController : MonoBehaviour
 
     private void Start()
     {
-        remainTimeText.text = ((int)stageController.RemainElapsedTime).ToString();
+        remainTimeText.text = ((int)StageController.Instance.RemainElapsedTime).ToString();
     }
 
     public void ShowReadyStart()
@@ -44,11 +44,24 @@ public class UiStageController : MonoBehaviour
     private bool isSceneChanging = false;
     private void Update()
     {
-        if(stageController.IsStageProcessing == true)
+        if(StageController.Instance.IsStageProcessing == true)
         {
-            remainTimeText.text = ((int)stageController.RemainElapsedTime).ToString();
+            remainTimeText.text = ((int)StageController.Instance.RemainElapsedTime).ToString();
+
+            if (Input.GetKeyDown(KeyCode.Escape) == true) // TODO : Pad Input 처리 필요.
+            {
+                if (option.IsShowing == false)
+                {
+                    option.Show();
+                }
+                else
+                {
+                    option.Hide();
+                }
+            }
         }
-        else if(isSceneChanging == false)
+
+        if(isSceneChanging == false)
         {
             if(Input.GetKeyDown(KeyCode.Return) == true || Input.GetButtonDown("Submit") == true)
             {

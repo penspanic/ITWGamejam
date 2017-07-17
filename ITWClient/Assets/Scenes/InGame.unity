@@ -554,7 +554,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 207809508}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1723491946}
+        m_MethodName: OnGuideButtonDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &207809508
@@ -810,8 +821,8 @@ RectTransform:
   - {fileID: 1984081941}
   - {fileID: 1447008110}
   - {fileID: 1985679089}
-  - {fileID: 1723491943}
   - {fileID: 1290483504}
+  - {fileID: 1723491943}
   - {fileID: 1085938732}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -846,6 +857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   remainTimeText: {fileID: 1917306072}
   noticeBox: {fileID: 1290483503}
+  option: {fileID: 1723491946}
 --- !u!1 &331264403
 GameObject:
   m_ObjectHideFlags: 0
@@ -1419,6 +1431,110 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1001 &551563547
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1723491943}
+    m_Modifications:
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+        type: 2}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575588439590816, guid: dcc3830325c17d34f93911ee5a36e8fd, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: dcc3830325c17d34f93911ee5a36e8fd, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &560373427
 GameObject:
   m_ObjectHideFlags: 0
@@ -2001,7 +2117,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 748184061}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1723491946}
+        m_MethodName: OnMenuButtonDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &748184061
@@ -3724,7 +3851,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1571756283}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1723491946}
+        m_MethodName: OnReturnButtonDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1571756283
@@ -4119,6 +4257,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1673293939}
+--- !u!114 &1713739866 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114973758045748806, guid: dcc3830325c17d34f93911ee5a36e8fd,
+    type: 2}
+  m_PrefabInternal: {fileID: 551563547}
+  m_Script: {fileID: 11500000, guid: 9954ab6ce8525724386b40cb05be7570, type: 3}
+--- !u!224 &1713739868 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224517732048856670, guid: dcc3830325c17d34f93911ee5a36e8fd,
+    type: 2}
+  m_PrefabInternal: {fileID: 551563547}
 --- !u!1 &1723491942
 GameObject:
   m_ObjectHideFlags: 0
@@ -4129,6 +4278,7 @@ GameObject:
   - component: {fileID: 1723491943}
   - component: {fileID: 1723491945}
   - component: {fileID: 1723491944}
+  - component: {fileID: 1723491946}
   m_Layer: 5
   m_Name: Option
   m_TagString: Untagged
@@ -4147,8 +4297,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1673293940}
+  - {fileID: 1713739868}
   m_Father: {fileID: 288501216}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4188,6 +4339,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1723491942}
+--- !u!114 &1723491946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1723491942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeb1bad17f998d14a9d786deaf77e3ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guidePanel: {fileID: 1713739866}
 --- !u!1 &1769533677
 GameObject:
   m_ObjectHideFlags: 0
@@ -4617,7 +4780,7 @@ Prefab:
     - target: {fileID: 224185547133183596, guid: 6639b228ba94daf40b07e3794c5bde3b,
         type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224185547133183596, guid: 6639b228ba94daf40b07e3794c5bde3b,
         type: 2}

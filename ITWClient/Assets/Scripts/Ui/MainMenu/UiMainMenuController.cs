@@ -9,6 +9,8 @@ public class UiMainMenuController : MonoBehaviour
     private Transform titleTrs;
     [SerializeField]
     private MenuButton[] buttons;
+    [SerializeField]
+    private GuidePanel guidePanel;
 
     private bool isOpening;
     private bool isTitlePressed;
@@ -122,7 +124,7 @@ public class UiMainMenuController : MonoBehaviour
         });
     }
 
-    public void OnPressedStartButton() 
+    public void OnPressedStartButton()
     {
         if (canButtonPress == false)
         {
@@ -147,6 +149,8 @@ public class UiMainMenuController : MonoBehaviour
         {
             return;
         }
+
+        guidePanel.Show();
     }
 
     public void OnPressedOptionButton()
