@@ -41,9 +41,10 @@ public class UiStageController : MonoBehaviour
         // yield break;
     }
 
+    private bool isSceneChanging = false;
     private void Update()
     {
-        if(stageController.IsStageStarted == true)
+        if(stageController.IsStageProcessing == true)
         {
             remainTimeText.text = ((int)stageController.RemainElapsedTime).ToString();
         }
@@ -51,22 +52,34 @@ public class UiStageController : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Return) == true || Input.GetButtonDown("Submit") == true)
             {
-                //StartCoroutine(ChangeSceneProcess());
                 SceneUtil.LoadScene("MainMenu");
             }
         }
     }
 
-    private void OnStageEnd()
+    private void OnStageEnd(int winTeamNumber)
     {
         BgmManager.Instance.Play(BgmType.GameOver);
         noticeBox.gameObject.SetActive(true);
+
+        Debug.Log("WinTeamNumber : " + winTeamNumber);
+        // TODO : 아래 if 구문 noticeBox 타입 다르게 처리 필요
+        if(winTeamNumber == -1)
+        {
+            Debug.Log("StageEnd : Draw");
+            // Draw
+        }
+        else if(TeamController.GetTeam(winTeamNumber).IsCpuTeam() == true)
+        {
+            Debug.Log("StageEnd : Lose");
+            // Lose
+        }
+        else
+        {
+            Debug.Log("StageEnd : Win");
+            // Team + winTeamNumber Win
+        }
+
         StartCoroutine(noticeBox.ShowNoticeBox(NoticeType.Victory));
     }
-
-    private bool isSceneChanging = false;
-    //private IEnumerator ChangeSceneProcess()
-    //{
-
-    //}
 }

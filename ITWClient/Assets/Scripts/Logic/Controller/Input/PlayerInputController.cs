@@ -43,7 +43,7 @@ public class PlayerInputController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(Initialized == false || StageController.Instance.IsStageStarted == false)
+        if(Initialized == false || StageController.Instance.IsStageProcessing == false)
             return;
 
         List<PlayerInputType> pressedKeys = new List<PlayerInputType>();

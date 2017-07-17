@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class StageController : Singleton<StageController>
 {
@@ -8,13 +9,13 @@ public class StageController : Singleton<StageController>
     private float maxStageTime;
     [SerializeField]
     private bool isDisableAi;
-    public bool IsStageStarted { get; set; }
-    public float RemainElapsedTime { get; set; }
+    public bool IsStageProcessing { get; private set; }
+    public float RemainElapsedTime { get; private set; }
     public bool IsDisableAi { get { return isDisableAi; } }
     public static bool IsEditMode = true;
     #region Event
     public event System.Action OnStageStart;
-    public event System.Action OnStageEnd;
+    public event System.Action<int/*WinTeamNumber*/> OnStageEnd;
     #endregion
 
     private PlayerManager playerManager;
@@ -33,7 +34,7 @@ public class StageController : Singleton<StageController>
         SfxManager.Instance.Initialize();
         Ai.AiDifficultyController.Instance.Initialize();
 
-        IsStageStarted = false;
+        IsStageProcessing = false;
         RemainElapsedTime = maxStageTime;
         //int obstacleCount = Random.Range(5, 10);
         //mapController.CreateObstacles(obstacleCount);
@@ -77,7 +78,7 @@ public class StageController : Singleton<StageController>
             yield return new WaitForSeconds(3f);
         }
 
-        IsStageStarted = true;
+        IsStageProcessing = true;
         OnStageStart();
     }
 
@@ -87,33 +88,54 @@ public class StageController : Singleton<StageController>
         {
             yield return null;
 
-            if(IsStageStarted == true)
+            if(IsStageProcessing == true)
             {
                 RemainElapsedTime -= Time.deltaTime;
+                if(RemainElapsedTime < 0f)
+                {
+                    IsStageProcessing = false;
+                    OnStageEnd(GetWinTeamNumber());
+                    yield break;
+                }
             }
         }
     }
 
     public void OnCharacterDeath(IObject target)
     {
-        HashSet<int> aliveTeams = new HashSet<int>(); // 중복 값 제거 위해.
-        foreach(var pair in CharacterManager.Instance.Characters)
+        IsStageProcessing = false;
+        OnStageEnd(GetWinTeamNumber());
+    }
+
+    /// <returns>Draw시 -1 리턴.</returns>
+    private int GetWinTeamNumber()
+    {
+        Dictionary<int/*TeamNumber*/, int/*RemainHp*/> hpDatas = new Dictionary<int, int>();
+
+        foreach (var pair in CharacterManager.Instance.Characters)
         {
             int teamNumber = TeamController.GetTeam(pair.Key.PlayerNumber).TeamNumber;
-            if(pair.Value.IsDead == false)
+            hpDatas.Add(teamNumber, pair.Value.Hp);
+        }
+
+        var sorted = (from hpPair in hpDatas
+                      orderby hpPair.Value descending
+                      select hpPair).ToArray();
+
+        if(sorted.Length == 0)
+        {
+            return -1;
+        }
+
+        int topRemainHp = sorted[0].Value;
+        for(int i = 1; i < sorted.Length; ++i)
+        {
+            if(sorted[i].Value == topRemainHp)
             {
-                aliveTeams.Add(teamNumber);
+                return -1;
             }
         }
 
-        if(aliveTeams.Count == 0) // 이런 경우는 안나올 것 같음.
-        {
-
-        }
-        else if(aliveTeams.Count == 1)
-        {
-            IsStageStarted = false;
-            OnStageEnd();
-        }
+        return sorted[0].Key;
     }
 }

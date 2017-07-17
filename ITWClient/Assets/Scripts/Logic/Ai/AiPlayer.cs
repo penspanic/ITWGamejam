@@ -34,7 +34,7 @@ namespace Ai
             {
                 return;
             }
-            if (TargetCharacter.IsDead == false && StageController.Instance.IsStageStarted == true)
+            if (TargetCharacter.IsDead == false && StageController.Instance.IsStageProcessing == true)
             {
                 characterAi.Process();
             }

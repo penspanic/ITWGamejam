@@ -8,7 +8,7 @@ public enum NoticeType
 {
     ReadyAndFight,
     SuddenDeath,
-    Victory,
+    Victory, // TODO : 삭제
 }
 
 public class NoticeBox : MonoBehaviour

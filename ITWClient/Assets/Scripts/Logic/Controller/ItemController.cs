@@ -33,7 +33,7 @@ public class ItemController : Singleton<ItemController>
     {
         // 스테이지 플레이한 시간 지날 수록 아이템이 나올 확률이 올라가도록.
         float elapsedTime = 0f;
-        while(StageController.Instance.IsStageStarted == true)
+        while(StageController.Instance.IsStageProcessing == true)
         {
             float nextCreateInterval = basicCreateInterval;
             if(elapsedTime > nextStepElapsedTime)

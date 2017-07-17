@@ -6,6 +6,15 @@ public struct TeamData
 {
     public int TeamNumber;
     public List<PlayerInTeam> Players;
+
+    // Players 모두 IsCpu가 true일 때 true 리턴.
+    public bool IsCpuTeam()
+    {
+        return Players.FindIndex((player) =>
+        {
+            return player.IsCpu == false;
+        }) == -1;
+    }
 }
 
 public struct PlayerInTeam
