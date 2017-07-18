@@ -20,7 +20,7 @@ public class CharacterManager : Singleton<CharacterManager>
         ICharacter newCharacter = CharacterFactory.Instance.Create(characterType);
         player.SetCharacter(newCharacter);
         newCharacter.Initialize(player);
-        int layer = LayerMask.NameToLayer("Team" + TeamController.GetTeam(player.PlayerNumber).TeamNumber.ToString());
+        int layer = LayerMask.NameToLayer("Team" + TeamController.GetTeamByPlayerNumber(player.PlayerNumber).TeamNumber.ToString());
         newCharacter.gameObject.layer = layer;
         newCharacter.OnDestroyed += OnCharacterDeath;
         Characters.Add(player, newCharacter);
@@ -47,6 +47,8 @@ public class CharacterManager : Singleton<CharacterManager>
 
     public void OnCharacterDeath(IObject character)
     {
+        Debug.Assert(character is ICharacter);
+
         Player key = null;
         foreach(var characterPair in Characters)
         {

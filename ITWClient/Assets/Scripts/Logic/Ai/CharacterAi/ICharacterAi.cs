@@ -46,6 +46,19 @@ namespace Ai
 
         public void Process()
         {
+            if(attackTarget == null || attackTarget as MonoBehaviour == null)
+            {
+                attackTarget = null;
+            }
+            if(escapeTarget == null || escapeTarget as MonoBehaviour == null)
+            {
+                escapeTarget = null;
+            }
+            if(dodgeTarget == null || dodgeTarget as MonoBehaviour == null)
+            {
+                dodgeTarget = null;
+            }
+
             ProcessDangerDetact();
 
             // 캐릭터를 제어할 수 없는 상태에는 그냥 return 해버리기~
@@ -247,8 +260,9 @@ namespace Ai
             {
                 return 0;
             }
-            if (attackTarget == null)
+            if (attackTarget == null || attackTarget as MonoBehaviour == null)
             {
+                attackTarget = null;
                 return 0;
             }
 
@@ -274,6 +288,12 @@ namespace Ai
 
         protected virtual void Launch()
         {
+            if(attackTarget == null || attackTarget as MonoBehaviour == null)
+            {
+                attackTarget = null;
+                return;
+            }
+
             // Launch 할 때 난이도에 따라 랜덤한 방향으로 하자.
             Vector2 dir = ((attackTarget as MonoBehaviour).transform.position - CharacterPosition).normalized;
             float randomValue = AiDifficultyController.Instance.GetRandomRangeValue(AiConstants.LaunchRandomDirection);

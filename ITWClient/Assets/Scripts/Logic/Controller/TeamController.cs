@@ -87,7 +87,7 @@ public static class TeamController
         throw new UnityException("There's no color for " + teamNum.ToString() + " Team.");
     }
 
-    public static TeamData GetTeam(int playerNum){
+    public static TeamData GetTeamByPlayerNumber(int playerNum){
         foreach (var eachTeam in Teams)
         {
             foreach (PlayerInTeam player in eachTeam.Players)
@@ -99,6 +99,19 @@ public static class TeamController
             }
         }
         throw new UnityException("TeamData not found, playerNum : " + playerNum.ToString());
+    }
+
+    public static TeamData GetTeamByTeamNumber(int teamNum)
+    {
+        foreach (var eachTeam in Teams)
+        {
+            if(eachTeam.TeamNumber == teamNum)
+            {
+                return eachTeam;
+            }
+        }
+
+        throw new UnityException("TeamData not found, teamNum : " + teamNum.ToString());
     }
 
     public static void AddTeam(int teamNum, List<PlayerInTeam> plTeam) {

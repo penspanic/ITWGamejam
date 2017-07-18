@@ -103,8 +103,40 @@ public class StageController : Singleton<StageController>
 
     public void OnCharacterDeath(IObject target)
     {
-        IsStageProcessing = false;
-        OnStageEnd(GetWinTeamNumber());
+        var aliveTeamNumbers = (from aliveCharcter in CharacterManager.Instance.Characters
+                                where aliveCharcter.Value.IsDead == false
+                                select aliveCharcter.Value.Player.TeamNumber).Distinct();
+                               
+        if(aliveTeamNumbers.Count() == 0)
+        {
+            Debug.LogError("Alive team numbers is 0.");
+            IsStageProcessing = false;
+            OnStageEnd(-1/*draw*/);
+            return;
+        }
+        else if(aliveTeamNumbers.Count() == 1)
+        {
+            IsStageProcessing = false;
+            OnStageEnd(GetWinTeamNumber());
+        }
+        else
+        {
+            bool isPlayerTeamExist = false;
+            foreach(int teamNumber in aliveTeamNumbers)
+            {
+                if(TeamController.GetTeamByPlayerNumber(teamNumber).IsCpuTeam() == false)
+                {
+                    isPlayerTeamExist = true;
+                    break;
+                }
+            }
+
+            if(isPlayerTeamExist == false)
+            {
+                IsStageProcessing = false;
+                OnStageEnd(GetWinTeamNumber());
+            }
+        }
     }
 
     /// <returns>Draw시 -1 리턴.</returns>
@@ -114,8 +146,12 @@ public class StageController : Singleton<StageController>
 
         foreach (var pair in CharacterManager.Instance.Characters)
         {
-            int teamNumber = TeamController.GetTeam(pair.Key.PlayerNumber).TeamNumber;
-            hpDatas.Add(teamNumber, pair.Value.Hp);
+            int teamNumber = TeamController.GetTeamByPlayerNumber(pair.Key.PlayerNumber).TeamNumber;
+            if(hpDatas.ContainsKey(teamNumber)==false)
+            {
+                hpDatas.Add(teamNumber, 0);
+            }
+            hpDatas[teamNumber] += pair.Value.Hp;
         }
 
         var sorted = (from hpPair in hpDatas
@@ -127,10 +163,16 @@ public class StageController : Singleton<StageController>
             return -1;
         }
 
-        int topRemainHp = sorted[0].Value;
-        for(int i = 1; i < sorted.Length; ++i)
+        if(TeamController.GetTeamByPlayerNumber(sorted[0].Key).IsCpuTeam() == true)
         {
-            if(sorted[i].Value == topRemainHp)
+            return sorted[0].Key;
+        }
+
+        // 동점 처리는 Player Team끼리만 함.
+        int topRemainHp = sorted[0].Value;
+        for (int i = 1; i < sorted.Length; ++i)
+        {
+            if (sorted[i].Value == topRemainHp)
             {
                 return -1;
             }

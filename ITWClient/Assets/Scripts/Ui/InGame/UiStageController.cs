@@ -82,7 +82,7 @@ public class UiStageController : MonoBehaviour
             Debug.Log("StageEnd : Draw");
             // Draw
         }
-        else if(TeamController.GetTeam(winTeamNumber).IsCpuTeam() == true)
+        else if(TeamController.GetTeamByTeamNumber(winTeamNumber).IsCpuTeam() == true)
         {
             Debug.Log("StageEnd : Lose");
             // Lose

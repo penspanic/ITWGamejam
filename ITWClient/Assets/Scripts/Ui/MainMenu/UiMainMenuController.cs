@@ -10,6 +10,8 @@ public class UiMainMenuController : MonoBehaviour
     [SerializeField]
     private MenuButton[] buttons;
     [SerializeField]
+    private MainMenuOption option;
+    [SerializeField]
     private GuidePanel guidePanel;
 
     private bool isOpening;
@@ -56,6 +58,14 @@ public class UiMainMenuController : MonoBehaviour
         if (isAnimating == true || isOpening == true)
         {
             return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) == true)
+        {
+            if (guidePanel.IsShowing == false && option.IsShowing == true)
+            {
+                option.Hide();
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -159,6 +169,8 @@ public class UiMainMenuController : MonoBehaviour
         {
             return;
         }
+
+        option.Show();
     }
 
     public void OnPressedQuit() 
