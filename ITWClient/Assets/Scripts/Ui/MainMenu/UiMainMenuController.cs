@@ -151,6 +151,8 @@ public class UiMainMenuController : MonoBehaviour
         {
             return;
         }
+
+        SceneUtil.LoadScene("Credit");
     }
 
     public void OnPressedGuideButton()

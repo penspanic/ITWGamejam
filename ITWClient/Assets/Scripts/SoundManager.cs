@@ -64,6 +64,13 @@ public static class SoundManager
     }
     private static float _sfxVolume;
 
+    static SoundManager()
+    {
+        MasterVolume = 1f;
+        BgmVolume = 1f;
+        SfxVolume = 1f;
+    }
+
     #region Event
     public static event System.Action<float> OnMasterVolumeChanged;
     public static event System.Action<float> OnBgmVolumeChanged;

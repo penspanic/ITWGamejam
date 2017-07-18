@@ -58,7 +58,6 @@ public class SfxManager : Singleton<SfxManager>
         base.Awake();
         DontDestroyOnLoad(this.gameObject);
         source = gameObject.AddComponent<AudioSource>();
-        SoundManager.SfxVolume = 1; // 임시
         source.volume = SoundManager.SfxVolume;
 
         loopSourcesObject = new GameObject("Loop Sources");

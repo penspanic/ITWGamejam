@@ -8,4 +8,14 @@ public class UiCreditController : MonoBehaviour
     {
 
     }
+
+    private bool isSceneChanging = false;
+    private void Update()
+    {
+        if(Input.anyKeyDown == true && isSceneChanging == false)
+        {
+            isSceneChanging = true;
+            SceneUtil.LoadScene("MainMenu");
+        }
+    }
 }
