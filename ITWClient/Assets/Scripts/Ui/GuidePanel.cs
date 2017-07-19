@@ -38,7 +38,7 @@ public class GuidePanel : MonoBehaviour
         guideSpriteList.Add(Resources.Load<Sprite>("Sprites/UI/guide/Guide_Controller"));
 
         guideSprites = guideSpriteList.ToArray();
-        guideImage = transform.FindChild("Guide Image").GetComponent<Image>();
+        guideImage = transform.Find("Guide Image").GetComponent<Image>();
 
         guideImage.sprite = guideSprites[0];
     }

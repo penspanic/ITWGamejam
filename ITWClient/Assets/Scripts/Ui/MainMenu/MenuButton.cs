@@ -14,8 +14,8 @@ public class MenuButton : MonoBehaviour {
 
     public void InitMenuButton(bool isSelect = false) 
     {
-        selectObj = selectTrs.FindChild("Select").gameObject;
-        unSelectObj = selectTrs.FindChild("UnSelect").gameObject;
+        selectObj = selectTrs.Find("Select").gameObject;
+        unSelectObj = selectTrs.Find("UnSelect").gameObject;
 
         selectOriPos = selectTrs.position;
 

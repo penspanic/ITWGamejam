@@ -32,10 +32,10 @@ public class StatusBox : MonoBehaviour
             extremeMpGaugeSprite = Resources.Load<Sprite>("Sprites/UI/Status/mpbar2");
         }
 
-        portraitImage = transform.FindChild("Portrait").GetComponent<Image>();
-        mpGaugeImage = transform.FindChild("Right").FindChild("Mp").FindChild("Mp Value").GetComponent<Image>();
+        portraitImage = transform.Find("Portrait").GetComponent<Image>();
+        mpGaugeImage = transform.Find("Right").Find("Mp").Find("Mp Value").GetComponent<Image>();
 
-        Transform heartsParent = transform.FindChild("Right").FindChild("Heart");
+        Transform heartsParent = transform.Find("Right").Find("Heart");
         for(int i = 0; i < heartsParent.childCount; ++i)
         {
             heartImages.Add(heartsParent.GetChild(i).GetComponent<Image>());
@@ -63,8 +63,8 @@ public class StatusBox : MonoBehaviour
         portraitImage.sprite = Resources.Load<Sprite>("Sprites/UI/Portrait/" + targetPlayer.TargetCharacter.CharacterType.ToString());
         int playerNumber = targetPlayer.PlayerNumber;
         int teamNumber = TeamController.GetTeamByPlayerNumber(playerNumber).TeamNumber;
-        portraitImage.transform.FindChild("Team Color").GetComponent<Image>().color = TeamController.GetTeamColor(teamNumber);
-        Text teamText = portraitImage.transform.FindChild("Team Text").GetComponent<Text>();
+        portraitImage.transform.Find("Team Color").GetComponent<Image>().color = TeamController.GetTeamColor(teamNumber);
+        Text teamText = portraitImage.transform.Find("Team Text").GetComponent<Text>();
         teamText.color = TeamController.GetTeamColor(teamNumber);
         string teamTextStr = string.Empty;
         if(targetPlayer.IsCpu == true)

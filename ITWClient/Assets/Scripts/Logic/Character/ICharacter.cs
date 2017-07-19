@@ -139,7 +139,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         Hp = MaxHp;
         Mp = MaxMp;
 
-        runningDustEmission = transform.FindChild("Running_dust").GetComponent<ParticleSystem>().emission;
+        runningDustEmission = transform.Find("Running_dust").GetComponent<ParticleSystem>().emission;
     }
 
     protected virtual void Update()

@@ -8,7 +8,7 @@ public class GameInfoCell : MonoBehaviour {
 
     void Awake()
     {
-        selectedObj = transform.FindChild("Select").gameObject;
+        selectedObj = transform.Find("Select").gameObject;
     }
 
     public void SelectCell(bool select) {
