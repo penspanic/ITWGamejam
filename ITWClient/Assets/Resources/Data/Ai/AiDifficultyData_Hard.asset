@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Name: AiDifficultyData_Hard
   m_EditorClassIdentifier: 
   Probabilities:
-    DodgeDanger: 0.344
-    HeavyDodgeDetectWhenLaunch: 0.344
-  RandomValues:
-    LaunchRandomDirection: 3
+    HeavyDodgeDetectWhenLaunch: 0.836
+    DangerDetactProbability: 1
+  RandomRanges:
+    LaunchRandomDirection: {x: 0, y: 0}
+  StatusValues:
+    DangerDetactDistance: 1
+    DangerDetactInterval: 0.3

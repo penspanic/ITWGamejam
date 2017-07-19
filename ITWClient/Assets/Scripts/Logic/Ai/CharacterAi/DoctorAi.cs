@@ -5,6 +5,5 @@ namespace Ai
 {
     public class DoctorAi : ICharacterAi
     {
-
     }
 }
