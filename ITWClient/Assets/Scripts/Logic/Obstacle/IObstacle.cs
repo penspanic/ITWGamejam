@@ -19,8 +19,7 @@ public abstract class IObstacle : MonoBehaviour, IObject
 
     private void Start()
     {
-        if (OnCreated != null)
-            OnCreated(this);
+        OnCreated?.Invoke(this);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)

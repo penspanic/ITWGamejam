@@ -65,8 +65,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
         set
         {
-            if (OnHpChanged != null)
-                OnHpChanged(_hp, value);
+            OnHpChanged?.Invoke(_hp, value);
             _hp = value;
         }
     }
@@ -79,8 +78,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         }
         set
         {
-            if (OnMpChanged != null)
-                OnMpChanged(_mp, value);
+            OnMpChanged?.Invoke(_mp, value);
             _mp = value;
         }
     }
@@ -150,8 +148,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
     public void Initialize(Player player)
     {
         this.Player = player;
-        if (OnCreated != null)
-            OnCreated(this);
+        OnCreated?.Invoke(this);
     }
 
     public virtual void ProcessKeystate(List<PlayerInputType> pressedKeys)
@@ -317,10 +314,9 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual void OnCollisionEnter2D(Collision2D other)
     {
-        if (OnCollisionEnter != null)
-            OnCollisionEnter(other);
+        OnCollisionEnter?.Invoke(other);
 
-        if(other.gameObject.CompareTag(TagNames.Character) == true)
+        if (other.gameObject.CompareTag(TagNames.Character) == true)
         {
             ICharacter otherCharacter = other.gameObject.GetComponent<ICharacter>();
             switch(State)
@@ -388,8 +384,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         if(Hp <= 0)
             Hp = 0;
 
-        if(OnDamaged != null)
-            OnDamaged(prevHp, Hp);
+        OnDamaged?.Invoke(prevHp, Hp);
         Ai.AttackListener.Instance.OnDamaged(attacker, this, damage);
         if(Hp == 0)
         {
@@ -442,8 +437,7 @@ public abstract class ICharacter : MonoBehaviour, IObject
         GetComponent<Collider2D>().enabled = false;
         animator.Play("death", 0);
         EffectController.Instance.ShowEffect(EffectType.Die, new Vector2(0f, 0.1f), this.transform);
-        if(OnDestroyed != null)
-            OnDestroyed(this);
+        OnDestroyed?.Invoke(this);
 
         StartCoroutine(DisappearProcess());
     }

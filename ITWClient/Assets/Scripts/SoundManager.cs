@@ -23,13 +23,10 @@ public static class SoundManager
         set
         {
             _masterVolume = value;
-            
-            if(OnMasterVolumeChanged != null)
-                OnMasterVolumeChanged(_masterVolume);
-            if(OnBgmVolumeChanged != null)
-                OnBgmVolumeChanged(_masterVolume * _bgmVolume);
-            if(OnSfxVolumeChanged != null)
-                OnSfxVolumeChanged(_masterVolume * _sfxVolume);
+
+            OnMasterVolumeChanged?.Invoke(_masterVolume);
+            OnBgmVolumeChanged?.Invoke(_masterVolume * _bgmVolume);
+            OnSfxVolumeChanged?.Invoke(_masterVolume * _sfxVolume);
         }
     }
     private static float _masterVolume;
@@ -43,8 +40,7 @@ public static class SoundManager
         set
         {
             _bgmVolume = value;
-            if(OnBgmVolumeChanged != null)
-                OnBgmVolumeChanged(_masterVolume * _bgmVolume);
+            OnBgmVolumeChanged?.Invoke(_masterVolume * _bgmVolume);
         }
     }
     private static float _bgmVolume;
@@ -58,8 +54,7 @@ public static class SoundManager
         set
         {
             _sfxVolume = value;
-            if(OnSfxVolumeChanged != null)
-                OnSfxVolumeChanged(_masterVolume * _sfxVolume);
+            OnSfxVolumeChanged?.Invoke(_masterVolume * _sfxVolume);
         }
     }
     private static float _sfxVolume;
