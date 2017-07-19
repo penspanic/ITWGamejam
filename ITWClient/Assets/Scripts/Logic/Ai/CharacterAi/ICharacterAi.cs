@@ -125,7 +125,6 @@ namespace Ai
         protected AiState GetTopPriorityBehaviour()
         {
             // 각각의 상태에 따른 우선순위 결정을 위해 정수형으로 표현.
-
             var behaviourPoints = from behaviourPair in Behaviours
                                   select System.Tuple.Create(behaviourPair.Key, behaviourPair.Value.GetBehaviourPoint());
 
