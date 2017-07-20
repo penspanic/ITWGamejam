@@ -15,11 +15,14 @@ namespace Ai
 
         public override int GetBehaviourPoint()
         {
-            if (ai.IsMoving == true)
-            {
-                return 60;
-            }
-            return 70; // 임시
+            // 현재 사용하지 않는 State임.
+            return 0;
+
+            //if (ai.IsMoving == true)
+            //{
+            //    return 60;
+            //}
+            //return 70; // 임시
         }
 
         public override void DoBehaviour()

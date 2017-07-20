@@ -39,6 +39,8 @@ namespace Ai
 
         public Dictionary<AiState, IAiBehaviour> Behaviours { get; protected set; } = new Dictionary<AiState, IAiBehaviour>();
 
+        private Data.FearPointData fearPointData;
+
         protected virtual void CreateBehaviours()
         {
             Behaviours.Add(AiState.Sleep, new SleepBehaviour(this));
@@ -61,6 +63,9 @@ namespace Ai
             player.TargetCharacter.OnHpChanged += OnCharacterHpChanged;
             player.TargetCharacter.OnMpChanged += OnCharacterMpChanged;
 
+            fearPointData = Resources.Load<Data.FearPointData>("Data/Ai/FearPointData_" + Character.CharacterType.ToString());
+            Debug.Assert(fearPointData != null, "FearPointData is null, ChracterType : " + Character.CharacterType.ToString());
+
             Behaviours.Clear();
             CreateBehaviours();
 
@@ -82,6 +87,7 @@ namespace Ai
                 DodgeTarget = null;
             }
 
+            UpdateFearPoint();
             ProcessDangerDetact();
 
             // 캐릭터를 제어할 수 없는 상태에는 그냥 return 해버리기~
@@ -238,6 +244,20 @@ namespace Ai
 
         #endregion
 
+        #region
+
+        private float fearPointRecoverageTime = 0f;
+        private void UpdateFearPoint()
+        {
+            if(fearPointRecoverageTime + 1f < Time.time)
+            {
+                fearPointRecoverageTime = Time.time;
+                FearPoint -= fearPointData.DecreaseValueForSecond;
+            }
+        }
+
+        #endregion
+
         #region Event listeners
 
         // ICharacter의 OnCollisionEnter Event listener 함수.
@@ -256,11 +276,17 @@ namespace Ai
             {
                 IsEscaping = false;
             }
+
+            int deltaHp = currHp - prevHp;
+            FearPoint += fearPointData.HpStepChangeValue * deltaHp;
         }
 
         private void OnCharacterMpChanged(int prevMp, int currMp)
         {
-
+            // 이거 조건이 애매하다.. 나중에 다시 확인 필요
+            if(currMp < fearPointData.MpCheckLimitValue)
+            {
+            }
         }
         #endregion
 
