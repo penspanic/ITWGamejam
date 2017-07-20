@@ -15,7 +15,9 @@ MonoBehaviour:
     HeavyDodgeDetectWhenLaunch: 0.344
     DangerDetactProbability: 0.481
   RandomRanges:
-    LaunchRandomDirection: {x: 0, y: 0}
+    LaunchRandomDirection: {x: 0.1, y: 1}
   StatusValues:
     DangerDetactDistance: 1
     DangerDetactInterval: 2
+    LaunchAdditionalDetactInterval: 2
+    LaunchAdditionalDetactLength: 1

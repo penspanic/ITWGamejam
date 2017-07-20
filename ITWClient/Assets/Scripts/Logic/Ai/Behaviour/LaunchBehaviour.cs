@@ -4,13 +4,14 @@ using System;
 
 namespace Ai
 {
-
     public class LaunchBehaviour : IAiBehaviour
     {
         public LaunchBehaviour(ICharacterAi ai) : base(ai)
         {
             AiState = AiState.Launch;
         }
+
+        private float additionalDetactedTime = 0f;
 
         public override int GetBehaviourPoint()
         {
@@ -25,7 +26,7 @@ namespace Ai
 
             // 현재 Target과 나 사이의 거리가 Launch를 통해서 닿을 거리인가?
             float targetDistance = ((ai.AttackTarget as MonoBehaviour).transform.position - ai.CharacterPosition).magnitude;
-            if (ai.Character.LaunchDistance > targetDistance)
+            if (targetDistance < ai.Character.LaunchDistance)
             {
                 return 90;
             }
@@ -39,7 +40,16 @@ namespace Ai
                 return 0;
             }
 
-            // TODO : 실제론 안닿는 거리더라도 랜덤하게 Launch 하도록.
+            if(targetDistance < ai.Character.LaunchDistance + AiDifficultyController.Instance.GetStatusValue(AiConstants.LaunchAdditionalDetactLength))
+            {
+                if(additionalDetactedTime + AiDifficultyController.Instance.GetStatusValue(AiConstants.LaunchAdditionalDetactInterval) < Time.time)
+                {
+                    additionalDetactedTime = Time.time;
+                    ai.LogAi("LaunchAdditionalDetact activated, Time : " + additionalDetactedTime);
+                    return 90;
+                }
+            }
+
             return 0;
         }
 

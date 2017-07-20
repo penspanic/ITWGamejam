@@ -7,17 +7,19 @@ using UnityEngine;
 public static class AiConstants
 {
     #region AiProbabilities
-    public const string DangerDetactProbability = "DangerDetactProbability";
-    public const string HeavyDodgeDetectWhenLaunch = "HeavyDodgeDetectWhenLaunch";
+    public const string DangerDetactProbability = nameof(DangerDetactProbability);
+    public const string HeavyDodgeDetectWhenLaunch = nameof(HeavyDodgeDetectWhenLaunch);
     #endregion
 
     #region AiRandomRanges
-    public const string LaunchRandomDirection = "LaunchRandomDirection";
+    public const string LaunchRandomDirection = nameof(LaunchRandomDirection);
     #endregion
 
     #region AiStatusValues
-    public const string DangerDetactDistance = "DangerDetactDistance";
-    public const string DangerDetactInterval = "DangerDetactInterval";
+    public const string DangerDetactDistance = nameof(DangerDetactDistance);
+    public const string DangerDetactInterval = nameof(DangerDetactInterval);
+    public const string LaunchAdditionalDetactInterval = nameof(LaunchAdditionalDetactInterval);
+    public const string LaunchAdditionalDetactLength = nameof(LaunchAdditionalDetactLength);
     #endregion
 }
 
@@ -55,10 +57,14 @@ namespace Data
     {
         public float DangerDetactDistance;
         public float DangerDetactInterval;
+        public float LaunchAdditionalDetactInterval;
+        public float LaunchAdditionalDetactLength;
         public void GetDatas(Dictionary<string, float> dic)
         {
             dic.Add(AiConstants.DangerDetactDistance, DangerDetactDistance);
             dic.Add(AiConstants.DangerDetactInterval, DangerDetactInterval);
+            dic.Add(AiConstants.LaunchAdditionalDetactInterval, LaunchAdditionalDetactInterval);
+            dic.Add(AiConstants.LaunchAdditionalDetactLength, LaunchAdditionalDetactLength);
         }
     }
 
