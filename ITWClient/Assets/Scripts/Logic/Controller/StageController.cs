@@ -119,24 +119,6 @@ public class StageController : Singleton<StageController>
             IsStageProcessing = false;
             OnStageEnd(GetWinTeamNumber());
         }
-        else
-        {
-            bool isPlayerTeamExist = false;
-            foreach(int teamNumber in aliveTeamNumbers)
-            {
-                if(TeamController.GetTeamByPlayerNumber(teamNumber).IsCpuTeam() == false)
-                {
-                    isPlayerTeamExist = true;
-                    break;
-                }
-            }
-
-            if(isPlayerTeamExist == false)
-            {
-                IsStageProcessing = false;
-                OnStageEnd(GetWinTeamNumber());
-            }
-        }
     }
 
     /// <returns>Draw시 -1 리턴.</returns>
@@ -163,12 +145,12 @@ public class StageController : Singleton<StageController>
             return -1;
         }
 
+        // 동점 처리는 Player Team끼리만 함.
         if(TeamController.GetTeamByPlayerNumber(sorted[0].Key).IsCpuTeam() == true)
         {
             return sorted[0].Key;
         }
 
-        // 동점 처리는 Player Team끼리만 함.
         int topRemainHp = sorted[0].Value;
         for (int i = 1; i < sorted.Length; ++i)
         {
