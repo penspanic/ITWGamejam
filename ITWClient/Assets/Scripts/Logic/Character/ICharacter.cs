@@ -173,6 +173,11 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual bool CanMove()
     {
+        if(IsDead == true)
+        {
+            return false;
+        }
+
         switch(State)
         {
             case CharacterState.Hitted:
@@ -228,6 +233,11 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual bool CanUseSkill()
     {
+        if(IsDead == true)
+        {
+            return false;
+        }
+
         switch(State)
         {
             case CharacterState.SkillActivated:
@@ -266,6 +276,11 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual bool CanLaunch()
     {
+        if(IsDead == true)
+        {
+            return false;
+        }
+
         switch(State)
         {
             case CharacterState.Flying:
@@ -515,6 +530,11 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected bool CanCharge()
     {
+        if(IsDead == true)
+        {
+            return false;
+        }
+
         switch(State)
         {
             case CharacterState.Flying:
@@ -588,6 +608,11 @@ public abstract class ICharacter : MonoBehaviour, IObject
 
     protected virtual bool CanDodge()
     {
+        if(IsDead == true)
+        {
+            return false;
+        }
+
         switch(State)
         {
             case CharacterState.Hitted:
