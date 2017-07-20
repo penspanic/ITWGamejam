@@ -58,7 +58,7 @@ public class SfxManager : Singleton<SfxManager>
         base.Awake();
         DontDestroyOnLoad(this.gameObject);
         source = gameObject.AddComponent<AudioSource>();
-        source.volume = SoundManager.SfxVolume;
+        source.volume = SoundManager.Instance.SfxVolume;
 
         loopSourcesObject = new GameObject("Loop Sources");
         loopSourcesObject.transform.SetParent(this.transform);
@@ -66,12 +66,14 @@ public class SfxManager : Singleton<SfxManager>
         {
             AddLoopSource();
         }
+
+        SoundManager.Instance.OnSfxVolumeChanged += OnSfxVolumeChanged;
     }
 
     private void AddLoopSource()
     {
         AudioSource newSource = loopSourcesObject.AddComponent<AudioSource>();
-        newSource.volume = SoundManager.SfxVolume;
+        newSource.volume = SoundManager.Instance.SfxVolume;
         loopSourcesPool.Add(newSource);
     }
 
@@ -121,6 +123,15 @@ public class SfxManager : Singleton<SfxManager>
         Debug.Log("SfxManager Load end.");
     }
 
+    private void OnSfxVolumeChanged(float value)
+    {
+        source.volume = value;
+        for(int i = 0; i < loopingSources.Count; ++i)
+        {
+            loopingSources[i].Value.volume = value;
+        }
+    }
+
     public void Play(SfxType type)
     {
         if(clips.ContainsKey(type) == false)
@@ -128,7 +139,7 @@ public class SfxManager : Singleton<SfxManager>
             Debug.LogError("Sfx not loaded, type : " + type.ToString());
             return;
         }
-
+        
         source.PlayOneShot(clips[type], source.volume);
     }
 
@@ -145,6 +156,7 @@ public class SfxManager : Singleton<SfxManager>
         }
 
         AudioSource loopSource = loopSourcesPool.Get();
+        loopSource.volume = SoundManager.Instance.SfxVolume;
         loopSource.clip = clips[type];
         loopSource.loop = true;
         loopSource.Play();

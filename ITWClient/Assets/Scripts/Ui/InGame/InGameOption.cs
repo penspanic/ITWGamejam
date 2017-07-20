@@ -16,7 +16,7 @@ public class InGameOption : MonoBehaviour
     {
         Time.timeScale = 0f;
         IsShowing = true;
-        masterVolumeSlider.value = SoundManager.MasterVolume;
+        masterVolumeSlider.value = SoundManager.Instance.MasterVolume;
         this.gameObject.SetActive(true);
     }
 
@@ -30,7 +30,7 @@ public class InGameOption : MonoBehaviour
 
     public void OnMasterVolumeSliderChanged()
     {
-        SoundManager.MasterVolume = masterVolumeSlider.value;
+        SoundManager.Instance.MasterVolume = masterVolumeSlider.value;
     }
 
     public void OnGuideButtonDown()

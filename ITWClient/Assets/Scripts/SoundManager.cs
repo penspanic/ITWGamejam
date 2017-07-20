@@ -1,7 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class SoundManager
+public enum SoundConfigType
+{
+    MasterVolume,
+    BgmVolume,
+    SfxVolume,
+}
+
+public class SoundManager : Singleton<SoundManager>
 {
     /* 볼륨 크기
      * 
@@ -14,7 +21,8 @@ public static class SoundManager
      * 적용 후 변동사항 생기면 여기에 적어둘께. -요한
      * 
      */
-    public static float MasterVolume
+
+    public float MasterVolume
     {
         get
         {
@@ -29,9 +37,9 @@ public static class SoundManager
             OnSfxVolumeChanged?.Invoke(_masterVolume * _sfxVolume);
         }
     }
-    private static float _masterVolume;
+    private float _masterVolume;
 
-    public static float BgmVolume
+    public float BgmVolume
     {
         get
         {
@@ -43,9 +51,9 @@ public static class SoundManager
             OnBgmVolumeChanged?.Invoke(_masterVolume * _bgmVolume);
         }
     }
-    private static float _bgmVolume;
+    private float _bgmVolume;
 
-    public static float SfxVolume
+    public float SfxVolume
     {
         get
         {
@@ -57,20 +65,41 @@ public static class SoundManager
             OnSfxVolumeChanged?.Invoke(_masterVolume * _sfxVolume);
         }
     }
-    private static float _sfxVolume;
+    private float _sfxVolume;
 
-    static SoundManager()
+    #region Event
+    public event System.Action<float> OnMasterVolumeChanged;
+    public event System.Action<float> OnBgmVolumeChanged;
+    public event System.Action<float> OnSfxVolumeChanged;
+    #endregion
+
+    protected override void Awake()
     {
+        base.Awake();
+
         MasterVolume = 1f;
         BgmVolume = 1f;
         SfxVolume = 1f;
+
+        if(PlayerPrefs.HasKey(nameof(SoundConfigType.MasterVolume)) == true)
+        {
+            MasterVolume = PlayerPrefs.GetFloat(nameof(SoundConfigType.MasterVolume));
+        }
+        if(PlayerPrefs.HasKey(nameof(SoundConfigType.BgmVolume)) == true)
+        {
+            BgmVolume = PlayerPrefs.GetFloat(nameof(SoundConfigType.BgmVolume));
+        }
+        if(PlayerPrefs.HasKey(nameof(SoundConfigType.SfxVolume)) == true)
+        {
+            SfxVolume = PlayerPrefs.GetFloat(nameof(SoundConfigType.SfxVolume));
+        }
     }
 
-    #region Event
-    public static event System.Action<float> OnMasterVolumeChanged;
-    public static event System.Action<float> OnBgmVolumeChanged;
-    public static event System.Action<float> OnSfxVolumeChanged;
-    #endregion
-
-
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetFloat(nameof(SoundConfigType.MasterVolume), MasterVolume);
+        PlayerPrefs.SetFloat(nameof(SoundConfigType.BgmVolume), BgmVolume);
+        PlayerPrefs.SetFloat(nameof(SoundConfigType.SfxVolume), SfxVolume);
+        PlayerPrefs.Save();
+    }
 }

@@ -23,7 +23,7 @@ public class BgmManager : Singleton<BgmManager>
         bgmSource = gameObject.AddComponent<AudioSource>();
         bgmSource.loop = true;
 
-        SoundManager.OnBgmVolumeChanged += OnBgmVolumeChanged;
+        SoundManager.Instance.OnBgmVolumeChanged += OnBgmVolumeChanged;
     }
 
     public void LoadClips()
@@ -44,6 +44,7 @@ public class BgmManager : Singleton<BgmManager>
     public void Play(BgmType type, bool loop = true)
     {
         bgmSource.Stop();
+        bgmSource.volume = SoundManager.Instance.BgmVolume;
         bgmSource.clip = bgmClips[type];
         bgmSource.Play();
     }

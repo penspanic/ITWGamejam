@@ -23,9 +23,9 @@ public class MainMenuOption : MonoBehaviour
         IsShowing = true;
         this.gameObject.SetActive(true);
 
-        masterVolumeSlider.value = SoundManager.MasterVolume;
-        bgmVolumeSlider.value = SoundManager.BgmVolume;
-        sfxVolumeSlider.value = SoundManager.SfxVolume;
+        masterVolumeSlider.value = SoundManager.Instance.MasterVolume;
+        bgmVolumeSlider.value = SoundManager.Instance.BgmVolume;
+        sfxVolumeSlider.value = SoundManager.Instance.SfxVolume;
     }
     
     public void Hide()
@@ -46,16 +46,16 @@ public class MainMenuOption : MonoBehaviour
 
     public void OnMasterVolumeSliderChanged()
     {
-        SoundManager.MasterVolume = masterVolumeSlider.value;
+        SoundManager.Instance.MasterVolume = masterVolumeSlider.value;
     }
 
     public void OnBgmVolumeSliderChanged()
     {
-        SoundManager.BgmVolume = bgmVolumeSlider.value;
+        SoundManager.Instance.BgmVolume = bgmVolumeSlider.value;
     }
 
     public void OnSfxVolumeSliderChanged()
     {
-        SoundManager.SfxVolume = sfxVolumeSlider.value;
+        SoundManager.Instance.SfxVolume = sfxVolumeSlider.value;
     }
 }

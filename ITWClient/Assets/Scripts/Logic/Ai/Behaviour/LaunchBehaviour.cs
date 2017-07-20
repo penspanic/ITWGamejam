@@ -18,6 +18,10 @@ namespace Ai
             {
                 return 0;
             }
+            if(ai.AttackTarget == null)
+            {
+                return 0;
+            }
 
             // 현재 Target과 나 사이의 거리가 Launch를 통해서 닿을 거리인가?
             float targetDistance = ((ai.AttackTarget as MonoBehaviour).transform.position - ai.CharacterPosition).magnitude;
