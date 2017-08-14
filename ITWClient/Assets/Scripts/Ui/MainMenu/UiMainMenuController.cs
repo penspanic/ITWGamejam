@@ -27,6 +27,7 @@ public class UiMainMenuController : MonoBehaviour
         canButtonPress = false;
         currIdx = 0;
 
+        ControllerAxisHelper.Instance.Initialize(2);
         for (int i = 0; i < buttons.Length; ++i)
         {
             buttons[i].InitMenuButton();
@@ -60,7 +61,7 @@ public class UiMainMenuController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) == true)
+        if (Input.GetKeyDown(KeyCode.Escape) == true || Input.GetButtonDown("Back") == true)
         {
             if (guidePanel.IsShowing == false && option.IsShowing == true)
             {
@@ -76,7 +77,7 @@ public class UiMainMenuController : MonoBehaviour
         // pad Control??
 
 
-        if (Input.GetKeyDown(UIGameKey.LeftArrow_1P))
+        if (Input.GetKeyDown(UIGameKey.LeftArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.LEFT))
         {
             if (currIdx <= 0)
             {
@@ -86,7 +87,7 @@ public class UiMainMenuController : MonoBehaviour
             --currIdx;
             buttons[currIdx].OnSelected(true);
         }
-        if (Input.GetKeyDown(UIGameKey.RightArrow_1P))
+        if (Input.GetKeyDown(UIGameKey.RightArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.RIGHT))
         {
             if (currIdx >= buttons.Length - 1)
             {
@@ -96,7 +97,7 @@ public class UiMainMenuController : MonoBehaviour
             ++currIdx;
             buttons[currIdx].OnSelected(true);
         }
-        if (Input.GetKeyDown(UIGameKey.Select_1P))
+        if (Input.GetKeyDown(UIGameKey.Select_1P) || Input.GetButtonDown("Submit"))
         {
             switch (currIdx)
             {

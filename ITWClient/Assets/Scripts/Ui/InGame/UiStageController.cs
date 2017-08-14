@@ -48,7 +48,7 @@ public class UiStageController : MonoBehaviour
         {
             remainTimeText.text = ((int)StageController.Instance.RemainElapsedTime).ToString();
 
-            if (Input.GetKeyDown(KeyCode.Escape) == true) // TODO : Pad Input 처리 필요.
+            if (Input.GetKeyDown(KeyCode.Escape) == true || Input.GetButtonDown("Back") == true)
             {
                 if (option.IsShowing == false)
                 {
@@ -63,7 +63,7 @@ public class UiStageController : MonoBehaviour
 
         if(isSceneChanging == false)
         {
-            if(Input.GetKeyDown(KeyCode.Return) == true || Input.GetButtonDown("Submit") == true)
+            if(Input.GetKeyDown(KeyCode.Return) == true || Input.GetButtonDown("Back") == true)
             {
                 SceneUtil.LoadScene("MainMenu");
             }

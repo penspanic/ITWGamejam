@@ -77,15 +77,15 @@ public class CharacterReady : MonoBehaviour {
             case SelectState.PlayerSelect:
                 if (plCnt >= 1)
                 {
-                    if (Input.GetKeyDown(UIGameKey.UpArrow_1P))
+                    if (Input.GetKeyDown(UIGameKey.UpArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.UP))
                     {
                         selecters[0].MoveNext(false);
                     }
-                    if (Input.GetKeyDown(UIGameKey.DownArrow_1P))
+                    if (Input.GetKeyDown(UIGameKey.DownArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.DOWN))
                     {
                         selecters[0].MoveNext(true);
                     }
-                    if (Input.GetKeyDown(UIGameKey.Select_1P))
+                    if (Input.GetKeyDown(UIGameKey.Select_1P) || Input.GetButtonDown("Submit"))
                     {
                         if (IsCharacterNoneIdx(selecters[0].currIdx))
                         {
@@ -113,16 +113,16 @@ public class CharacterReady : MonoBehaviour {
 
                 if (plCnt == 2)
                 {
-                    if (Input.GetKeyDown(UIGameKey.UpArrow_2P))
+                    if (Input.GetKeyDown(UIGameKey.UpArrow_2P) || ControllerAxisHelper.Instance.IsAxisDown(2, AxisDown.UP))
                     {
                         selecters[1].MoveNext(false);
                     }
-                    if (Input.GetKeyDown(UIGameKey.DownArrow_2P))
+                    if (Input.GetKeyDown(UIGameKey.DownArrow_2P) || ControllerAxisHelper.Instance.IsAxisDown(2, AxisDown.DOWN))
                     {
                         selecters[1].MoveNext(true);
                     }
 
-                    if (Input.GetKeyDown(UIGameKey.Select_2P))
+                    if (Input.GetKeyDown(UIGameKey.Select_2P) || Input.GetKeyDown(KeyCode.Joystick2Button0))
                     {
                         if (IsCharacterNoneIdx(selecters[1].currIdx))
                         {
@@ -160,15 +160,15 @@ public class CharacterReady : MonoBehaviour {
                     StartGame();
                     return;
                 }
-                if (Input.GetKeyDown(UIGameKey.UpArrow_1P))
+                if (Input.GetKeyDown(UIGameKey.UpArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.UP))
                 {
                     selecters[checkIdx].MoveNext();
                 }
-                if (Input.GetKeyDown(UIGameKey.DownArrow_1P))
+                if (Input.GetKeyDown(UIGameKey.DownArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.DOWN))
                 {
                     selecters[checkIdx].MoveNext();
                 }
-                if (Input.GetKeyDown(UIGameKey.Select_1P))
+                if (Input.GetKeyDown(UIGameKey.Select_1P) || Input.GetButtonDown("Submit"))
                 {
                     if (IsCharacterNoneIdx(selecters[checkIdx].currIdx))
                     {

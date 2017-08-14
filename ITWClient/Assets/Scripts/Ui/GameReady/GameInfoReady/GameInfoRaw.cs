@@ -188,7 +188,7 @@ public class GameInfoRaw : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKeyDown(UIGameKey.LeftArrow_1P))
+        if (Input.GetKeyDown(UIGameKey.LeftArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.LEFT))
         {
             if (currIdx <= 0)
             {
@@ -197,7 +197,7 @@ public class GameInfoRaw : MonoBehaviour {
             --currIdx;
             SetCursorByCurrIdx();
         }
-        if (Input.GetKeyDown(UIGameKey.RightArrow_1P))
+        if (Input.GetKeyDown(UIGameKey.RightArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.RIGHT))
         {
             if (currIdx >= infoCellList.Count - 1)
             {

@@ -50,7 +50,7 @@ public class GuidePanel : MonoBehaviour
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape) == true)
+        if(Input.GetKeyDown(KeyCode.Escape) == true || Input.GetButtonDown("Back") == true)
         {
             Hide();
         }
