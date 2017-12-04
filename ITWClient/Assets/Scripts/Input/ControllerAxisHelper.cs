@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -19,7 +20,7 @@ public class ControllerAxisHelper : Singleton<ControllerAxisHelper>
 
     public bool Initialized { get; private set; } = false;
     private Dictionary<int/*ControllerNumber*/, Dictionary<AxisDown, float>> axisDatas;
-    private Dictionary<int/*ControllerNumber*/, Dictionary<AxisDown, bool>> isDowned;
+    private Dictionary<int/*ControllerNumber*/, Dictionary<AxisDown, bool>> downedDatas;
     protected override void Awake()
     {
         base.Awake();
@@ -39,7 +40,7 @@ public class ControllerAxisHelper : Singleton<ControllerAxisHelper>
         Initialized = true;
 
         axisDatas = new Dictionary<int, Dictionary<AxisDown, float>>();
-        isDowned = new Dictionary<int, Dictionary<AxisDown, bool>>();
+        downedDatas = new Dictionary<int, Dictionary<AxisDown, bool>>();
         for(int num = 1; num <= controllerCount; ++num)
         {
             axisDatas.Add(num, new Dictionary<AxisDown, float>());
@@ -48,10 +49,10 @@ public class ControllerAxisHelper : Singleton<ControllerAxisHelper>
                 axisDatas[num].Add((AxisDown)i, 0f);
             }
 
-            isDowned.Add(num, new Dictionary<AxisDown, bool>());
+            downedDatas.Add(num, new Dictionary<AxisDown, bool>());
             for (int i = (int)AxisDown.LEFT; i < (int)AxisDown.END_OF_AXIS_DOWN; ++i)
             {
-                isDowned[num].Add((AxisDown)i, false);
+                downedDatas[num].Add((AxisDown)i, false);
             }
         }
     }
@@ -74,13 +75,13 @@ public class ControllerAxisHelper : Singleton<ControllerAxisHelper>
 
             foreach(var data in axisDatas[num])
             {
-                if(prevData[data.Key] <= AXIS_DOWN_END_VALUE && isDowned[num][data.Key] == false && data.Value > AXIS_DOWN_END_VALUE)
+                if(prevData[data.Key] <= AXIS_DOWN_END_VALUE && downedDatas[num][data.Key] == false && data.Value > AXIS_DOWN_END_VALUE)
                 {
-                    isDowned[num][data.Key] = true;
+                    downedDatas[num][data.Key] = true;
                 }
                 else
                 {
-                    isDowned[num][data.Key] = false;
+                    downedDatas[num][data.Key] = false;
                 }
 
             }
@@ -94,6 +95,28 @@ public class ControllerAxisHelper : Singleton<ControllerAxisHelper>
             return false;
         }
 
-        return isDowned[controllerNumber][axis];
+        return downedDatas[controllerNumber][axis];
+    }
+
+    public bool IsAxisDownAll(AxisDown axis)
+    {
+        if(Initialized == false)
+        {
+            return false;
+        }
+
+
+        foreach(var downed in downedDatas)
+        {
+            foreach(var down in downed.Value)
+            {
+                if(down.Key == axis && down.Value == true)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

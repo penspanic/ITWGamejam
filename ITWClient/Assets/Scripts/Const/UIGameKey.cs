@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-
-
 public static class UIGameKey
 {
     public static KeyCode UpArrow_1P = KeyCode.T;
@@ -15,5 +13,4 @@ public static class UIGameKey
     public static KeyCode LeftArrow_2P = KeyCode.LeftArrow;
     public static KeyCode RightArrow_2P = KeyCode.RightArrow;
     public static KeyCode Select_2P = KeyCode.Period;
-
 }

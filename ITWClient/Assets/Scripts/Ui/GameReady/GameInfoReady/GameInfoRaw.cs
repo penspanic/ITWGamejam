@@ -5,7 +5,8 @@ using UnityEngine;
 
 
 
-public class GameInfoRaw : MonoBehaviour {
+public class GameInfoRaw : MonoBehaviour
+{
     [SerializeField]
     private GameInfoState infoType;
     [SerializeField]
@@ -23,7 +24,7 @@ public class GameInfoRaw : MonoBehaviour {
     private int currIdx;
     private bool isSelected = false;
 
-    public void InitGameInfoRaw(int infoCnt = 99) 
+    public void InitGameInfoRaw(int infoCnt = 99)
     {
         uiController = FindObjectOfType<UiGameReadyController>();
         currIdx = 0;
@@ -31,12 +32,12 @@ public class GameInfoRaw : MonoBehaviour {
 
         InitByInfoType();
 
-        if (infoType != GameInfoState.AllSelectDone)
+        if(infoType != GameInfoState.AllSelectDone)
         {
             gameObject.SetActive(false);
         }
 
-        if (infoType == GameInfoState.AllSelectDone)
+        if(infoType == GameInfoState.AllSelectDone)
         {
             InitSelectDoneCells();
         }
@@ -45,7 +46,7 @@ public class GameInfoRaw : MonoBehaviour {
     private void InitByInfoType()
     {
         transform.localPosition = new Vector2(1280f, transform.localPosition.y);
-        switch (infoType)
+        switch(infoType)
         {
             case GameInfoState.SelectPlayer:
                 break;
@@ -63,7 +64,7 @@ public class GameInfoRaw : MonoBehaviour {
     public void UpdateDataByInfoType(int infoCnt = 99)
     {
         currIdx = 0;
-        switch (infoType)
+        switch(infoType)
         {
             case GameInfoState.SelectPlayer:
                 break;
@@ -77,25 +78,25 @@ public class GameInfoRaw : MonoBehaviour {
             default:
                 break;
         }
-        
-        for (int i = 0; i < infoCells.Length; ++i)
+
+        for(int i = 0; i < infoCells.Length; ++i)
         {
             infoCells[i].gameObject.SetActive(false);
         }
         infoCellList.Clear();
-        if (infoCnt == 99)
+        if(infoCnt == 99)
         {
             infoCellList.AddRange(infoCells);
         }
         else
         {
             int j = uiController.howPlayer == HowPlayer.P1 ? 1 : 0;
-            for (; j < infoCnt; ++j)
+            for(; j < infoCnt; ++j)
             {
                 infoCellList.Add(infoCells[j]);
             }
         }
-        for (int i = 0; i < infoCellList.Count; ++i)
+        for(int i = 0; i < infoCellList.Count; ++i)
         {
             infoCellList[i].gameObject.SetActive(true);
         }
@@ -104,7 +105,7 @@ public class GameInfoRaw : MonoBehaviour {
 
     private void InitSelectDoneCells()
     {
-        for (int i = 0; i < infoCells.Length; ++i)
+        for(int i = 0; i < infoCells.Length; ++i)
         {
             infoCells[i].gameObject.SetActive(false);
         }
@@ -115,17 +116,18 @@ public class GameInfoRaw : MonoBehaviour {
 
 
 
-    public void SetSelected(bool isSelect, bool setCursor = false, int startIdx = 99) 
+    public void SetSelected(bool isSelect, bool setCursor = false, int startIdx = 99)
     {
         isSelected = isSelect;
-        if (isSelected == true)
+        if(isSelected == true)
         {
-            if (startIdx != 99)
+            if(startIdx != 99)
             {
                 currIdx = startIdx;
             }
 
-            if(setCursor == true) {
+            if(setCursor == true)
+            {
                 SetCursorByCurrIdx();
             }
         }
@@ -136,15 +138,15 @@ public class GameInfoRaw : MonoBehaviour {
         Debug.Log("GameMode: " + gameMode.ToString());
         Debug.Log("HowPlayer:" + howPlayer.ToString());
         currIdx = 0;
-        switch (gameMode)
+        switch(gameMode)
         {
             case GameMode.Personal:
-                if (howPlayer == HowPlayer.P1)
+                if(howPlayer == HowPlayer.P1)
                     UpdateDataByInfoType(4);
-                else if (howPlayer == HowPlayer.P2)
+                else if(howPlayer == HowPlayer.P2)
                     UpdateDataByInfoType(3);
 
-                if (titleObj != null)
+                if(titleObj != null)
                 {
                     titleObj.SetActive(true);
                 }
@@ -155,7 +157,7 @@ public class GameInfoRaw : MonoBehaviour {
                 UpdateDataByInfoType();
                 UpdateCpuModeCols();
 
-                if (titleObj != null)
+                if(titleObj != null)
                 {
                     titleObj.SetActive(false);
                 }
@@ -164,9 +166,9 @@ public class GameInfoRaw : MonoBehaviour {
         return true;
     }
 
-    private void UpdateCpuModeCols() 
+    private void UpdateCpuModeCols()
     {
-        for (int i = 0; i < infoCellList.Count; ++i)
+        for(int i = 0; i < infoCellList.Count; ++i)
         {
             infoCellList[i].gameObject.SetActive(false);
         }
@@ -174,39 +176,39 @@ public class GameInfoRaw : MonoBehaviour {
 
         infoCellList.Clear();
 
-        for (int i = 0; i < cpuMode.Length; ++i)
+        for(int i = 0; i < cpuMode.Length; ++i)
         {
             cpuMode[i].gameObject.SetActive(true);
             infoCellList.Add(cpuMode[i]);
         }
     }
-	
-	void Update () 
+
+    void Update()
     {
-        if (isSelected == false)
+        if(isSelected == false)
         {
             return;
         }
 
-        if (Input.GetKeyDown(UIGameKey.LeftArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.LEFT))
+        if(ControllerAxisHelper.Instance.IsAxisDownAll(AxisDown.LEFT))
         {
-            if (currIdx <= 0)
+            if(currIdx <= 0)
             {
                 return;
             }
             --currIdx;
             SetCursorByCurrIdx();
         }
-        if (Input.GetKeyDown(UIGameKey.RightArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.RIGHT))
+        if(ControllerAxisHelper.Instance.IsAxisDownAll(AxisDown.RIGHT))
         {
-            if (currIdx >= infoCellList.Count - 1)
+            if(currIdx >= infoCellList.Count - 1)
             {
                 return;
             }
             ++currIdx;
             SetCursorByCurrIdx();
         }
-	}
+    }
 
     public void SelectByCurrIdx()
     {
@@ -220,7 +222,7 @@ public class GameInfoRaw : MonoBehaviour {
 
     public void SetCursorByCurrIdx()
     {
-        if (isBackRaw)
+        if(isBackRaw)
         {
             BackRawSelectByCurrIdx();
             return;
@@ -230,16 +232,16 @@ public class GameInfoRaw : MonoBehaviour {
 
     }
 
-    private void DelaySetCursor() 
+    private void DelaySetCursor()
     {
         uiController.SetCursor(infoCellList[currIdx].transform.position);
     }
 
     public void BackRawSelectByCurrIdx(bool reset = false)
     {
-        for (int i = 0; i < infoCellList.Count; ++i)
+        for(int i = 0; i < infoCellList.Count; ++i)
         {
-            if (currIdx == i && reset == false)
+            if(currIdx == i && reset == false)
             {
                 infoCellList[i].SelectCell(true);
             }

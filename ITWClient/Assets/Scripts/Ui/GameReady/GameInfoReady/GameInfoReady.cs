@@ -84,8 +84,9 @@ public class GameInfoReady : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Back"))
         {
             // Back.
+            return;
         }
-        if (Input.GetKeyDown(UIGameKey.Select_1P) || Input.GetButtonDown("Submit"))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Submit"))
         {
             if (isDoneRaw == true)
             {
@@ -190,7 +191,7 @@ public class GameInfoReady : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(UIGameKey.DownArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.DOWN))
+        if (ControllerAxisHelper.Instance.IsAxisDownAll(AxisDown.DOWN))
         {
             if (gameInfoState != GameInfoState.AllSelectDone)
             {
@@ -201,7 +202,7 @@ public class GameInfoReady : MonoBehaviour
             }
 
         }
-        if (Input.GetKeyDown(UIGameKey.UpArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.UP))
+        if (ControllerAxisHelper.Instance.IsAxisDownAll(AxisDown.UP))
         {
             if (gameInfoState != GameInfoState.AllSelectDone)
             {

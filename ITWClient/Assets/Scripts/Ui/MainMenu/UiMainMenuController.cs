@@ -69,7 +69,7 @@ public class UiMainMenuController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return))
         {
             OnPressedTitle();
         }
@@ -77,7 +77,7 @@ public class UiMainMenuController : MonoBehaviour
         // pad Control??
 
 
-        if (Input.GetKeyDown(UIGameKey.LeftArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.LEFT))
+        if (ControllerAxisHelper.Instance.IsAxisDownAll(AxisDown.LEFT))
         {
             if (currIdx <= 0)
             {
@@ -87,7 +87,7 @@ public class UiMainMenuController : MonoBehaviour
             --currIdx;
             buttons[currIdx].OnSelected(true);
         }
-        if (Input.GetKeyDown(UIGameKey.RightArrow_1P) || ControllerAxisHelper.Instance.IsAxisDown(1, AxisDown.RIGHT))
+        if (ControllerAxisHelper.Instance.IsAxisDownAll(AxisDown.RIGHT))
         {
             if (currIdx >= buttons.Length - 1)
             {
@@ -97,7 +97,7 @@ public class UiMainMenuController : MonoBehaviour
             ++currIdx;
             buttons[currIdx].OnSelected(true);
         }
-        if (Input.GetKeyDown(UIGameKey.Select_1P) || Input.GetButtonDown("Submit"))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Submit"))
         {
             switch (currIdx)
             {
